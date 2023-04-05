@@ -12,10 +12,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DATABASE_PASSWORD}
     volumes:
       - mongodb:/var/lib/recommendish/mongodb
+    # ports:
+    #   - "${MONGODB_DATABASE_PORT}:${MONGODB_DATABASE_PORT}"
     ports:
-      - "${MONGODB_DATABASE_PORT}:${MONGODB_DATABASE_PORT}"
+      - "27017:27017"
     expose:
-      - "${MONGODB_DATABASE_PORT}"
+      - "27017"
     restart: unless-stopped
     networks:
       - backend
@@ -32,9 +34,9 @@ services:
       - BASE_URL=$BASE_URL
       - PORT=$PORT
     ports:
-      - "${PORT}:${PORT}"
+      - "5004:5004"
     expose:
-      - "${PORT}"
+      - "5004"
     networks:
       - backend
       - frontend
@@ -46,7 +48,7 @@ services:
     build:
       context: ./client
     ports:
-      - 3004:80
+      - "3004:80"
     networks:
       - frontend
 
