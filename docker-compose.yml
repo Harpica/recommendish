@@ -28,7 +28,7 @@ services:
       - db
     build: ./server
     restart: unless-stopped
-    env_file: .env
+    # env_file: .env
     environment:
       - CLIENT_PORT=$CLIENT_PORT
       - BASE_URL=$BASE_URL
