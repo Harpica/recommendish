@@ -28,9 +28,9 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - $PORT:$PORT
+      - '${PORT}:${PORT}'
     expose:
-      - $PORT
+      - '${PORT}'
     environment:
       - CLIENT_PORT=$CLIENT_PORT
       - BASE_URL=$BASE_URL
@@ -46,7 +46,7 @@ services:
     build:
       context: ./client
     ports:
-      - 3004:80
+      - '3004:80'
     networks:
       - frontend
 
