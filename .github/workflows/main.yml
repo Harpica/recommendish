@@ -53,9 +53,9 @@ jobs:
                   MONGODB_DATABASE_USERNAME: ${{ secrets.MONGODB_DATABASE_USERNAME }}
                   MONGODB_DATABASE_PASSWORD: ${{ secrets.MONGODB_DATABASE_PASSWORD }}
                   MONGODB_DATABASE_PORT: ${{ secrets.MONGODB_DATABASE_PORT }}
-                  CLIENT_PORT: ${{ env.CLIENT_PORT }}
-                  BASE_URL: ${{ env.BASE_URL }}
-                  PORT: ${{ env.PORT }}
+                  CLIENT_PORT: ${{ vars.CLIENT_PORT }}
+                  BASE_URL: ${{ vars.BASE_URL }}
+                  PORT: ${{ vars.PORT }}
               uses: appleboy/ssh-action@master
               with:
                   envs: MONGODB_DATABASE_NAME,MONGODB_DATABASE_USERNAME,MONGODB_DATABASE_PASSWORD,MONGODB_DATABASE_PORT,CLIENT_PORT,BASE_URL,PORT
