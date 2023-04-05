@@ -30,7 +30,7 @@ services:
     environment:
       - CLIENT_PORT=$CLIENT_PORT
       - BASE_URL=$BASE_URL
-      - PORT=$PORT
+      - PORT=$SERVER_PORT
     ports:
       - "5004:5004"
     expose:
