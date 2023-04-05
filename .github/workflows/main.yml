@@ -68,6 +68,7 @@ jobs:
                       cd ./recommendish
                       git pull
                       echo "Pull new image"
+                      echo 'db port ${MONGODB_DATABASE_PORT}'
                       docker compose pull
                       echo "Restart the container"
                       docker compose up --force-recreate --build --no-deps -d
