@@ -10,14 +10,15 @@ const LoginView = () => {
                 client_secret={
                     process.env.REACT_APP_SOCIALS_GITHUB_SECRET || ''
                 }
-                // redirect_uri={`http://${BASE_URL}`}
                 redirect_uri={`http://${BASE_URL}:${CLIENT_PORT}`}
-                // onLoginStart={onLoginStart}
+                onLoginStart={() => {
+                    console.log('start login');
+                }}
                 // onLogoutSuccess={onLogoutSuccess}
                 onResolve={({ provider, data }: IResolveParams) => {
                     // setProvider(provider);
                     // setProfile(data);
-                    console.log('provader', provider);
+                    console.log('provider', provider);
                     console.log('data', data);
                 }}
                 onReject={(err: any) => {
