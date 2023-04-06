@@ -33,14 +33,20 @@ jobs:
                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/node-docker-deploy:latest
 
             - name: Build and push client
-              env:
-                  REACT_APP_BASE_URL: ${{ vars.BASE_URL }}
-                  REACT_APP_SERVER_PORT: ${{ vars.SERVER_PORT }}
-                  REACT_APP_CLIENT_PORT: ${{ vars.CLIENT_PORT }}
-                  REACT_APP_SOCIALS_GITHUB_ID: ${{secrets.SOCIALS_GITHUB_ID }}
-                  REACT_APP_SOCIALS_GITHUB_SECRET: ${{ secrets.SOCIALS_GITHUB_SECRET }}
+              #   env:
+              #       REACT_APP_BASE_URL: ${{ vars.BASE_URL }}
+              #       REACT_APP_SERVER_PORT: ${{ vars.SERVER_PORT }}
+              #       REACT_APP_CLIENT_PORT: ${{ vars.CLIENT_PORT }}
+              #       REACT_APP_SOCIALS_GITHUB_ID: ${{ secrets.SOCIALS_GITHUB_ID }}
+              #       REACT_APP_SOCIALS_GITHUB_SECRET: ${{ secrets.SOCIALS_GITHUB_SECRET }}
               uses: docker/build-push-action@v2
               with:
+                  secrets:
+                      - REACT_APP_BASE_URL=${{ vars.BASE_URL }}
+                      - REACT_APP_SERVER_PORT=${{ vars.SERVER_PORT }}
+                      - REACT_APP_CLIENT_PORT=${{ vars.CLIENT_PORT }}
+                      - REACT_APP_SOCIALS_GITHUB_ID=${{ secrets.SOCIALS_GITHUB_ID }}
+                      - REACT_APP_SOCIALS_GITHUB_SECRET=${{ secrets.SOCIALS_GITHUB_SECRET }}
                   context: ./client
                   file: ./client/Dockerfile
                   push: true
