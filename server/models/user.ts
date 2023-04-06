@@ -1,6 +1,9 @@
 import { Schema, model } from 'mongoose';
 
 const UserSchema = new Schema({
+    id: {
+        type: Number,
+    },
     name: {
         type: String,
         required: true,
@@ -10,6 +13,11 @@ const UserSchema = new Schema({
     role: {
         type: String,
         enum: ['admin', 'user'],
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ['active', 'blocked'],
         required: true,
     },
     avatar: {
