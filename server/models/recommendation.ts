@@ -1,9 +1,25 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+
+export interface IRecommendation {
+    id?: number;
+    createdAt?: number;
+    owner: Types.ObjectId;
+    name: string;
+    product: Types.ObjectId;
+    productRating: number;
+    group: 'movie' | 'book' | 'game';
+    tags: Array<Types.ObjectId>;
+    body: string;
+    images: Array<string>;
+    likes: Array<Types.ObjectId>;
+    comments: Array<Types.ObjectId>;
+}
 
 const RecommendSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'user',
+        required: true,
     },
     name: {
         type: String,
@@ -21,18 +37,20 @@ const RecommendSchema = new Schema({
         default: 0,
         required: true,
     },
-
     group: {
         type: String,
         enum: ['movie', 'book', 'game'],
         required: true,
     },
-    tags: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'tag',
-        },
-    ],
+    tags: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'tag',
+            },
+        ],
+        default: [],
+    },
     body: {
         type: String,
         required: true,

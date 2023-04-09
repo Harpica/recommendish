@@ -7,6 +7,15 @@ const TagSchema = new Schema({
         minlength: 2,
         maxlength: 40,
     },
+    usedIn: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'recommendation',
+            },
+        ],
+        default: [],
+    },
 });
 
 export const Tag = model('Tag', TagSchema);

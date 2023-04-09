@@ -1,5 +1,10 @@
 import { Schema, model } from 'mongoose';
 
+export interface IComment {
+    owner: Schema.Types.ObjectId;
+    body: string;
+}
+
 const CommentSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,

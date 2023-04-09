@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import routes from './routes';
+import { WsServer } from './services/ws';
 
-// Usage of .env file in the root dir
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/', routes);
+
 mongoose
     .connect(`mongodb://${BASE_URL}:${MONGODB_PORT}`)
     .then(() => {
@@ -27,5 +30,7 @@ mongoose
         const server = app.listen(PORT, () => {
             console.log('Listening to', PORT);
         });
+        const wsServer = new WsServer(server);
+        wsServer.start();
     })
     .catch((err) => console.log(err));

@@ -1,5 +1,7 @@
 import { IncomingMessage, ServerResponse, Server } from 'http';
 import { WebSocket, WebSocketServer } from 'ws';
+import { createComment } from '../controllers/comments';
+import mongoose, { Schema, Types } from 'mongoose';
 
 interface WS extends WebSocket {
     isAlive: boolean;
@@ -15,7 +17,7 @@ interface InitMessage {
 interface CommentMessage {
     type: 'comment';
     data: {
-        owner: number;
+        owner: Schema.Types.ObjectId;
         body: string;
     };
 }
@@ -67,7 +69,7 @@ export class WsServer {
                 this.initClient(data, client);
                 break;
             case 'comment':
-                // add to db and send to all clients
+                this.handleComment(data);
                 break;
 
             default:
@@ -78,5 +80,28 @@ export class WsServer {
         const id = message.data.id;
         const metadata = { id };
         this.clients.set(sender, metadata);
+    }
+
+    private handleComment(message: CommentMessage) {
+        createComment(message.data)
+            .then((comment) => {
+                this.sendToAllClients({ type: 'comment', data: comment });
+            })
+            .catch((err) => {
+                const message =
+                    err instanceof mongoose.Error.ValidationError
+                        ? 'Incorrect data for comment creation'
+                        : 'Server error';
+                this.sendToAllClients({
+                    type: 'error',
+                    data: message,
+                });
+            });
+    }
+
+    private sendToAllClients(data: { type: string; data: unknown }) {
+        Array.from(this.clients.keys()).forEach((client) => {
+            client.send(JSON.stringify(data));
+        });
     }
 }

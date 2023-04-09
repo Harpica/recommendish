@@ -1,7 +1,21 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+import { IRecommendation } from './recommendation';
+
+export interface IUser {
+    name: string;
+    role: 'admin' | 'user';
+    status: 'active' | 'blocked';
+    likes: Types.ObjectId[];
+    recommendations: Types.ObjectId[] | Array<IRecommendation>;
+    theme: string;
+    language: string;
+    _id: number | undefined;
+    avatar?: string | undefined;
+    email?: string | undefined;
+}
 
 const UserSchema = new Schema({
-    id: {
+    _id: {
         type: Number,
     },
     name: {
@@ -25,20 +39,12 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
+        required: true,
     },
-    current_rating: {
+    likes: {
         type: Number,
         default: 0,
     },
-    rating: [
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'user',
-            },
-            star: Number,
-        },
-    ],
     recommendations: [
         {
             type: Schema.Types.ObjectId,
@@ -47,7 +53,7 @@ const UserSchema = new Schema({
     ],
     theme: {
         type: String,
-        default: 'white',
+        default: 'light',
         required: true,
     },
     language: {
