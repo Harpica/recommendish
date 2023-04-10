@@ -1,12 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
-import { IRecommendation, Recommendation } from '../models/recommendation';
-import mongoose, { Error, Types } from 'mongoose';
-import BadRequestError from '../utils/errors/BadRequestError';
-import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
-import { updateOrCreateTag } from './tags';
+import { Recommendation } from '../models/recommendation';
+import { Error, Types } from 'mongoose';
+import { removeRecommendationFromTag, updateOrCreateTag } from './tags';
 import { Tag } from '../models/tag';
-import { incorrectDataHandler, sendDocumentIfFound } from '../utils/utils';
-import { setUserLikes } from './users';
+import {
+    handleIfDocumentNotFound,
+    incorrectDataHandler,
+    sendDocumentIfFound,
+} from '../utils/utils';
+import {
+    addRecommendationToUser,
+    removeRecommendationFromUser,
+    setUserLikes,
+} from './users';
+import { updateOrCreateProduct } from './product';
 // import { withResponse } from '../utils/utils';
 
 export const getRecentRecommendations = (
@@ -15,8 +22,8 @@ export const getRecentRecommendations = (
     next: NextFunction
 ) => {
     Recommendation.find({})
-        .sort({ createdAt: -1 })
-        .limit(10)
+        .sort({ createdAt: 1 })
+        .limit(1)
         .populate([
             { path: 'owner', select: 'name likes _id avatar' },
             'product',
@@ -33,14 +40,40 @@ export const getPopularRecommendations = (
     res: Response,
     next: NextFunction
 ) => {
-    Recommendation.find({})
-        .sort({ 'likes.length': -1 })
-        .limit(10)
-        .populate([
-            { path: 'owner', select: 'name likes _id avatar' },
-            'product',
-            'tags',
-        ])
+    Recommendation.aggregate([
+        {
+            $addFields: { likesCount: { $size: { $ifNull: ['$likes', []] } } },
+        },
+        {
+            $sort: { likesCount: -1 },
+        },
+        {
+            $lookup: {
+                from: 'tags',
+                localField: 'tags',
+                foreignField: '_id',
+                as: 'tags',
+            },
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'owner',
+                foreignField: '_id',
+                as: 'owner',
+            },
+        },
+        {
+            $project: {
+                'owner.theme': 0,
+                'owner.language': 0,
+                'owner.role': 0,
+                'owner.status': 0,
+                'owner.recommendations': 0,
+            },
+        },
+    ])
+        .limit(20)
         .then((recommendations) => {
             res.send({ data: recommendations });
         })
@@ -86,7 +119,20 @@ export const createRecommendation = async (
 ) => {
     const recommendData = req.body.data;
     try {
-        const recommendation = await Recommendation.create(recommendData);
+        if (!recommendData.product._id) {
+            const productId = await updateOrCreateProduct(
+                recommendData.product.name,
+                recommendData.group
+            );
+            recommendData.product._id = productId;
+            console.log(productId);
+        }
+        const recommendation = await Recommendation.create({
+            ...recommendData,
+            product: recommendData.product._id,
+            tags: [],
+        });
+        addRecommendationToUser(recommendation.owner, recommendation._id);
         const tagIds = await addRecommendationToTags(
             recommendData.tags,
             recommendation._id
@@ -94,7 +140,12 @@ export const createRecommendation = async (
         const updatedRecommendation = await addTagsToRecommendation(
             recommendation._id,
             tagIds
-        );
+        ).populate([
+            'product',
+            { path: 'owner', select: 'name avatar likes' },
+            { path: 'tags', select: 'name' },
+        ]);
+
         res.send({ data: updatedRecommendation });
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -138,11 +189,19 @@ export const updateRecommendation = async (
         let recommendData = req.body.data;
         const id = req.params.id;
         const tagsId = await addRecommendationToTags(recommendData.tags, id);
-        recommendData.tags = tagsId;
         const recommendation = await Recommendation.findByIdAndUpdate(
             id,
-            recommendData
-        );
+            {
+                ...recommendData,
+                product: recommendData.product._id,
+                tags: tagsId,
+            },
+            { new: true }
+        ).populate([
+            'product',
+            { path: 'owner', select: 'name avatar likes' },
+            { path: 'tags', select: 'name' },
+        ]);
         sendDocumentIfFound(recommendation, res);
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -162,7 +221,18 @@ export const deleteRecommendation = (
 ) => {
     const id = req.params.id;
     Recommendation.findByIdAndDelete(id)
-        .then((recommendation) => sendDocumentIfFound(recommendation, res))
+        .then((recommendation) => {
+            handleIfDocumentNotFound(recommendation);
+            removeRecommendationFromTag(
+                recommendation!.tags,
+                recommendation!._id
+            );
+            removeRecommendationFromUser(
+                recommendation!.owner,
+                recommendation!._id
+            );
+            res.send({ data: recommendation });
+        })
         .catch((err) => {
             incorrectDataHandler(
                 err,
@@ -230,7 +300,7 @@ export const getRecommendationById = (
     res: Response,
     next: NextFunction
 ) => {
-    const id = req.body.data.id;
+    const id = req.params.id;
     Recommendation.findById(id)
         .populate([
             { path: 'owner', select: 'name likes _id avatar' },
@@ -245,4 +315,13 @@ export const getRecommendationById = (
         .catch((err) => {
             incorrectDataHandler(err, next, 'Incorrect _id');
         });
+};
+
+export const addCommentToRecommendation = async (
+    recommendationId: Types.ObjectId,
+    commentId: Types.ObjectId
+) => {
+    return await Recommendation.findByIdAndUpdate(recommendationId, {
+        $addToSet: { comments: commentId },
+    });
 };

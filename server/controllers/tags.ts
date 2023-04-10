@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Tag } from '../models/tag';
-import { Types } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 
 export const updateOrCreateTag = async (
     tagName: string,
@@ -12,6 +12,17 @@ export const updateOrCreateTag = async (
         { new: true, upsert: true, useFindAndModify: false }
     );
     return tag._id;
+};
+
+export const removeRecommendationFromTag = async (
+    tags: Array<string> | Array<Types.ObjectId>,
+    recommendId: string | Types.ObjectId
+) => {
+    return await Tag.updateMany(
+        { _id: tags },
+        { $pull: { usedIn: recommendId } },
+        { new: true, upsert: true, useFindAndModify: false }
+    );
 };
 
 export const getAllTags = (
@@ -29,8 +40,14 @@ export const getPopularTags = (
     res: Response,
     next: NextFunction
 ) => {
-    Tag.find()
-        .sort({ 'usedIn.length': -1 })
+    Tag.aggregate([
+        {
+            $addFields: { count: { $size: { $ifNull: ['$usedIn', []] } } },
+        },
+        {
+            $sort: { count: -1 },
+        },
+    ])
         .limit(20)
         .then((tags) => res.send({ data: tags }))
         .catch(next);

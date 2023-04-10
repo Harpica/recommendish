@@ -15,9 +15,6 @@ export interface IUser {
 }
 
 const UserSchema = new Schema({
-    _id: {
-        type: Number,
-    },
     name: {
         type: String,
         required: true,
@@ -27,12 +24,12 @@ const UserSchema = new Schema({
     role: {
         type: String,
         enum: ['admin', 'user'],
-        required: true,
+        default: 'user',
     },
     status: {
         type: String,
         enum: ['active', 'blocked'],
-        required: true,
+        default: 'active',
     },
     avatar: {
         type: String,
@@ -45,12 +42,15 @@ const UserSchema = new Schema({
         type: Number,
         default: 0,
     },
-    recommendations: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'recomendation',
-        },
-    ],
+    recommendations: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Recommendation',
+            },
+        ],
+        default: [],
+    },
     theme: {
         type: String,
         default: 'light',

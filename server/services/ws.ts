@@ -17,7 +17,8 @@ interface InitMessage {
 interface CommentMessage {
     type: 'comment';
     data: {
-        owner: Schema.Types.ObjectId;
+        recommendationId: Types.ObjectId;
+        owner: Types.ObjectId;
         body: string;
     };
 }

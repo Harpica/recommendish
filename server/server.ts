@@ -12,6 +12,10 @@ const app = express();
 const PORT = process.env.SERVER_PORT || 5004;
 const BASE_URL = process.env.BASE_URL || 'localhost';
 const MONGODB_PORT = process.env.MONGODB_DATABASE_PORT || 27017;
+const MONGODB_DATABASE_USERNAME = process.env.MONGODB_DATABASE_USERNAME || '';
+const MONGODB_DATABASE_PASSWORD = process.env.MONGODB_DATABASE_PASSWORD || '';
+const MONGODB_DATABASE_NAME =
+    process.env.MONGODB_DATABASE_NAME || 'recommendish-db';
 
 const corsOptions = {
     origin: '*',
@@ -24,7 +28,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', routes);
 
 mongoose
-    .connect(`mongodb://${BASE_URL}:${MONGODB_PORT}`)
+    .connect(
+        `mongodb://${MONGODB_DATABASE_USERNAME}:${MONGODB_DATABASE_PASSWORD}@${BASE_URL}:${MONGODB_PORT}/${MONGODB_DATABASE_NAME}?authSource=admin`
+    )
     .then(() => {
         console.log('Connected to DB');
         const server = app.listen(PORT, () => {

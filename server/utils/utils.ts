@@ -15,14 +15,16 @@ export const sendDocumentIfFound = (
     document: unknown | null,
     res: Response
 ) => {
-    return () => {
-        if (!document) {
-            throw new DocumentNotFoundError(
-                'Document with current _id is not found'
-            );
-        }
-        res.send({ data: document });
-    };
+    handleIfDocumentNotFound(document);
+    res.send({ data: document });
+};
+
+export const handleIfDocumentNotFound = (document: unknown | null) => {
+    if (!document) {
+        throw new DocumentNotFoundError(
+            'Document with current _id is not found'
+        );
+    }
 };
 
 export const incorrectDataHandler = (

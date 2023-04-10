@@ -11,7 +11,7 @@ const TagSchema = new Schema({
         type: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'recommendation',
+                ref: 'Recommendation',
             },
         ],
         default: [],

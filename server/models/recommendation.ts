@@ -18,7 +18,7 @@ export interface IRecommendation {
 const RecommendSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true,
     },
     name: {
@@ -29,7 +29,7 @@ const RecommendSchema = new Schema({
     },
     product: {
         type: Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'Product',
         required: true,
     },
     productRating: {
@@ -46,7 +46,7 @@ const RecommendSchema = new Schema({
         type: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'tag',
+                ref: 'Tag',
             },
         ],
         default: [],
@@ -68,7 +68,7 @@ const RecommendSchema = new Schema({
         type: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'user',
+                ref: 'User',
             },
         ],
         default: [],
@@ -77,7 +77,7 @@ const RecommendSchema = new Schema({
         type: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'user',
+                ref: 'User',
             },
         ],
         default: [],

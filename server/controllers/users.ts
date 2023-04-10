@@ -4,6 +4,7 @@ import { IUser, User } from '../models/user';
 import { IRecommendation } from '../models/recommendation';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import { incorrectDataHandler, sendDocumentIfFound } from '../utils/utils';
+import { ObjectId, Types } from 'mongoose';
 
 export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
     User.find({})
@@ -24,14 +25,15 @@ export const authUser = (req: Request, res: Response, next: NextFunction) => {
         .then((user) => {
             if (!user) {
                 createUser(userData, res, next);
+                return;
             }
             sendUserAndToken(user, res);
         })
         .catch(next);
 };
 
-const sendUserAndToken = (user: any, res: Response) => {
-    const populatedUser = user.populate(['recommendations']);
+const sendUserAndToken = async (user: any, res: Response) => {
+    const populatedUser = await user.populate(['recommendations']);
     const token = jwt.sign({ id: user.id }, process.env.JWT_KEY || '');
     res.cookie('jwt', token, {
         maxAge: 3600000,
@@ -55,19 +57,38 @@ const createUser = async (
         });
 };
 
-export const setUserLikes = (id: string, next: NextFunction) => {
+export const setUserLikes = async (id: string, next: NextFunction) => {
     getPopulatedRecommendations(
         id,
-        (user: IUser) => {
+        async (user: IUser) => {
             const recommendations =
                 user.recommendations as Array<IRecommendation>;
             const totalCount = recommendations.reduce((prev, curr) => {
                 return prev + curr.likes.length;
             }, 0);
-            User.findByIdAndUpdate(id, { likes: totalCount });
+            console.log(totalCount);
+            await User.findByIdAndUpdate(id, { likes: totalCount });
         },
         next
     );
+};
+
+export const addRecommendationToUser = async (
+    userId: Types.ObjectId,
+    recommendationId: Types.ObjectId
+) => {
+    return await User.findByIdAndUpdate(userId, {
+        $addToSet: { recommendations: recommendationId },
+    });
+};
+
+export const removeRecommendationFromUser = async (
+    userId: Types.ObjectId,
+    recommendationId: Types.ObjectId
+) => {
+    return await User.findByIdAndUpdate(userId, {
+        $pull: { recommendations: recommendationId },
+    });
 };
 
 const getPopulatedRecommendations = async (

@@ -8,7 +8,7 @@ export interface IComment {
 const CommentSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
     },
     body: {
         type: String,
