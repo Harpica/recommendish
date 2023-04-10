@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+
+  db:
+    container_name: recommendish-mongodb
+    image: mongo
+    env_file: .env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_DATABASE_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DATABASE_PASSWORD}
+    volumes:
+      - mongodb:/var/lib/recommendish/mongodb
+    ports:
+      - "${MONGODB_DATABASE_PORT}:27017"
+    expose:
+      - "${MONGODB_DATABASE_PORT}"
+    restart: unless-stopped
+    networks:
+      - backend
+
+  node:
+    container_name: recommendish-node
+    depends_on:
+      - db
+    build: ./server
+    image: harpica/recommendish-node:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - CLIENT_PORT=$CLIENT_PORT
+      - BASE_URL=$BASE_URL
+      - SERVER_PORT=$SERVER_PORT
+      - MONGODB_DATABASE_PORT=$MONGODB_DATABASE_PORT
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    expose:
+      - "${SERVER_PORT}"
+    networks:
+      - backend
+      - frontend
+
+  react:
+    container_name: recommendish-react
+    image: harpica/recommendish-react:latest
+    depends_on:
+      - node
+    build:
+      context: ./client
+      args:
+        REACT_APP_BASE_URL: ${BASE_URL}
+        REACT_APP_SERVER_PORT: ${SERVER_PORT}
+        REACT_APP_CLIENT_PORT: ${CLIENT_PORT}
+        REACT_APP_SOCIALS_GITHUB_ID: ${REACT_APP_SOCIALS_GITHUB_ID}
+        REACT_APP_SOCIALS_GITHUB_SECRET: ${REACT_APP_SOCIALS_GITHUB_SECRET}
+    ports:
+      - "${CLIENT_PORT}:80"
+    networks:
+      - frontend
+
+volumes:
+  mongodb:
+
+
+networks:
+  backend:
+  frontend:
