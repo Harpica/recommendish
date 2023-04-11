@@ -36,7 +36,7 @@ const LoginView = () => {
             </LoginSocialGithub>
             <LoginSocialTwitter
                 isOnlyGetToken
-                client_id={process.env.REACT_APP_SOCIALS_TWITTER_ID || ''}
+                client_id={process.env.REACT_APP_SOCIALS_TWITTER_APP_KEY || ''}
                 redirect_uri={`http://${BASE_URL}:${CLIENT_PORT}`}
                 onLoginStart={() => {
                     console.log('start login');

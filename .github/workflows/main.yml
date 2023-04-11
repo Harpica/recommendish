@@ -51,6 +51,7 @@ jobs:
                       REACT_APP_SOCIALS_GITHUB_SECRET=${{ secrets.SOCIALS_GITHUB_SECRET }}
                       REACT_APP_SOCIALS_TWITTER_ID=${{ secrets.SOCIALS_TWITTER_ID }}
                       REACT_APP_SOCIALS_TWITTER_SECRET=${{ secrets.SOCIALS_TWITTER_SECRET }}
+                      REACT_APP_SOCIALS_TWITTER_APP_KEY=${{ secrets.SOCIALS_TWITTER_APP_KEY }}
                   file: ./client/Dockerfile
                   push: true
                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/recommendish-react:latest
