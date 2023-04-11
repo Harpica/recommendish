@@ -13,3 +13,17 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+.colored-corner {
+    background: linear-gradient(
+        to bottom right,
+        rgb(0 0 0 / 0) 80%,
+        rgb(254 243 199) 80%
+    );
+}
+.colored-corner-on-hover:hover {
+    background: linear-gradient(
+        to bottom right,
+        rgb(0 0 0 / 0) 80%,
+        rgb(254 243 199) 80%
+    );
+}

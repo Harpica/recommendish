@@ -46,7 +46,7 @@ export const validator = {
                     .required()
                     .keys({
                         name: Joi.string().required().min(3),
-                        email: Joi.string().required().email(),
+                        login: Joi.string().required(),
                         avatar: Joi.string(),
                     }),
             },

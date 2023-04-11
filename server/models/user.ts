@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     avatar: {
         type: String,
     },
-    email: {
+    login: {
         type: String,
         required: true,
     },

@@ -20,7 +20,7 @@ export const authUser = (req: Request, res: Response, next: NextFunction) => {
     const userData = req.body.data;
     User.findOne({
         name: userData.name,
-        email: userData.email,
+        login: userData.login,
     })
         .then((user) => {
             if (!user) {
