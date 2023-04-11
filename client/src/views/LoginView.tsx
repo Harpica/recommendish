@@ -8,8 +8,11 @@ import {
     TwitterLoginButton,
 } from 'react-social-login-buttons';
 import { BASE_URL, CLIENT_PORT } from '../utils/constants';
+import { useState } from 'react';
 
 const LoginView = () => {
+    const [provider, setProvider] = useState('');
+    const [profile, setProfile] = useState<any>();
     return (
         <div>
             <LoginSocialGithub
@@ -23,8 +26,8 @@ const LoginView = () => {
                 }}
                 // onLogoutSuccess={onLogoutSuccess}
                 onResolve={({ provider, data }: IResolveParams) => {
-                    // setProvider(provider);
-                    // setProfile(data);
+                    setProvider(provider);
+                    setProfile(data);
                     console.log('provider', provider);
                     console.log('data', data);
                 }}
@@ -41,8 +44,8 @@ const LoginView = () => {
                     console.log('start login');
                 }}
                 onResolve={({ provider, data }: IResolveParams) => {
-                    // setProvider(provider);
-                    // setProfile(data);
+                    setProvider(provider);
+                    setProfile(data);
                     console.log('provider', provider);
                     console.log('data', data);
                 }}
