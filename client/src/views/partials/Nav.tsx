@@ -6,7 +6,7 @@ const Nav = () => {
         (() => (window.innerWidth >= 768 ? true : false))()
     );
     return (
-        <nav className='sticky top-[20px] left-0  bg-zinc-50 pt-3 pb-3 min-h-fit flex flex-row justify-between items-center font-bold '>
+        <nav className='sticky top-[20px] left-0  bg-inherit pt-3 pb-3 min-h-fit flex flex-row justify-between items-center font-bold z-10'>
             <div className='flex flex-row gap-1 items-center hover:cursor-pointer hover:opacity-40'>
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -122,7 +122,7 @@ const Nav = () => {
                 </li>
                 {/* <li>
                     <button
-                        className='rounded-full p-2 pr-5 pl-5 border-zinc-950 border-[1px] hover:bg-amber-200'
+                        className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-400'
                         type='button'
                         aria-label='log in'
                     >

@@ -1,6 +1,6 @@
 const Search = () => {
     return (
-        <div className=' bg-white font-normal rounded-full p-1 pr-5 pl-5 flex flex-row shadow-md border-zinc-950 border-[1px]'>
+        <div className=' bg-white font-normal rounded-full p-1 pr-5 pl-5 flex flex-row shadow-md border-zinc-950 border-[1px] text-zinc-900'>
             <input
                 className='outline-none w-[130px] md:min-w-[230px]'
                 type='text'

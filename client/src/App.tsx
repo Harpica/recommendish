@@ -5,13 +5,14 @@ import { useState } from 'react';
 import ProtectedRoute from './views/partials/ProtectedRoute';
 import Nav from './views/partials/Nav';
 import SearchResults from './views/pages/SearchResults';
+import Recommendation from './views/pages/Recommendation';
 
 function App() {
     const [isAuth, setIsAuth] = useState<boolean>(false);
     return (
         <>
-            <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5'></div>
-            <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 '>
+            <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
+            <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
                 <Nav />
                 <BrowserRouter>
                     <Routes>
@@ -20,7 +21,7 @@ function App() {
                             path='/search/:param'
                             element={<SearchResults />}
                         />
-                        <Route path='/:id' element={<Main />} />
+                        <Route path='/:id' element={<Recommendation />} />
                         <Route
                             path='/game'
                             element={
