@@ -7,10 +7,10 @@ import {
     GithubLoginButton,
     TwitterLoginButton,
 } from 'react-social-login-buttons';
-import { BASE_URL, CLIENT_PORT } from '../utils/constants';
+import { BASE_URL, CLIENT_PORT } from '../../utils/constants';
 import { useState } from 'react';
 
-const LoginView = () => {
+const Login = () => {
     const [provider, setProvider] = useState('');
     const [profile, setProfile] = useState<any>();
     return (
@@ -64,4 +64,4 @@ const LoginView = () => {
     );
 };
 
-export default LoginView;
+export default Login;

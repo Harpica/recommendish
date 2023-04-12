@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Search from './partials/Search';
+import Search from './Search';
 
-const NavView = () => {
+const Nav = () => {
     const [menuIsOpen, setMenuIsOpen] = useState(
         (() => (window.innerWidth >= 768 ? true : false))()
     );
@@ -57,9 +57,22 @@ const NavView = () => {
                     <button
                         type='button'
                         aria-label='new recommendation'
-                        className='hover:cursor-pointer hover:opacity-40'
+                        className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                     >
-                        New
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth={1.5}
+                            stroke='currentColor'
+                            className='w-6 h-6 stroke-amber-500'
+                        >
+                            <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+                            />
+                        </svg>
                     </button>
                 </li>
                 <li>
@@ -143,4 +156,4 @@ const NavView = () => {
     );
 };
 
-export default NavView;
+export default Nav;
