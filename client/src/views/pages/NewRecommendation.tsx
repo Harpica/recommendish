@@ -5,25 +5,29 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
+import { useState } from 'react';
+import { FileUploader } from 'react-drag-drop-files';
 
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-];
+const fileTypes = ['JPG', 'PNG', 'GIF'];
 
 const theme = createTheme({
     components: {
         // Name of the component
+        MuiFormControl: {
+            styleOverrides: {
+                root: {
+                    maxWidth: '90vw',
+                },
+            },
+        },
         MuiOutlinedInput: {
             styleOverrides: {
                 // Name of the slot
                 root: {
                     minWidth: '230px',
+                    maxWidth: '90vw',
                     color: 'inherit',
                     '.MuiOutlinedInput-notchedOutline': {
                         borderColor: 'rgb(217 119 6)',
@@ -69,11 +73,14 @@ const theme = createTheme({
         MuiAutocomplete: {
             styleOverrides: {
                 root: {
-                    color: 'inherit',
-                    borderColor: 'inherit',
+                    maxWidth: '90vw',
                     '.MuiAutocomplete-tag': {
                         color: 'inherit',
                         border: '1px solid rgb(217 119 6)',
+                    },
+                    '.MuiAutocomplete-tag span': {
+                        color: 'inherit',
+                        border: 'none',
                     },
                 },
             },
@@ -86,7 +93,32 @@ const theme = createTheme({
     },
 });
 
+const ListboxProps = {
+    sx: {
+        backgroundColor: 'white',
+        '&.MuiAutocomplete-listbox': {
+            '& li': {
+                '&:hover': {
+                    backgroundColor: 'rgb(245 158 11)',
+                },
+            },
+            "& .MuiAutocomplete-option[aria-selected='true']": {
+                backgroundColor: 'rgb(217 119 6)',
+                '&.Mui-focused': {
+                    backgroundColor: 'rgb(245 158 11)',
+                },
+            },
+        },
+    },
+};
+
 const NewRecommendation = () => {
+    const [value, setValue] = useState('**Hello world!!!**');
+    const [file, setFile] = useState<unknown | null>(null);
+    const handleChange = (file: unknown) => {
+        console.log(file);
+        setFile(file);
+    };
     return (
         <ThemeProvider theme={theme}>
             <main className='flex flex-col gap-8'>
@@ -109,6 +141,7 @@ const NewRecommendation = () => {
                                 id='outlined-basic'
                                 label='Recommendation title'
                                 variant='outlined'
+                                className='w-[500px] max-w-[90vw]'
                             />
                             <FormControl>
                                 <InputLabel id='product-select-label'>
@@ -128,8 +161,9 @@ const NewRecommendation = () => {
                             </FormControl>
                             <Autocomplete
                                 freeSolo
+                                ListboxProps={ListboxProps}
                                 id='product-name'
-                                options={['1', '1', '2']}
+                                options={['0', '1', '2']}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
@@ -140,46 +174,68 @@ const NewRecommendation = () => {
                             />
                             <Autocomplete
                                 multiple
-                                limitTags={2}
+                                freeSolo
+                                disableCloseOnSelect={true}
                                 id='tags'
-                                options={top100Films}
-                                getOptionLabel={(option) => option.title}
-                                ListboxProps={{
-                                    sx: {
-                                        backgroundColor: 'white',
-
-                                        '&.MuiAutocomplete-listbox': {
-                                            '& li': {
-                                                '&:hover': {
-                                                    backgroundColor:
-                                                        'rgb(245 158 11)',
-                                                },
-                                                '&.Mui-selected:hover': {
-                                                    backgroundColor:
-                                                        'rgb(245 158 11)',
-                                                },
-                                                '&.Mui-selected': {
-                                                    backgroundColor:
-                                                        'rgb(217 119 6)',
-                                                },
-                                            },
-                                            // '&.MuiAutocomplete-option': {
-                                            //     backgroundColor:
-                                            //         'rgb(245 158 11)',
-                                            // },
-                                        },
-                                    },
-                                }}
-                                // defaultValue={[
-                                //     top100Films[0],
-                                //     top100Films[1],
-                                //     top100Films[2],
-                                // ]}
+                                options={['Drama', 'Comedy', 'Cats']}
+                                ListboxProps={ListboxProps}
                                 renderInput={(params) => (
                                     <TextField {...params} label='Tags' />
                                 )}
                                 sx={{ width: '500px' }}
                             />
+                            <FormControl>
+                                <InputLabel id='product-select-label'>
+                                    Product rating
+                                </InputLabel>
+                                <Select
+                                    labelId='product-select-label'
+                                    id='product-rating'
+                                    // value={age}
+                                    label='Product rating'
+                                    // onChange={handleChange}
+                                >
+                                    {Array.from(
+                                        { length: 10 },
+                                        (_, i) => i + 1
+                                    ).map((element, i) => (
+                                        <MenuItem key={`rating-${i}`} value={i}>
+                                            {element}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <div className='container text-inherit '>
+                                <FileUploader
+                                    multiple={true}
+                                    handleChange={handleChange}
+                                    name='file'
+                                    types={fileTypes}
+                                    label={'Upload or drop a file right here'}
+                                    classes={
+                                        'rounded p-2 border-amber-500 border-[1px] border-solid h-[56px] w-[500px] path-color span-color'
+                                    }
+                                />
+                            </div>
+                            <div className='container rounded p-2 border-amber-600 border-[1px]'>
+                                <MDEditor
+                                    value={value}
+                                    onChange={(value, e) => {
+                                        if (value) {
+                                            setValue(value);
+                                        }
+                                    }}
+                                    preview='edit'
+                                    previewOptions={{
+                                        rehypePlugins: [[rehypeSanitize]],
+                                    }}
+                                    className=''
+                                />
+                                <MDEditor.Markdown
+                                    source={value}
+                                    style={{ whiteSpace: 'pre-wrap' }}
+                                />
+                            </div>
                         </fieldset>
                     </form>
                 </section>
