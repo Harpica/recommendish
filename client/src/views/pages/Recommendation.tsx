@@ -103,7 +103,10 @@ const Recommendation = () => {
                 </ul>
                 <form className='flex flex-row gap-3 justify-center items-start'>
                     <div className='w-full max-w-3xl'>
-                        <textarea className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80'></textarea>
+                        <textarea
+                            className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80 scrollbar'
+                            placeholder='Enter new comment...'
+                        />
                     </div>
                     <button
                         type='submit'
