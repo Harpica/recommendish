@@ -1,10 +1,18 @@
 import { Rating } from '@mui/material';
 
-const Card = () => {
+interface CardProps {
+    isInteractive?: boolean;
+}
+
+const Card: React.FC<CardProps> = ({ isInteractive = true }) => {
     return (
-        <li className='grid grid-cols-1 md:grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all colored-corner-on-hover cursor-pointer'>
-            <div className='bg-amber-500 w-48 h-48'>
-                <img alt='illustration' />
+        <div
+            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded ${
+                isInteractive ? 'colored-corner-on-hover' : ''
+            }`}
+        >
+            <div className='bg-amber-500 w-12 h-12 md:w-48 md:h-48 rounded'>
+                <img alt='illustration' className='rounded' />
             </div>
             <div className='flex flex-col gap-1'>
                 <div className='flex flex-row justify-between text-sm'>
@@ -82,7 +90,7 @@ const Card = () => {
                     </div>
                 </div>
             </div>
-        </li>
+        </div>
     );
 };
 

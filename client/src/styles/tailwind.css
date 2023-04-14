@@ -41,10 +41,31 @@
     @apply bg-transparent;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    /* background-color: blueviolet; */
+    @apply bg-amber-600 rounded;
+}
+::-webkit-scrollbar-track {
+    /* background-color: blueviolet; */
+    @apply bg-transparent;
+}
+
 .path-color path {
     @apply fill-amber-600;
 }
 
 .span-color span {
     color: inherit !important;
+}
+
+.toolbar-visible-onhover:hover #toolbar {
+    @apply visible;
+}
+
+.toolbar-visible #toolbar {
+    @apply visible;
 }

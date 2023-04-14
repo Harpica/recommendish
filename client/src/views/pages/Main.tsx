@@ -1,6 +1,5 @@
 import Card from '../partials/Card';
 import TagCloud from '../partials/TagCloud';
-import Nav from '../partials/Nav';
 
 const Main = () => {
     return (
@@ -29,8 +28,12 @@ const Main = () => {
                         Popular recommendations
                     </h2>
                     <ul className='flex flex-col gap-4'>
-                        <Card />
-                        <Card />
+                        <li>
+                            <Card />
+                        </li>
+                        <li>
+                            <Card />
+                        </li>
                     </ul>
                 </section>
                 <section className='mb-5'>

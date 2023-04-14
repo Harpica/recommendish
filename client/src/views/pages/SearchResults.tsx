@@ -8,8 +8,12 @@ const SearchResults = () => {
                     Search results
                 </h2>
                 <ul className='flex flex-col gap-4'>
-                    <Card />
-                    <Card />
+                    <li>
+                        <Card />
+                    </li>
+                    <li>
+                        <Card />
+                    </li>
                 </ul>
             </section>
         </main>

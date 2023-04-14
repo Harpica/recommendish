@@ -12,87 +12,6 @@ import { FileUploader } from 'react-drag-drop-files';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
-const theme = createTheme({
-    components: {
-        // Name of the component
-        MuiFormControl: {
-            styleOverrides: {
-                root: {
-                    maxWidth: '90vw',
-                },
-            },
-        },
-        MuiOutlinedInput: {
-            styleOverrides: {
-                // Name of the slot
-                root: {
-                    minWidth: '230px',
-                    maxWidth: '90vw',
-                    color: 'inherit',
-                    '.MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgb(217 119 6)',
-                    },
-                    '.MuiSvgIcon-root': {
-                        fill: 'rgb(217 119 6)',
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'orange',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'orange',
-                    },
-                },
-            },
-        },
-        MuiInputLabel: {
-            styleOverrides: {
-                root: {
-                    color: 'inherit',
-                    '&.Mui-focused': {
-                        color: 'inherit',
-                    },
-                },
-            },
-        },
-        MuiMenuItem: {
-            styleOverrides: {
-                root: {
-                    color: 'inherit',
-                    '&.Mui-selected': {
-                        backgroundColor: 'rgb(217 119 6)',
-                    },
-                    '&.Mui-selected:hover': {
-                        backgroundColor: 'rgb(245 158 11)',
-                    },
-                    '&:hover': {
-                        backgroundColor: 'rgb(245 158 11)',
-                    },
-                },
-            },
-        },
-        MuiAutocomplete: {
-            styleOverrides: {
-                root: {
-                    maxWidth: '90vw',
-                    '.MuiAutocomplete-tag': {
-                        color: 'inherit',
-                        border: '1px solid rgb(217 119 6)',
-                    },
-                    '.MuiAutocomplete-tag span': {
-                        color: 'inherit',
-                        border: 'none',
-                    },
-                },
-            },
-        },
-        MuiPopper: {
-            defaultProps: {
-                container: document.getElementById('root'),
-            },
-        },
-    },
-});
-
 const ListboxProps = {
     sx: {
         backgroundColor: 'white',
@@ -120,127 +39,122 @@ const NewRecommendation = () => {
         setFile(file);
     };
     return (
-        <ThemeProvider theme={theme}>
-            <main className='flex flex-col gap-8'>
-                <section className='flex flex-col gap-3'>
-                    <div className='flex flex-row gap-3 items-center justify-between'>
-                        <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
-                            Create new recommendation
-                        </h1>
-                        <button
-                            type='submit'
-                            className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500'
-                            aria-label='send comment'
-                        >
-                            Send
-                        </button>
-                    </div>
-                    <form autoComplete='off'>
-                        <fieldset className='flex flex-col items-start gap-3'>
-                            <TextField
-                                id='outlined-basic'
-                                label='Recommendation title'
-                                variant='outlined'
-                                className='w-[500px] max-w-[90vw]'
+        <main className='flex flex-col gap-8'>
+            <section className='flex flex-col gap-3'>
+                <div className='flex flex-row gap-3 items-center justify-between'>
+                    <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
+                        Create new recommendation
+                    </h1>
+                    <button
+                        type='submit'
+                        className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500'
+                        aria-label='send comment'
+                    >
+                        Send
+                    </button>
+                </div>
+                <form autoComplete='off'>
+                    <fieldset className='flex flex-col items-start gap-3'>
+                        <TextField
+                            id='outlined-basic'
+                            label='Recommendation title'
+                            variant='outlined'
+                            className='w-[500px] max-w-[90vw]'
+                        />
+                        <FormControl>
+                            <InputLabel id='product-select-label'>
+                                Product
+                            </InputLabel>
+                            <Select
+                                labelId='product-select-label'
+                                id='product-select'
+                                // value={age}
+                                label='Product'
+                                // onChange={handleChange}
+                            >
+                                <MenuItem value={'Movie'}>Movie</MenuItem>
+                                <MenuItem value={'Game'}>Game</MenuItem>
+                                <MenuItem value={'Book'}>Book</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Autocomplete
+                            freeSolo
+                            ListboxProps={ListboxProps}
+                            id='product-name'
+                            options={['0', '1', '2']}
+                            renderInput={(params) => (
+                                <TextField {...params} label='Product title' />
+                            )}
+                            sx={{ width: '500px' }}
+                        />
+                        <Autocomplete
+                            multiple
+                            freeSolo
+                            disableCloseOnSelect={true}
+                            id='tags'
+                            options={['Drama', 'Comedy', 'Cats']}
+                            ListboxProps={ListboxProps}
+                            renderInput={(params) => (
+                                <TextField {...params} label='Tags' />
+                            )}
+                            sx={{ width: '500px' }}
+                        />
+                        <FormControl>
+                            <InputLabel id='product-select-label'>
+                                Product rating
+                            </InputLabel>
+                            <Select
+                                labelId='product-select-label'
+                                id='product-rating'
+                                // value={age}
+                                label='Product rating'
+                                // onChange={handleChange}
+                            >
+                                {Array.from(
+                                    { length: 10 },
+                                    (_, i) => i + 1
+                                ).map((element, i) => (
+                                    <MenuItem key={`rating-${i}`} value={i}>
+                                        {element}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <div className='container text-inherit '>
+                            <FileUploader
+                                multiple={true}
+                                handleChange={handleChange}
+                                name='file'
+                                types={fileTypes}
+                                label={'Upload or drop a file right here'}
+                                classes={
+                                    'rounded p-2 border-amber-500 border-[1px] border-solid h-[56px] w-[500px] path-color span-color'
+                                }
                             />
-                            <FormControl>
-                                <InputLabel id='product-select-label'>
-                                    Product
-                                </InputLabel>
-                                <Select
-                                    labelId='product-select-label'
-                                    id='product-select'
-                                    // value={age}
-                                    label='Product'
-                                    // onChange={handleChange}
-                                >
-                                    <MenuItem value={'Movie'}>Movie</MenuItem>
-                                    <MenuItem value={'Game'}>Game</MenuItem>
-                                    <MenuItem value={'Book'}>Book</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <Autocomplete
-                                freeSolo
-                                ListboxProps={ListboxProps}
-                                id='product-name'
-                                options={['0', '1', '2']}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label='Product title'
-                                    />
-                                )}
-                                sx={{ width: '500px' }}
-                            />
-                            <Autocomplete
-                                multiple
-                                freeSolo
-                                disableCloseOnSelect={true}
-                                id='tags'
-                                options={['Drama', 'Comedy', 'Cats']}
-                                ListboxProps={ListboxProps}
-                                renderInput={(params) => (
-                                    <TextField {...params} label='Tags' />
-                                )}
-                                sx={{ width: '500px' }}
-                            />
-                            <FormControl>
-                                <InputLabel id='product-select-label'>
-                                    Product rating
-                                </InputLabel>
-                                <Select
-                                    labelId='product-select-label'
-                                    id='product-rating'
-                                    // value={age}
-                                    label='Product rating'
-                                    // onChange={handleChange}
-                                >
-                                    {Array.from(
-                                        { length: 10 },
-                                        (_, i) => i + 1
-                                    ).map((element, i) => (
-                                        <MenuItem key={`rating-${i}`} value={i}>
-                                            {element}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <div className='container text-inherit '>
-                                <FileUploader
-                                    multiple={true}
-                                    handleChange={handleChange}
-                                    name='file'
-                                    types={fileTypes}
-                                    label={'Upload or drop a file right here'}
-                                    classes={
-                                        'rounded p-2 border-amber-500 border-[1px] border-solid h-[56px] w-[500px] path-color span-color'
+                        </div>
+                        <div className='container rounded p-2 border-amber-600 border-[1px]'>
+                            <MDEditor
+                                value={value}
+                                onChange={(value, e) => {
+                                    if (value) {
+                                        setValue(value);
                                     }
-                                />
-                            </div>
-                            <div className='container rounded p-2 border-amber-600 border-[1px]'>
-                                <MDEditor
-                                    value={value}
-                                    onChange={(value, e) => {
-                                        if (value) {
-                                            setValue(value);
-                                        }
-                                    }}
-                                    preview='edit'
-                                    previewOptions={{
-                                        rehypePlugins: [[rehypeSanitize]],
-                                    }}
-                                    className=''
-                                />
-                                <MDEditor.Markdown
-                                    source={value}
-                                    style={{ whiteSpace: 'pre-wrap' }}
-                                />
-                            </div>
-                        </fieldset>
-                    </form>
-                </section>
-            </main>
-        </ThemeProvider>
+                                }}
+                                preview='edit'
+                                previewOptions={{
+                                    rehypePlugins: [[rehypeSanitize]],
+                                }}
+                                className=''
+                            />
+                            <MDEditor.Markdown
+                                source={value}
+                                style={{ whiteSpace: 'pre-wrap' }}
+                            />
+                        </div>
+                    </fieldset>
+                </form>
+            </section>
+        </main>
     );
 };
 
