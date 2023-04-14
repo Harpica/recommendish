@@ -19,7 +19,7 @@ function App() {
         <>
             <ThemeProvider theme={theme}>
                 <StyledEngineProvider injectFirst>
-                    <div className=' h-full min-h-screen flex flex-col bg-zinc-800 text-zinc-100 '>
+                    <div className='h-full min-h-screen flex flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
                         <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
                         <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
                             <Nav />
