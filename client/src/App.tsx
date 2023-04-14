@@ -11,6 +11,7 @@ import NewRecommendation from './views/pages/NewRecommendation';
 import Profile from './views/pages/Profile';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles/mui';
+import Admin from './views/pages/Admin';
 
 function App() {
     const [isAuth, setIsAuth] = useState<boolean>(true);
@@ -46,6 +47,14 @@ function App() {
                                         element={
                                             <ProtectedRoute authKey={isAuth}>
                                                 <Profile />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path='/admin'
+                                        element={
+                                            <ProtectedRoute authKey={isAuth}>
+                                                <Admin />
                                             </ProtectedRoute>
                                         }
                                     />

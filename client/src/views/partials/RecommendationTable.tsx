@@ -9,33 +9,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-
-const DataGridClasses = {
-    minWidth: '700px',
-    '.MuiDataGrid-row:hover': {
-        backgroundColor: 'rgb(245 158 11)',
-    },
-    '.MuiDataGrid-row.Mui-selected': {
-        backgroundColor: 'rgb(217 119 6)',
-    },
-    '.MuiDataGrid-cell:focus': {
-        outline: 'none',
-        backgroundColor: 'rgb(217 119 6)',
-    },
-    '.MuiDataGrid-columnHeader:focus': {
-        outline: 'none',
-    },
-    '.MuiDataGrid-row:hover.Mui-selected': {
-        backgroundColor: 'rgb(245 158 11)',
-    },
-
-    '.MuiSvgIcon-root': {
-        fill: 'rgb(217 119 6)',
-    },
-    '.MuiDataGrid-row:hover .MuiSvgIcon-root ': {
-        fill: 'black',
-    },
-};
+import { DataGridClasses } from '../../styles/mui';
 
 const RecommendationTable = () => {
     const columns: GridColDef[] = [
