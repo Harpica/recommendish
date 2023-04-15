@@ -14,23 +14,24 @@ import { theme } from './styles/mui';
 import Admin from './views/pages/Admin';
 import { AppVM } from './viewModels/App.VM';
 import { observer } from 'mobx-react-lite';
+import LoginText from './views/partials/LoginText';
 
-const App: React.FC = observer(() => {
+const App: React.FC = () => {
     const [vm] = useState(new AppVM());
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <StyledEngineProvider injectFirst>
-                    <div className='h-full min-h-screen flex flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
-                        <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
-                        <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
-                            <Nav
-                                isAuth={vm.isAuth}
-                                setIsAuth={vm.setIsAuth}
-                                currentUser={vm.currentUser}
-                                setCurrentUser={vm.setCurrentUser}
-                            />
-                            <BrowserRouter>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <StyledEngineProvider injectFirst>
+                        <div className='h-full min-h-screen flex flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
+                            <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
+                            <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
+                                <Nav
+                                    isAuth={vm.isAuth}
+                                    setIsAuth={vm.setIsAuth}
+                                    currentUser={vm.currentUser}
+                                    setCurrentUser={vm.setCurrentUser}
+                                />
                                 <Routes>
                                     <Route path='/' element={<Main />} />
                                     <Route
@@ -49,31 +50,32 @@ const App: React.FC = observer(() => {
                                             </ProtectedRoute>
                                         }
                                     />
-                                    <Route
+                                    {/* <Route
                                         path='/profile'
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Profile />
                                             </ProtectedRoute>
                                         }
-                                    />
-                                    <Route
+                                    /> */}
+                                    {/* <Route
                                         path='/admin'
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Admin />
                                             </ProtectedRoute>
                                         }
-                                    />
+                                    /> */}
                                 </Routes>
-                            </BrowserRouter>
+                            </div>
+                            <footer className='bg-gradient-to-r rounded-t-full from-amber-300 to-fuchsia-700 min-h-fit p-3 mt-auto'></footer>
                         </div>
-                        <footer className='bg-gradient-to-r rounded-t-full from-amber-300 to-fuchsia-700 min-h-fit p-3 mt-auto'></footer>
-                    </div>
-                </StyledEngineProvider>
-            </ThemeProvider>
+                    </StyledEngineProvider>
+                </ThemeProvider>
+                {/* <LoginText /> */}
+            </BrowserRouter>
         </>
     );
-});
+};
 
 export default App;

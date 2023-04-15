@@ -188,13 +188,13 @@ const Nav: React.FC<NavProps> = observer(
                         </li>
                     </ul>
                 </nav>
-                {vm.loginIsOpen && (
+                <div className={` ${vm.loginIsOpen ? 'block' : 'hidden'}`}>
                     <Login
                         currentUser={currentUser}
                         setCurrentUser={setCurrentUser}
                         closePopup={vm.toggleLoginIsOpen}
                     />
-                )}
+                </div>
             </>
         );
     }
