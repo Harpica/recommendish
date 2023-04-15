@@ -11,7 +11,7 @@ export interface IUser {
     language: string;
     _id: number | undefined;
     avatar?: string | undefined;
-    email?: string | undefined;
+    login?: string | undefined;
 }
 
 const UserSchema = new Schema({

@@ -12,9 +12,11 @@ import Profile from './views/pages/Profile';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles/mui';
 import Admin from './views/pages/Admin';
+import { AppVM } from './viewModels/App.VM';
+import { observer } from 'mobx-react-lite';
 
-function App() {
-    const [isAuth, setIsAuth] = useState<boolean>(true);
+const App: React.FC = observer(() => {
+    const [vm] = useState(new AppVM());
     return (
         <>
             <ThemeProvider theme={theme}>
@@ -22,7 +24,12 @@ function App() {
                     <div className='h-full min-h-screen flex flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
                         <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
                         <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
-                            <Nav />
+                            <Nav
+                                isAuth={vm.isAuth}
+                                setIsAuth={vm.setIsAuth}
+                                currentUser={vm.currentUser}
+                                setCurrentUser={vm.setCurrentUser}
+                            />
                             <BrowserRouter>
                                 <Routes>
                                     <Route path='/' element={<Main />} />
@@ -37,7 +44,7 @@ function App() {
                                     <Route
                                         path='/new'
                                         element={
-                                            <ProtectedRoute authKey={isAuth}>
+                                            <ProtectedRoute authKey={vm.isAuth}>
                                                 <NewRecommendation />
                                             </ProtectedRoute>
                                         }
@@ -45,7 +52,7 @@ function App() {
                                     <Route
                                         path='/profile'
                                         element={
-                                            <ProtectedRoute authKey={isAuth}>
+                                            <ProtectedRoute authKey={vm.isAuth}>
                                                 <Profile />
                                             </ProtectedRoute>
                                         }
@@ -53,7 +60,7 @@ function App() {
                                     <Route
                                         path='/admin'
                                         element={
-                                            <ProtectedRoute authKey={isAuth}>
+                                            <ProtectedRoute authKey={vm.isAuth}>
                                                 <Admin />
                                             </ProtectedRoute>
                                         }
@@ -67,6 +74,6 @@ function App() {
             </ThemeProvider>
         </>
     );
-}
+});
 
 export default App;
