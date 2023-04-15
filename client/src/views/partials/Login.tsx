@@ -47,13 +47,13 @@ const Login: React.FC<LoginProps> = ({
                         console.log('start login');
                     }}
                     // onLogoutSuccess={onLogoutSuccess}
-                    onResolve={vm.handleLogin}
-                    // onResolve={({ provider, data }: IResolveParams) => {
-                    //     setProvider(provider);
-                    //     setProfile(data);
-                    //     console.log('provider', provider);
-                    //     console.log('data', data);
-                    // }}
+                    // onResolve={vm.handleLogin}
+                    onResolve={({ provider, data }: IResolveParams) => {
+                        setProvider(provider);
+                        setProfile(data);
+                        console.log('provider', provider);
+                        console.log('data', data);
+                    }}
                     onReject={(err: any) => {
                         console.log(err);
                     }}
@@ -66,7 +66,13 @@ const Login: React.FC<LoginProps> = ({
                     onLoginStart={() => {
                         console.log('start login');
                     }}
-                    onResolve={vm.handleLogin}
+                    onResolve={({ provider, data }: IResolveParams) => {
+                        setProvider(provider);
+                        setProfile(data);
+                        console.log('provider', provider);
+                        console.log('data', data);
+                    }}
+                    // onResolve={vm.handleLogin}
                     onReject={(err: any) => {
                         console.log(err);
                     }}
