@@ -192,6 +192,7 @@ const Nav: React.FC<NavProps> = observer(
                     <Login
                         currentUser={currentUser}
                         setCurrentUser={setCurrentUser}
+                        setIsAuth={setIsAuth}
                         closePopup={vm.toggleLoginIsOpen}
                     />
                 </div>

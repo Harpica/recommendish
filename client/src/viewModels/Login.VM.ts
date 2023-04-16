@@ -14,17 +14,20 @@ export class LoginVM {
     private api: Api;
     private currentUser: CurrentUser;
     private setCurrentUser: (value: CurrentUser) => void;
+    private setIsAuth: (value: boolean) => void;
     public closePopup: () => void;
 
     constructor(
         api: Api,
         currentUser: CurrentUser,
         setCurrentUser: (value: CurrentUser) => void,
+        setIsAuth: (value: boolean) => void,
         closePopup: () => void
     ) {
         this.api = api;
         this.currentUser = currentUser;
         this.setCurrentUser = setCurrentUser;
+        this.setIsAuth = setIsAuth;
         this.closePopup = closePopup;
         this.handleLogin = this.handleLogin.bind(this);
         makeAutoObservable(this);
@@ -45,8 +48,9 @@ export class LoginVM {
     private handleData(data: objectType) {
         let login: string;
         let avatar = '';
-        if (this.provider === 'github') {
+        if (this.provider === 'twitter') {
             login = data.username;
+            avatar = data.profile_image_url;
         } else {
             login = data.login;
             avatar = data.avatar_url;
@@ -58,7 +62,10 @@ export class LoginVM {
         this.api.users
             .authUser(login, name)
             .then((data) => {
+                console.log(data.data);
                 this.setCurrentUser(data.data);
+                this.setIsAuth(true);
+                this.closePopup();
             })
             .catch((err) => console.log(err));
     }

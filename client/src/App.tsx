@@ -16,7 +16,7 @@ import { AppVM } from './viewModels/App.VM';
 import { observer } from 'mobx-react-lite';
 import LoginText from './views/partials/LoginText';
 
-const App: React.FC = () => {
+const App: React.FC = observer(() => {
     const [vm] = useState(new AppVM());
     return (
         <>
@@ -43,6 +43,14 @@ const App: React.FC = () => {
                                         element={<Recommendation />}
                                     />
                                     <Route
+                                        path='/admin'
+                                        element={
+                                            <ProtectedRoute authKey={vm.isAuth}>
+                                                <Admin />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+                                    <Route
                                         path='/new'
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
@@ -50,22 +58,14 @@ const App: React.FC = () => {
                                             </ProtectedRoute>
                                         }
                                     />
-                                    {/* <Route
+                                    <Route
                                         path='/profile'
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
-                                                <Profile />
+                                                <Profile isAuth={vm.isAuth} />
                                             </ProtectedRoute>
                                         }
-                                    /> */}
-                                    {/* <Route
-                                        path='/admin'
-                                        element={
-                                            <ProtectedRoute authKey={vm.isAuth}>
-                                                <Admin />
-                                            </ProtectedRoute>
-                                        }
-                                    /> */}
+                                    />
                                 </Routes>
                             </div>
                             <footer className='bg-gradient-to-r rounded-t-full from-amber-300 to-fuchsia-700 min-h-fit p-3 mt-auto'></footer>
@@ -76,6 +76,6 @@ const App: React.FC = () => {
             </BrowserRouter>
         </>
     );
-};
+});
 
 export default App;

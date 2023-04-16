@@ -2,8 +2,13 @@ import Card from '../partials/Card';
 import CardToolbar from '../partials/CardToolbar';
 import RecommendationTable from '../partials/RecommendationTable';
 import UserInfo from '../partials/UserInfo';
+import { observer } from 'mobx-react-lite';
 
-const Profile = () => {
+interface ProfileProps {
+    isAuth: boolean;
+}
+
+const Profile: React.FC<ProfileProps> = observer(({ isAuth }) => {
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
@@ -39,7 +44,7 @@ const Profile = () => {
                     </button>
                 </div>
 
-                <RecommendationTable />
+                {isAuth && <RecommendationTable />}
 
                 {/* <ul className='min-h-[500px] max-h-[50vh] overflow-auto scrollbar flex flex-col gap-3'>
                     <li
@@ -109,6 +114,6 @@ const Profile = () => {
             </section>
         </main>
     );
-};
+});
 
 export default Profile;

@@ -14,6 +14,7 @@ export class NavVM {
         this.isAuth = isAuth;
         this.setCurrentUser = setCurrentUser;
         this.setIsAuth = setIsAuth;
+        this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
         makeAutoObservable(this);
     }
 

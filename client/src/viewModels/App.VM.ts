@@ -3,7 +3,7 @@ import { CurrentUser } from '../utils/types';
 import { DEFAULT_USER } from '../utils/constants';
 
 export class AppVM {
-    public isAuth: boolean = false;
+    public isAuth: boolean = true;
     public currentUser: CurrentUser;
     constructor() {
         this.currentUser = DEFAULT_USER;
