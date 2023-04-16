@@ -3,6 +3,8 @@ import CardToolbar from '../partials/CardToolbar';
 import RecommendationTable from '../partials/RecommendationTable';
 import UserInfo from '../partials/UserInfo';
 import { observer } from 'mobx-react-lite';
+import IconNew from '../sgvWrappers/IconNew';
+import { NavLink } from 'react-router-dom';
 
 interface ProfileProps {
     isAuth: boolean;
@@ -22,26 +24,13 @@ const Profile: React.FC<ProfileProps> = observer(({ isAuth }) => {
                     <h2 className='text-xl font-bold w-fit  '>
                         My recommedations
                     </h2>
-                    <button
-                        type='button'
+                    <NavLink
+                        to={'/new'}
                         aria-label='new recommendation'
                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40 pt-1'
                     >
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6 stroke-amber-500'
-                        >
-                            <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
-                            />
-                        </svg>
-                    </button>
+                        <IconNew />
+                    </NavLink>
                 </div>
 
                 {isAuth && <RecommendationTable />}

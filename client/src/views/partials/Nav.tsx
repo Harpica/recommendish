@@ -105,21 +105,22 @@ const Nav: React.FC<NavProps> = observer(
                         {isAuth ? (
                             <>
                                 <li>
-                                    <button
-                                        type='button'
+                                    <NavLink
+                                        to={'/profile'}
                                         aria-label='profile'
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                     >
                                         <div className='w-11 h-11 rounded-full bg-fuchsia-600'>
                                             <img />
                                         </div>
-                                    </button>
+                                    </NavLink>
                                 </li>
                                 <li>
                                     <button
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                         type='button'
                                         aria-label='log out'
+                                        onClick={() => vm.logOut()}
                                     >
                                         <IconLogOut />
                                     </button>

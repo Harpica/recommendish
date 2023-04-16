@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import { CurrentUser, Theme } from '../utils/types';
-import { root } from '../utils/constants';
+import { DEFAULT_USER, root } from '../utils/constants';
 import { Api } from '../utils/HTTP/Api';
 
 export class NavVM {
@@ -62,5 +62,10 @@ export class NavVM {
 
     public toggleMenu() {
         this.menuIsOpen = !this.menuIsOpen;
+    }
+
+    public logOut() {
+        this.setIsAuth(false);
+        this.setCurrentUser(DEFAULT_USER);
     }
 }
