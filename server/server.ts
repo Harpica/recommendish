@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import routes from './routes';
 import { WsServer } from './services/ws';
 
@@ -20,11 +21,12 @@ const MONGODB_DATABASE_NAME =
 
 const corsOptions = {
     origin: `http://${BASE_URL}:${CLIENT_PORT}`,
-    credentials: true, //access-control-allow-credentials:true
+    credentials: true,
     optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

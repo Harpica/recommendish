@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { authUser, getUsers, updateUserStatus } from '../controllers/users';
+import {
+    authUser,
+    getUsers,
+    updateUserLanguage,
+    updateUserStatus,
+    updateUserTheme,
+} from '../controllers/users';
 import { auth } from '../middlewares/auth';
 import { validator } from '../utils/celebrate/validations';
 
@@ -11,5 +17,7 @@ users.get('/:id');
 users.use(auth);
 users.get('/', getUsers);
 users.patch('/:id/status', updateUserStatus);
+users.patch('/:id/theme', updateUserTheme);
+users.patch('/:id/language', updateUserLanguage);
 
 export default users;

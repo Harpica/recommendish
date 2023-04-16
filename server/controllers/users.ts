@@ -117,11 +117,57 @@ export const updateUserStatus = (
     next: NextFunction
 ) => {
     const id = req.params.id;
-    User.findByIdAndUpdate(id, { status: req.body.data.status })
+    updateUserField(
+        id,
+        'status',
+        req.body.data.status,
+        (user: IUser) => sendDocumentIfFound(user, res),
+        (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
+    );
+};
+
+export const updateUserTheme = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const id = req.params.id;
+    updateUserField(
+        id,
+        'theme',
+        req.body.data.theme,
+        (user: IUser) => sendDocumentIfFound(user, res),
+        (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
+    );
+};
+
+export const updateUserLanguage = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const id = req.params.id;
+    updateUserField(
+        id,
+        'language',
+        req.body.data.language,
+        (user: IUser) => sendDocumentIfFound(user, res),
+        (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
+    );
+};
+
+const updateUserField = (
+    id: string,
+    field: string,
+    value: unknown,
+    resolveHandler: Function,
+    rejectHandler: Function
+) => {
+    User.findByIdAndUpdate(id, { [field]: value })
         .then((user) => {
-            sendDocumentIfFound(user, res);
+            resolveHandler(user);
         })
         .catch((err) => {
-            incorrectDataHandler(err, next, 'Incorrect _id');
+            rejectHandler(err);
         });
 };
