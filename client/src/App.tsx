@@ -2,7 +2,7 @@ import Main from './views/pages/Main';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import ProtectedRoute from './views/partials/ProtectedRoute';
 import Nav from './views/partials/Nav';
 import SearchResults from './views/pages/SearchResults';
@@ -17,7 +17,10 @@ import { observer } from 'mobx-react-lite';
 import LoginText from './views/partials/LoginText';
 
 const App: React.FC = observer(() => {
-    const [vm] = useState(new AppVM());
+    console.log('app render');
+    const vm = useMemo(() => {
+        return new AppVM();
+    }, []);
     return (
         <>
             <BrowserRouter>
@@ -72,7 +75,6 @@ const App: React.FC = observer(() => {
                         </div>
                     </StyledEngineProvider>
                 </ThemeProvider>
-                {/* <LoginText /> */}
             </BrowserRouter>
         </>
     );

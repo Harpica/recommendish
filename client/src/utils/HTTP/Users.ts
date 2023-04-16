@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { UserStatus } from '../types';
+import { Theme, UserStatus } from '../types';
+
+axios.defaults.withCredentials = true;
 
 export class Users {
     url: string;
@@ -33,10 +35,26 @@ export class Users {
     //     });
     // }
 
-    changeUsersStatus(id: string, status: UserStatus) {
+    changeUserStatus(id: string, status: UserStatus) {
         return axios.patch(`${this.url}/${id}/status`, {
             data: {
                 status: status,
+            },
+        });
+    }
+
+    changeUserTheme(id: string, theme: Theme) {
+        return axios.patch(`${this.url}/${id}/theme`, {
+            data: {
+                theme: theme,
+            },
+        });
+    }
+
+    changeUserLanguage(id: string, language: string) {
+        return axios.patch(`${this.url}/${id}/language`, {
+            data: {
+                language: language,
             },
         });
     }

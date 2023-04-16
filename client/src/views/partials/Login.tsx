@@ -18,16 +18,21 @@ interface LoginProps {
     setCurrentUser: (value: CurrentUser) => void;
     setIsAuth: (value: boolean) => void;
     closePopup: () => void;
+    loginIsOpen: boolean;
 }
 
 const Login: React.FC<LoginProps> = observer(
-    ({ currentUser, setCurrentUser, setIsAuth, closePopup }) => {
+    ({ currentUser, setCurrentUser, setIsAuth, closePopup, loginIsOpen }) => {
         const [vm] = useState(
             new LoginVM(api, currentUser, setCurrentUser, setIsAuth, closePopup)
         );
 
         return (
-            <section className='absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-10'>
+            <section
+                className={`${
+                    loginIsOpen ? 'flex' : 'hidden'
+                } absolute top-0 left-0 w-full h-full justify-center items-center bg-black bg-opacity-50 z-10`}
+            >
                 <div className='bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100  border-[2px] border-amber-300 flex flex-col rounded shadow-md p-5'>
                     <h2 className='font-bold text-2xl self-center mb-5'>
                         Choose how to log in:

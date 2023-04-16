@@ -1,5 +1,6 @@
 export type UserStatus = 'active' | 'blocked';
 export type UserRole = 'admin' | 'user' | 'unauthorized';
+export type Theme = 'light' | 'dark';
 
 export interface User {
     name: string;
@@ -12,7 +13,7 @@ export interface User {
     login: string;
 }
 export interface CurrentUser extends User {
-    theme: string;
+    theme: Theme;
     language: string;
 }
 

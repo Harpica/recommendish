@@ -63,7 +63,7 @@ export class LoginVM {
             .authUser(login, name)
             .then((data) => {
                 console.log(data.data);
-                this.setCurrentUser(data.data);
+                this.setCurrentUser(data.data.user);
                 this.setIsAuth(true);
                 this.closePopup();
             })
