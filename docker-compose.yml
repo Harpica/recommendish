@@ -12,7 +12,7 @@ services:
     volumes:
       - mongodb:/var/lib/recommendish/mongodb
     ports:
-      - "${MONGODB_DATABASE_PORT}:${MONGODB_DATABASE_PORT}"
+      - "${MONGODB_DATABASE_PORT}:27017"
     expose:
       - "${MONGODB_DATABASE_PORT}"
     restart: unless-stopped
