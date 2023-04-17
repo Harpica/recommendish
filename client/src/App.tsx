@@ -14,7 +14,7 @@ import { theme } from './styles/mui';
 import Admin from './views/pages/Admin';
 import { AppVM } from './viewModels/App.VM';
 import { observer } from 'mobx-react-lite';
-import LoginText from './views/partials/LoginText';
+import { ROUTES } from './utils/constants';
 
 const App: React.FC = observer(() => {
     console.log('app render');
@@ -38,15 +38,15 @@ const App: React.FC = observer(() => {
                                 <Routes>
                                     <Route path='/' element={<Main />} />
                                     <Route
-                                        path='/search/:param'
+                                        path={ROUTES.main}
                                         element={<SearchResults />}
                                     />
                                     <Route
-                                        path='/:id'
+                                        path={ROUTES.recommendationById}
                                         element={<Recommendation />}
                                     />
                                     <Route
-                                        path='/admin'
+                                        path={ROUTES.admin}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Admin />
@@ -54,7 +54,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path='/new'
+                                        path={ROUTES.new}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <NewRecommendation />
@@ -62,7 +62,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path='/profile'
+                                        path={ROUTES.profile}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Profile isAuth={vm.isAuth} />

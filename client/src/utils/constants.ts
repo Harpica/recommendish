@@ -17,3 +17,12 @@ export const DEFAULT_USER: CurrentUser = {
     theme: 'light',
     language: 'EN',
 };
+
+export const ROUTES = {
+    main: '/',
+    profile: '/profile',
+    new: '/new',
+    admin: '/admin',
+    recommendationById: '/:id',
+    search: '/search/:param',
+};

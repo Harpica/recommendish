@@ -3,7 +3,7 @@ import CardToolbar from '../partials/CardToolbar';
 import RecommendationTable from '../partials/RecommendationTable';
 import UserInfo from '../partials/UserInfo';
 import { observer } from 'mobx-react-lite';
-import IconNew from '../sgvWrappers/IconNew';
+import IconNew from '../svgWrappers/IconNew';
 import { NavLink } from 'react-router-dom';
 
 interface ProfileProps {
