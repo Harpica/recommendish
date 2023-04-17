@@ -1,25 +1,23 @@
 import { TagCloud as Tags } from 'react-tagcloud';
+import { TagInTagCloud } from '../../utils/types';
+import { useNavigate } from 'react-router';
+import { useMemo } from 'react';
+import { TagCloudVM } from '../../viewModels/partials/TagCloud.VM';
+import { api } from '../../utils/HTTP/Api';
+import { observer } from 'mobx-react-lite';
 
-const data = [
-    { value: 'JavaScript', count: 38, color: 'rgb(245 158 11)' },
-    { value: 'React', count: 30, color: 'rgb(244 63 94)' },
-    { value: 'Nodejs', count: 28, color: 'rgb(192 38 211)' },
-    { value: 'Express.js', count: 25, color: 'rgb(192 38 211)' },
-    { value: 'HTML5', count: 33, color: 'rgb(192 38 211)' },
-    { value: 'MongoDB', count: 18, color: 'rgb(244 63 94)' },
-    { value: 'CSS3', count: 20, color: 'rgb(245 158 11)' },
-];
-
-const TagCloud = () => {
+const TagCloud = observer(() => {
+    const navigate = useNavigate();
+    const vm = useMemo(() => new TagCloudVM(navigate, api), []);
     return (
         <Tags
             minSize={12}
             maxSize={35}
-            tags={data}
-            className='flex flex-row flex-wrap justify-center font-bold'
-            // onClick={tag => alert(`'${tag.value}' was selected!`)}
+            tags={vm.tags}
+            className={'flex flex-row flex-wrap justify-center font-bold '}
+            onClick={(tag: TagInTagCloud) => vm.handleTagOnclick(tag.value)}
         />
     );
-};
+});
 
 export default TagCloud;

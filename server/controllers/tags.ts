@@ -49,6 +49,6 @@ export const getPopularTags = (
         },
     ])
         .limit(20)
-        .then((tags) => res.send({ data: tags }))
+        .then((tags) => res.send({ tags: tags }))
         .catch(next);
 };

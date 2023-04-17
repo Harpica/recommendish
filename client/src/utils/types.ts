@@ -35,6 +35,13 @@ export interface Recommendation {
 export interface Tag {
     name: string;
     usedIn: Array<string>;
+    count?: number;
+}
+
+export interface TagInTagCloud {
+    value: string;
+    count: number;
+    color?: string;
 }
 
 export interface Comment {

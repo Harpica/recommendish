@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import Search from './Search';
-import { NavVM } from '../../viewModels/Nav.VM';
+import { NavVM } from '../../viewModels/partials/Nav.VM';
 import { ROUTES, root } from '../../utils/constants';
 import { CurrentUser, Theme } from '../../utils/types';
 import { observer } from 'mobx-react-lite';

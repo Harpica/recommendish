@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { Theme, UserStatus } from '../types';
 
-axios.defaults.withCredentials = true;
-
 export class Users {
     url: string;
     constructor(url: string) {

@@ -36,9 +36,12 @@ const App: React.FC = observer(() => {
                                     setCurrentUser={vm.setCurrentUser}
                                 />
                                 <Routes>
-                                    <Route path='/' element={<Main />} />
                                     <Route
                                         path={ROUTES.main}
+                                        element={<Main />}
+                                    />
+                                    <Route
+                                        path={ROUTES.search}
                                         element={<SearchResults />}
                                     />
                                     <Route

@@ -1,7 +1,7 @@
 import { action, makeAutoObservable } from 'mobx';
-import { CurrentUser, Theme } from '../utils/types';
-import { DEFAULT_USER, root } from '../utils/constants';
-import { Api } from '../utils/HTTP/Api';
+import { CurrentUser, Theme } from '../../utils/types';
+import { DEFAULT_USER, root } from '../../utils/constants';
+import { Api } from '../../utils/HTTP/Api';
 
 export class NavVM {
     private api: Api;

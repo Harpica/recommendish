@@ -1,8 +1,8 @@
 import { action, makeAutoObservable } from 'mobx';
-import { BASE_URL, CLIENT_PORT } from '../utils/constants';
-import { Api } from '../utils/HTTP/Api';
+import { BASE_URL, CLIENT_PORT } from '../../utils/constants';
+import { Api } from '../../utils/HTTP/Api';
 import { IResolveParams, objectType } from 'reactjs-social-login';
-import { CurrentUser } from '../utils/types';
+import { CurrentUser } from '../../utils/types';
 
 export class LoginVM {
     private provider: string = '';

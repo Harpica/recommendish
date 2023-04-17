@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import IconSearch from '../svgWrappers/IconSearch';
-import { SearchInputVM } from '../../viewModels/SearchInput.VM';
+import { SearchInputVM } from '../../viewModels/partials/SearchInput.VM';
 import { useNavigate } from 'react-router';
 
 const Search = () => {
@@ -8,6 +8,7 @@ const Search = () => {
     const vm = useMemo(() => new SearchInputVM(navigate), []);
     return (
         <form
+            autoComplete='off'
             onSubmit={(e) => {
                 vm.handleSearchButton(e);
             }}

@@ -8,7 +8,7 @@ import {
     TwitterLoginButton,
 } from 'react-social-login-buttons';
 import { useState } from 'react';
-import { LoginVM } from '../../viewModels/Login.VM';
+import { LoginVM } from '../../viewModels/partials/Login.VM';
 import { api } from '../../utils/HTTP/Api';
 import { CurrentUser } from '../../utils/types';
 import { observer } from 'mobx-react-lite';

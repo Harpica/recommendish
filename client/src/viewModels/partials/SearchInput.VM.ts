@@ -5,6 +5,7 @@ export class SearchInputVM {
     constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
     }
+
     public handleSearchButton(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const searchValue = (
@@ -13,5 +14,10 @@ export class SearchInputVM {
             ) as HTMLInputElement
         ).value;
         this.navigate(`/search/${searchValue}`, { replace: true });
+        (
+            e.currentTarget.elements.namedItem(
+                'search-input'
+            ) as HTMLInputElement
+        ).value = '';
     }
 }
