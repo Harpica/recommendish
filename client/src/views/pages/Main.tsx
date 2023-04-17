@@ -1,7 +1,14 @@
+import { useMemo } from 'react';
 import Card from '../partials/Card';
 import TagCloud from '../partials/TagCloud';
+import { MainVM } from '../../viewModels/pages/Main.VM';
+import { useNavigate } from 'react-router';
+import { api } from '../../utils/HTTP/Api';
+import { observer } from 'mobx-react-lite';
 
-const Main = () => {
+const Main = observer(() => {
+    const navigate = useNavigate();
+    const vm = useMemo(() => new MainVM(navigate, api), []);
     return (
         <>
             <header className='flex flex-col gap-3 w-full font-bold'>
@@ -13,9 +20,30 @@ const Main = () => {
                         </p>
                     </div>
                     <div className='hidden md:block text-4xl ml-auto'>
-                        <p className='text-amber-500'>Movies</p>
-                        <p className='text-rose-500'>Games</p>
-                        <p className='text-fuchsia-600'>Books</p>
+                        <p
+                            className='text-amber-500 cursor-pointer hover:scale-105 transition-all'
+                            onClick={() => {
+                                vm.handleGroupOnClick('Movie');
+                            }}
+                        >
+                            Movies
+                        </p>
+                        <p
+                            className='text-rose-500 cursor-pointer hover:scale-105 transition-all'
+                            onClick={() => {
+                                vm.handleGroupOnClick('Game');
+                            }}
+                        >
+                            Games
+                        </p>
+                        <p
+                            className='text-fuchsia-600 cursor-pointer hover:scale-105 transition-all'
+                            onClick={() => {
+                                vm.handleGroupOnClick('Book');
+                            }}
+                        >
+                            Books
+                        </p>
                     </div>
                 </div>
             </header>
@@ -28,12 +56,11 @@ const Main = () => {
                         Popular recommendations
                     </h2>
                     <ul className='flex flex-col gap-4'>
-                        <li>
-                            <Card />
-                        </li>
-                        <li>
-                            <Card />
-                        </li>
+                        {vm.popularRecommendations.map((recommendation, i) => (
+                            <li key={'popular' + i}>
+                                <Card recommendation={recommendation} />
+                            </li>
+                        ))}
                     </ul>
                 </section>
                 <section className='mb-5'>
@@ -41,13 +68,16 @@ const Main = () => {
                         Recent recommendations
                     </h2>
                     <ul className='flex flex-col gap-4'>
-                        <Card />
-                        <Card />
+                        {vm.recentRecommendations.map((recommendation, i) => (
+                            <li key={'recent' + i}>
+                                <Card recommendation={recommendation} />
+                            </li>
+                        ))}
                     </ul>
                 </section>
             </main>
         </>
     );
-};
+});
 
 export default Main;

@@ -18,11 +18,11 @@ export interface CurrentUser extends User {
 }
 
 export interface Recommendation {
-    _id: number;
+    _id: string;
     createdAt?: number;
-    owner: string;
+    owner: { name: string; likes: Array<String>; avatar: string };
     name: string;
-    product: string;
+    product: Product;
     productRating: number;
     group: 'movie' | 'book' | 'game';
     tags: Array<Tag>;
@@ -33,6 +33,7 @@ export interface Recommendation {
 }
 
 export interface Tag {
+    _id: string;
     name: string;
     usedIn: Array<string>;
     count?: number;
@@ -47,4 +48,12 @@ export interface TagInTagCloud {
 export interface Comment {
     owner: User;
     body: string;
+}
+
+export interface Product {
+    _id: string;
+    name: string;
+    group: 'movie' | 'book' | 'game';
+    current_rating: number;
+    rating: Array<string>;
 }

@@ -13,10 +13,11 @@ import BadRequestError from './errors/BadRequestError';
 
 export const sendDocumentIfFound = (
     document: unknown | null,
-    res: Response
+    res: Response,
+    documentName: string = 'data'
 ) => {
     handleIfDocumentNotFound(document);
-    res.send({ data: document });
+    res.send({ documentName: document });
 };
 
 export const handleIfDocumentNotFound = (document: unknown | null) => {

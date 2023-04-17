@@ -88,7 +88,7 @@ RecommendSchema.index({
     'owner.name': 'text',
     name: 'text',
     'product.name': 'text',
-    'tag.name': 'text',
+    'tags.name': 'text',
     group: 'text',
     body: 'text',
     'comments.body': 'text',

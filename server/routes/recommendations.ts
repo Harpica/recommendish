@@ -8,6 +8,7 @@ import {
     getRecentRecommendations,
     getRecommendationById,
     likeRecommendation,
+    setFindParams,
     updateRecommendation,
 } from '../controllers/recommendations';
 import { celebrate } from 'celebrate';
@@ -19,12 +20,12 @@ const recommendations = Router();
 recommendations.get('/recent', getRecentRecommendations);
 recommendations.get('/popular', getPopularRecommendations);
 recommendations.get(
-    '/',
-    celebrate(validator.recommendation.pagination),
-    getPaginatedRecommendations
-); // req query params
+    '/search',
+    // celebrate(validator.recommendation.pagination),
+    (req, res, next) => getPaginatedRecommendations(req, res, next)
+);
 recommendations.get('/:id', getRecommendationById);
-// recommendations.use(auth);
+recommendations.use(auth);
 recommendations.post(
     '/',
     celebrate(validator.recommendation.object),

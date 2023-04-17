@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { Recommendation } from '../models/recommendation';
-import { Error, Types } from 'mongoose';
+import { IRecommendation, Recommendation } from '../models/recommendation';
+import { Document, Error, Types } from 'mongoose';
 import { removeRecommendationFromTag, updateOrCreateTag } from './tags';
 import { Tag } from '../models/tag';
 import {
@@ -23,14 +23,14 @@ export const getRecentRecommendations = (
 ) => {
     Recommendation.find({})
         .sort({ createdAt: 1 })
-        .limit(1)
+        .limit(5)
         .populate([
             { path: 'owner', select: 'name likes _id avatar' },
             'product',
             'tags',
         ])
         .then((recommendations) => {
-            res.send({ data: recommendations });
+            res.send({ recommendations: recommendations });
         })
         .catch(next);
 };
@@ -64,6 +64,16 @@ export const getPopularRecommendations = (
             },
         },
         {
+            $lookup: {
+                from: 'products',
+                localField: 'product',
+                foreignField: '_id',
+                as: 'product',
+            },
+        },
+        { $unwind: '$product' },
+        { $unwind: '$owner' },
+        {
             $project: {
                 'owner.theme': 0,
                 'owner.language': 0,
@@ -73,9 +83,9 @@ export const getPopularRecommendations = (
             },
         },
     ])
-        .limit(20)
+        .limit(5)
         .then((recommendations) => {
-            res.send({ data: recommendations });
+            res.send({ recommendations: recommendations });
         })
         .catch(next);
 };
@@ -88,12 +98,18 @@ export const getPaginatedRecommendations = async (
     try {
         const page = parseInt(req.query.page as string);
         const limit = parseInt(req.query.limit as string);
-        const recommendations = await Recommendation.find({})
+        const searchString = req.query.value as string;
+        console.log(page, limit, searchString);
+        const recommendations = await Recommendation.find({
+            $text: { $search: searchString },
+            // score: { $meta: 'textScore' }
+        })
+            // .sort({ score: { $meta: 'textScore' } })
             .sort({ createdAt: -1 })
             .limit(limit)
             .skip((page - 1) * limit)
             .populate([
-                { path: 'owner', select: 'name likes _id avatar' },
+                { path: 'owner', select: 'name likes avatar' },
                 'product',
                 'tags',
             ]);
@@ -101,7 +117,7 @@ export const getPaginatedRecommendations = async (
         const count = await Recommendation.countDocuments();
 
         res.send({
-            data: {
+            paginatedRecommendations: {
                 recommendations: recommendations,
                 totalPages: Math.ceil(count / limit),
                 currentPage: page,
@@ -110,6 +126,13 @@ export const getPaginatedRecommendations = async (
     } catch (err) {
         next(err);
     }
+};
+
+export const setFindParams = (searchString: string) => {
+    return {
+        $text: { $search: searchString },
+        // score: { $meta: 'textScore' }
+    };
 };
 
 export const createRecommendation = async (
@@ -146,7 +169,7 @@ export const createRecommendation = async (
             { path: 'tags', select: 'name' },
         ]);
 
-        res.send({ data: updatedRecommendation });
+        res.send({ recommendation: updatedRecommendation });
     } catch (err: unknown) {
         if (err instanceof Error) {
             incorrectDataHandler(
@@ -202,7 +225,7 @@ export const updateRecommendation = async (
             { path: 'owner', select: 'name avatar likes' },
             { path: 'tags', select: 'name' },
         ]);
-        sendDocumentIfFound(recommendation, res);
+        sendDocumentIfFound(recommendation, res, 'recommendation');
     } catch (err: unknown) {
         if (err instanceof Error) {
             incorrectDataHandler(
@@ -231,7 +254,7 @@ export const deleteRecommendation = (
                 recommendation!.owner,
                 recommendation!._id
             );
-            res.send({ data: recommendation });
+            res.send({ recommendation: recommendation });
         })
         .catch((err) => {
             incorrectDataHandler(
@@ -258,7 +281,7 @@ export const likeRecommendation = (
     )
         .then((recommendation) => {
             setUserLikes(userId, next);
-            sendDocumentIfFound(recommendation, res);
+            sendDocumentIfFound(recommendation, res, 'recommendation');
         })
         .catch((err) => {
             incorrectDataHandler(
@@ -284,7 +307,7 @@ export const dislikeRecommendation = (
     )
         .then((recommendation) => {
             setUserLikes(userId, next);
-            sendDocumentIfFound(recommendation, res);
+            sendDocumentIfFound(recommendation, res, 'recommendation');
         })
         .catch((err) => {
             incorrectDataHandler(
@@ -311,7 +334,9 @@ export const getRecommendationById = (
                 populate: { path: 'owner', select: 'name likes _id avatar' },
             },
         ])
-        .then((recommendation) => sendDocumentIfFound(recommendation, res))
+        .then((recommendation) =>
+            sendDocumentIfFound(recommendation, res, 'recommendation')
+        )
         .catch((err) => {
             incorrectDataHandler(err, next, 'Incorrect _id');
         });
