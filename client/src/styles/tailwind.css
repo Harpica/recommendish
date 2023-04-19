@@ -24,7 +24,7 @@
     background: linear-gradient(
         to bottom right,
         rgb(0 0 0 / 0) 80%,
-        rgb(254 243 199) 80%
+        rgba(217, 119, 6, 0.5) 80%
     );
 }
 
