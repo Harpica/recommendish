@@ -5,8 +5,7 @@ import { Routes, Route } from 'react-router';
 import { useState, useMemo } from 'react';
 import ProtectedRoute from './views/partials/ProtectedRoute';
 import Nav from './views/partials/Nav';
-import SearchResults from './views/pages/SearchResults';
-import Recommendation from './views/pages/Recommendation';
+import RecommendationPage from './views/pages/RecommendationPage';
 import NewRecommendation from './views/pages/NewRecommendation';
 import Profile from './views/pages/Profile';
 import { ThemeProvider } from '@mui/material/styles';
@@ -15,6 +14,7 @@ import Admin from './views/pages/Admin';
 import { AppVM } from './viewModels/App.VM';
 import { observer } from 'mobx-react-lite';
 import { ROUTES } from './utils/constants';
+import SearchResults from './views/pages/SearchResults';
 
 const App: React.FC = observer(() => {
     console.log('app render');
@@ -38,21 +38,37 @@ const App: React.FC = observer(() => {
                                 <Routes>
                                     <Route
                                         path={ROUTES.main}
-                                        element={<Main />}
+                                        element={
+                                            <Main
+                                            // setCurrentRecommendation={
+                                            //     vm.setCurrentRecommendation
+                                            // }
+                                            />
+                                        }
                                     />
                                     <Route
                                         path={ROUTES.search}
-                                        element={<SearchResults />}
+                                        element={
+                                            <SearchResults
+                                            // setCurrentRecommendation={
+                                            //     vm.setCurrentRecommendation
+                                            // }
+                                            />
+                                        }
                                     />
                                     <Route
                                         path={ROUTES.recommendationById}
-                                        element={<Recommendation />}
+                                        element={
+                                            <RecommendationPage
+                                                currentUser={vm.currentUser}
+                                            />
+                                        }
                                     />
                                     <Route
                                         path={ROUTES.admin}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
-                                                <Admin />
+                                                <Admin user={vm.currentUser} />
                                             </ProtectedRoute>
                                         }
                                     />
@@ -68,7 +84,9 @@ const App: React.FC = observer(() => {
                                         path={ROUTES.profile}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
-                                                <Profile isAuth={vm.isAuth} />
+                                                <Profile
+                                                    user={vm.currentUser}
+                                                />
                                             </ProtectedRoute>
                                         }
                                     />

@@ -17,7 +17,9 @@ export const sendDocumentIfFound = (
     documentName: string = 'data'
 ) => {
     handleIfDocumentNotFound(document);
-    res.send({ documentName: document });
+    if (document !== null) {
+        res.send({ [documentName]: document });
+    }
 };
 
 export const handleIfDocumentNotFound = (document: unknown | null) => {
@@ -40,5 +42,15 @@ export const incorrectDataHandler = (
         next(new BadRequestError(message));
         return;
     }
+    console.log(err);
     next(err);
 };
+
+// export function onlyUniqueObjects(
+//     object: unknown,
+//     index: number,
+//     array: Array<unknown>,
+//     value: unknown
+// ) {
+//     return array.indexOf(object.value) === index;
+// }

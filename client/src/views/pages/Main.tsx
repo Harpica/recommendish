@@ -5,8 +5,11 @@ import { MainVM } from '../../viewModels/pages/Main.VM';
 import { useNavigate } from 'react-router';
 import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
+// import { setRecommendationProp } from '../../utils/types';
 
-const Main = observer(() => {
+interface MainProps {}
+
+const Main: React.FC<MainProps> = observer(({}) => {
     const navigate = useNavigate();
     const vm = useMemo(() => new MainVM(navigate, api), []);
     return (
@@ -58,7 +61,12 @@ const Main = observer(() => {
                     <ul className='flex flex-col gap-4'>
                         {vm.popularRecommendations.map((recommendation, i) => (
                             <li key={'popular' + i}>
-                                <Card recommendation={recommendation} />
+                                <Card
+                                    recommendation={recommendation}
+                                    // setCurrentRecommendation={
+                                    //     setCurrentRecommendation
+                                    // }
+                                />
                             </li>
                         ))}
                     </ul>
@@ -70,7 +78,12 @@ const Main = observer(() => {
                     <ul className='flex flex-col gap-4'>
                         {vm.recentRecommendations.map((recommendation, i) => (
                             <li key={'recent' + i}>
-                                <Card recommendation={recommendation} />
+                                <Card
+                                    recommendation={recommendation}
+                                    // setCurrentRecommendation={
+                                    //     setCurrentRecommendation
+                                    // }
+                                />
                             </li>
                         ))}
                     </ul>

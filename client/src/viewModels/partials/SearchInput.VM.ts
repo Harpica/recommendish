@@ -13,7 +13,9 @@ export class SearchInputVM {
                 'search-input'
             ) as HTMLInputElement
         ).value;
-        this.navigate(`/search/${searchValue}`, { replace: true });
+        this.navigate(`/search/${encodeURIComponent(searchValue)}`, {
+            replace: true,
+        });
         (
             e.currentTarget.elements.namedItem(
                 'search-input'

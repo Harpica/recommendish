@@ -1,23 +1,36 @@
 import { Rating } from '@mui/material';
 import { Recommendation } from '../../utils/types';
-import { RECOMMENDATION } from '../../utils/constants';
+import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import IconHeart from '../svgWrappers/IconHeart';
 import IconComments from '../svgWrappers/IconComments';
+import { useMemo } from 'react';
+import { CardVM } from '../../viewModels/partials/Card.VM';
+import { useNavigate } from 'react-router';
 
 interface CardProps {
     isInteractive?: boolean;
-    recommendation?: Recommendation;
+    recommendation: Recommendation;
+    // setCurrentRecommendation: (recommendation: Recommendation) => void;
 }
 
 const Card: React.FC<CardProps> = ({
     isInteractive = true,
-    recommendation = RECOMMENDATION,
+    recommendation = DEFAULT_RECOMMENDATION,
+    // setCurrentRecommendation,
 }) => {
+    const navigate = useNavigate();
+    const vm = useMemo(() => new CardVM(navigate), []);
     return (
         <div
             className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded ${
                 isInteractive ? 'colored-corner-on-hover' : ''
             }`}
+            onClick={() => {
+                vm.navigateToRecommendationPage(
+                    recommendation._id,
+                    recommendation
+                );
+            }}
         >
             <div className='bg-amber-500 w-12 h-12 md:w-48 md:h-48 rounded'>
                 {recommendation.images[0] && (
@@ -31,7 +44,10 @@ const Card: React.FC<CardProps> = ({
             <div className='flex flex-col gap-1'>
                 <div className='flex flex-row justify-between text-sm'>
                     <p>{recommendation.owner.name}</p>
-                    <p>{recommendation.createdAt}</p>
+                    <p>
+                        {recommendation.createdAt &&
+                            new Date(recommendation.createdAt).toLocaleString()}
+                    </p>
                 </div>
                 <h3 className='text-lg font-bold '>{recommendation.name}</h3>
                 <div className='flex flex-row gap-1 flex-wrap'>

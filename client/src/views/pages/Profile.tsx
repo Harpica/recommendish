@@ -5,19 +5,20 @@ import UserInfo from '../partials/UserInfo';
 import { observer } from 'mobx-react-lite';
 import IconNew from '../svgWrappers/IconNew';
 import { NavLink } from 'react-router-dom';
+import { CurrentUser } from '../../utils/types';
 
 interface ProfileProps {
-    isAuth: boolean;
+    user: CurrentUser;
 }
 
-const Profile: React.FC<ProfileProps> = observer(({ isAuth }) => {
+const Profile: React.FC<ProfileProps> = observer(({ user }) => {
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
                 <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
                     Profile
                 </h1>
-                <UserInfo />
+                <UserInfo user={user} />
             </section>
             <section className='flex flex-col gap-3'>
                 <div className='flex flex-row gap-3 items-center mb-5'>
@@ -33,7 +34,7 @@ const Profile: React.FC<ProfileProps> = observer(({ isAuth }) => {
                     </NavLink>
                 </div>
 
-                {isAuth && <RecommendationTable />}
+                {<RecommendationTable />}
 
                 {/* <ul className='min-h-[500px] max-h-[50vh] overflow-auto scrollbar flex flex-col gap-3'>
                     <li

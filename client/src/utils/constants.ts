@@ -27,12 +27,15 @@ export const ROUTES = {
     search: '/search/:param',
 };
 
-// For development
-
-export const RECOMMENDATION: Recommendation = {
+export const DEFAULT_RECOMMENDATION: Recommendation = {
     _id: '0',
     createdAt: Date.now(),
-    owner: { name: 'userID', likes: ['userID', 'userID'], avatar: '' },
+    owner: {
+        _id: 'UserID',
+        name: 'User',
+        likes: ['userID', 'userID'],
+        avatar: '',
+    },
     name: 'User Name',
     product: {
         _id: '12345',

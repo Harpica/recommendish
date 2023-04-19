@@ -6,6 +6,7 @@ export class SearchResultsVM {
     public searchValue: string;
     private api: Api;
     public recommendations: Array<Recommendation> = [];
+    public isLoading: boolean = false;
     constructor(searchValue: string, api: Api) {
         this.searchValue = searchValue;
         this.api = api;
@@ -14,6 +15,7 @@ export class SearchResultsVM {
     }
 
     getSearchResults(page: string) {
+        this.isLoading = true;
         this.api.recommendations
             .getSearchResults([
                 { key: 'value', value: this.searchValue },
@@ -26,6 +28,7 @@ export class SearchResultsVM {
                         response.data.paginatedRecommendations.recommendations;
                 })
             )
-            .catch(action((err) => console.log(err)));
+            .catch(action((err) => console.log(err)))
+            .finally(action(() => (this.isLoading = false)));
     }
 }

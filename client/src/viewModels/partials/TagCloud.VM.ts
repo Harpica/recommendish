@@ -38,7 +38,9 @@ export class TagCloudVM {
     }
 
     public handleTagOnclick(value: string) {
-        this.navigate(`/search/${value}`, { replace: true });
+        this.navigate(`/search/${encodeURIComponent(value)}`, {
+            replace: true,
+        });
     }
 
     private getColor() {

@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Comment, IComment } from '../models/comment';
+import { Comment } from '../models/comment';
 import { addCommentToRecommendation } from './recommendations';
 
 export const createComment = async (commentData: {

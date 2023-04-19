@@ -12,6 +12,13 @@ export interface User {
     avatar?: string;
     login: string;
 }
+
+export interface UserPublic {
+    name: string;
+    likes: Array<String>;
+    _id: string;
+    avatar?: string;
+}
 export interface CurrentUser extends User {
     theme: Theme;
     language: string;
@@ -20,7 +27,8 @@ export interface CurrentUser extends User {
 export interface Recommendation {
     _id: string;
     createdAt?: number;
-    owner: { name: string; likes: Array<String>; avatar: string };
+    updatedAt?: number;
+    owner: { _id: string; name: string; likes: Array<String>; avatar: string };
     name: string;
     product: Product;
     productRating: number;
@@ -29,7 +37,7 @@ export interface Recommendation {
     body: string;
     images: Array<string>;
     likes: Array<string>;
-    comments: Array<Comment>;
+    comments: Array<string> | Array<Comment>;
 }
 
 export interface Tag {
@@ -46,8 +54,12 @@ export interface TagInTagCloud {
 }
 
 export interface Comment {
+    _id: string;
     owner: User;
+    recommendation: string;
     body: string;
+    createdAt?: number;
+    updatedAt?: number;
 }
 
 export interface Product {
@@ -56,4 +68,8 @@ export interface Product {
     group: 'movie' | 'book' | 'game';
     current_rating: number;
     rating: Array<string>;
+}
+
+export interface setRecommendationProp {
+    setCurrentRecommendation: (recommendation: Recommendation) => void;
 }

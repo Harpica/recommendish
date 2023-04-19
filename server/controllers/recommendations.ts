@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { IRecommendation, Recommendation } from '../models/recommendation';
-import { Document, Error, Types } from 'mongoose';
+import { Error, Types } from 'mongoose';
 import { removeRecommendationFromTag, updateOrCreateTag } from './tags';
 import { Tag } from '../models/tag';
 import {
@@ -14,7 +14,8 @@ import {
     setUserLikes,
 } from './users';
 import { updateOrCreateProduct } from './product';
-// import { withResponse } from '../utils/utils';
+import { Comment } from '../models/comment';
+import { IUser } from '../models/user';
 
 export const getRecentRecommendations = (
     _req: Request,
@@ -24,6 +25,7 @@ export const getRecentRecommendations = (
     Recommendation.find({})
         .sort({ createdAt: 1 })
         .limit(5)
+        .select(['-owner_name', '-product_name', '-tags_names'])
         .populate([
             { path: 'owner', select: 'name likes _id avatar' },
             'product',
@@ -90,7 +92,7 @@ export const getPopularRecommendations = (
         .catch(next);
 };
 
-export const getPaginatedRecommendations = async (
+export const findRecommendations = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -100,21 +102,87 @@ export const getPaginatedRecommendations = async (
         const limit = parseInt(req.query.limit as string);
         const searchString = req.query.value as string;
         console.log(page, limit, searchString);
-        const recommendations = await Recommendation.find({
-            $text: { $search: searchString },
-            // score: { $meta: 'textScore' }
-        })
-            // .sort({ score: { $meta: 'textScore' } })
-            .sort({ createdAt: -1 })
-            .limit(limit)
-            .skip((page - 1) * limit)
-            .populate([
-                { path: 'owner', select: 'name likes avatar' },
-                'product',
-                'tags',
-            ]);
 
-        const count = await Recommendation.countDocuments();
+        const comments = await Comment.find({
+            $text: { $search: searchString },
+        });
+
+        const recommendationsIds = comments.map((comment) => {
+            return comment.recommendation;
+        });
+
+        const recommendations = await Recommendation.aggregate([
+            {
+                $match: {
+                    $text: { $search: searchString },
+                },
+            },
+            {
+                $unionWith: {
+                    coll: 'Recommendations',
+                    pipeline: [
+                        {
+                            $match: {
+                                _id: recommendationsIds,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $lookup: {
+                    from: 'comments',
+                    localField: 'comments',
+                    foreignField: '_id',
+                    as: 'comments',
+                },
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'owner',
+                    foreignField: '_id',
+                    as: 'owner',
+                },
+            },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'product',
+                },
+            },
+            {
+                $lookup: {
+                    from: 'tags',
+                    localField: 'tags',
+                    foreignField: '_id',
+                    as: 'tags',
+                },
+            },
+            { $unwind: '$product' },
+            { $unwind: '$owner' },
+            {
+                $project: {
+                    owner_name: 0,
+                    product_name: 0,
+                    tags_names: 0,
+                    'owner.theme': 0,
+                    'owner.language': 0,
+                    'owner.role': 0,
+                    'owner.status': 0,
+                    'owner.recommendations': 0,
+                },
+            },
+        ])
+            .sort({ score: { $meta: 'textScore' } })
+            .limit(limit)
+            .skip((page - 1) * limit);
+
+        console.log(recommendations);
+
+        const count = recommendations.length;
 
         res.send({
             paginatedRecommendations: {
@@ -126,13 +194,6 @@ export const getPaginatedRecommendations = async (
     } catch (err) {
         next(err);
     }
-};
-
-export const setFindParams = (searchString: string) => {
-    return {
-        $text: { $search: searchString },
-        // score: { $meta: 'textScore' }
-    };
 };
 
 export const createRecommendation = async (
@@ -152,6 +213,9 @@ export const createRecommendation = async (
         }
         const recommendation = await Recommendation.create({
             ...recommendData,
+            owner_name: recommendData.owner.name,
+            product_name: recommendData.product.name,
+            tags_names: recommendData.tags.map((tag: typeof Tag) => tag.name),
             product: recommendData.product._id,
             tags: [],
         });
@@ -163,11 +227,12 @@ export const createRecommendation = async (
         const updatedRecommendation = await addTagsToRecommendation(
             recommendation._id,
             tagIds
-        ).populate([
-            'product',
-            { path: 'owner', select: 'name avatar likes' },
-            { path: 'tags', select: 'name' },
-        ]);
+        )
+            .populate([
+                'product',
+                { path: 'owner', select: 'name _id avatar likes' },
+            ])
+            .select(['-owner_name', '-product_name', '-tags_names']);
 
         res.send({ recommendation: updatedRecommendation });
     } catch (err: unknown) {
@@ -216,15 +281,22 @@ export const updateRecommendation = async (
             id,
             {
                 ...recommendData,
+                owner_name: recommendData.owner.name,
+                product_name: recommendData.product.name,
+                tags_names: recommendData.tags.map(
+                    (tag: typeof Tag) => tag.name
+                ),
                 product: recommendData.product._id,
                 tags: tagsId,
             },
             { new: true }
-        ).populate([
-            'product',
-            { path: 'owner', select: 'name avatar likes' },
-            { path: 'tags', select: 'name' },
-        ]);
+        )
+            .select(['-owner_name', '-product_name', '-tags_names'])
+            .populate([
+                'product',
+                { path: 'owner', select: 'name avatar likes' },
+                { path: 'tags', select: 'name' },
+            ]);
         sendDocumentIfFound(recommendation, res, 'recommendation');
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -271,7 +343,7 @@ export const likeRecommendation = (
     next: NextFunction
 ) => {
     const id = req.params.id;
-    const userId = req.body.data.userId;
+    const userId = req.body.data.user;
     Recommendation.findByIdAndUpdate(
         id,
         {
@@ -279,9 +351,19 @@ export const likeRecommendation = (
         },
         { new: true, useFindAndModify: false }
     )
-        .then((recommendation) => {
-            setUserLikes(userId, next);
-            sendDocumentIfFound(recommendation, res, 'recommendation');
+        .select(['-owner_name', '-product_name', '-tags_names'])
+        .populate<{ owner: IUser }>([
+            'product',
+            { path: 'owner', select: 'name avatar likes' },
+            { path: 'tags', select: 'name' },
+        ])
+        .then(async (recommendation) => {
+            handleIfDocumentNotFound(recommendation);
+            if (recommendation) {
+                recommendation.owner.likes += 1;
+                setUserLikes(recommendation.owner._id, next);
+                res.send({ recommendation: recommendation });
+            }
         })
         .catch((err) => {
             incorrectDataHandler(
@@ -297,7 +379,7 @@ export const dislikeRecommendation = (
     next: NextFunction
 ) => {
     const id = req.params.id;
-    const userId = req.body.data.userId;
+    const userId = req.body.data.user;
     Recommendation.findByIdAndUpdate(
         id,
         {
@@ -305,9 +387,19 @@ export const dislikeRecommendation = (
         },
         { new: true, useFindAndModify: false }
     )
-        .then((recommendation) => {
-            setUserLikes(userId, next);
-            sendDocumentIfFound(recommendation, res, 'recommendation');
+        .select(['-owner_name', '-product_name', '-tags_names'])
+        .populate<{ owner: IUser }>([
+            'product',
+            { path: 'owner', select: 'name avatar _id likes' },
+            { path: 'tags', select: 'name' },
+        ])
+        .then(async (recommendation) => {
+            handleIfDocumentNotFound(recommendation);
+            if (recommendation) {
+                recommendation.owner.likes = recommendation.owner.likes - 1;
+                setUserLikes(recommendation.owner._id, next);
+                res.send({ recommendation: recommendation });
+            }
         })
         .catch((err) => {
             incorrectDataHandler(
@@ -325,6 +417,7 @@ export const getRecommendationById = (
 ) => {
     const id = req.params.id;
     Recommendation.findById(id)
+        .select(['-owner_name', '-product_name', '-tags_names'])
         .populate([
             { path: 'owner', select: 'name likes _id avatar' },
             'product',

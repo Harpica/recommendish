@@ -57,8 +57,8 @@ const createUser = async (
         });
 };
 
-export const setUserLikes = async (id: string, next: NextFunction) => {
-    getPopulatedRecommendations(
+export const setUserLikes = async (id: Types.ObjectId, next: NextFunction) => {
+    await getPopulatedRecommendations(
         id,
         async (user: IUser) => {
             const recommendations =
@@ -92,7 +92,7 @@ export const removeRecommendationFromUser = async (
 };
 
 const getPopulatedRecommendations = async (
-    id: string,
+    id: Types.ObjectId,
     resultHandler: Function,
     next: NextFunction
 ) => {

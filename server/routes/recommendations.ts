@@ -3,12 +3,11 @@ import {
     createRecommendation,
     deleteRecommendation,
     dislikeRecommendation,
-    getPaginatedRecommendations,
+    findRecommendations,
     getPopularRecommendations,
     getRecentRecommendations,
     getRecommendationById,
     likeRecommendation,
-    setFindParams,
     updateRecommendation,
 } from '../controllers/recommendations';
 import { celebrate } from 'celebrate';
@@ -22,7 +21,7 @@ recommendations.get('/popular', getPopularRecommendations);
 recommendations.get(
     '/search',
     // celebrate(validator.recommendation.pagination),
-    (req, res, next) => getPaginatedRecommendations(req, res, next)
+    (req, res, next) => findRecommendations(req, res, next)
 );
 recommendations.get('/:id', getRecommendationById);
 recommendations.use(auth);

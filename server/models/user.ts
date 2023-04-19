@@ -5,11 +5,11 @@ export interface IUser {
     name: string;
     role: 'admin' | 'user';
     status: 'active' | 'blocked';
-    likes: Types.ObjectId[];
+    likes: number;
     recommendations: Types.ObjectId[] | Array<IRecommendation>;
     theme: string;
     language: string;
-    _id: number | undefined;
+    _id: Types.ObjectId;
     avatar?: string | undefined;
     login?: string | undefined;
 }
