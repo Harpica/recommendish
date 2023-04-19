@@ -56,4 +56,19 @@ export class RecommendationVM {
             .then(action(this.setRecommendation))
             .catch(action((err) => console.log(err)));
     }
+
+    public rateProduct(value: number) {
+        this.api.products
+            .updateRating(
+                this.recommendation.product._id,
+                this.currentUser._id,
+                value
+            )
+            .then(
+                action((response) => {
+                    this.recommendation.product = response.data.product;
+                })
+            )
+            .catch(action((err) => console.log(err)));
+    }
 }

@@ -53,6 +53,11 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     value={
                                         vm.recommendation.product.current_rating
                                     }
+                                    onChange={(_e, value) => {
+                                        if (value !== null) {
+                                            vm.rateProduct(value);
+                                        }
+                                    }}
                                 />
                             </div>
                             <dl className='flex flex-row gap-2 items-center'>

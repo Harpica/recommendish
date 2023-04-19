@@ -19,9 +19,9 @@ const ProductSchema = new Schema({
     rating: {
         type: [
             {
-                recommendation: {
+                user: {
                     type: Schema.Types.ObjectId,
-                    ref: 'Recommendation',
+                    ref: 'User',
                 },
                 rating: {
                     type: Number,
