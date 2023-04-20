@@ -6,6 +6,7 @@ import IconHeart from '../svgWrappers/IconHeart';
 import { useParams } from 'react-router';
 import { RecommendationVM } from '../../viewModels/pages/Recommendation.VM';
 import { useMemo } from 'react';
+import Notification from '../partials/Notification';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -36,7 +37,12 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                                 vm.handleToggleLike()
                                             }
                                         >
-                                            <IconHeart classes='hover:fill-amber-500 hover:cursor-pointer' />
+                                            <IconHeart
+                                                classes={`hover:fill-amber-500 hover:cursor-pointer ${
+                                                    vm.checkIfLiked() &&
+                                                    'fill-amber-500 hover:opacity-50'
+                                                }`}
+                                            />
                                         </div>
                                         <p>{vm.recommendation.likes.length}</p>
                                     </div>
@@ -117,24 +123,31 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     )
                                 )}
                             </ul>
-                            <form className='flex flex-row gap-3 justify-center items-start'>
-                                <div className='w-full max-w-3xl'>
-                                    <textarea
-                                        className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80 scrollbar'
-                                        placeholder='Enter new comment...'
-                                    />
-                                </div>
-                                <button
-                                    type='submit'
-                                    className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500'
-                                    aria-label='send comment'
-                                >
-                                    Send
-                                </button>
-                            </form>
+                            {vm.checkIsAuth() && (
+                                <form className='flex flex-row gap-3 justify-center items-start'>
+                                    <div className='w-full max-w-3xl'>
+                                        <textarea
+                                            className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80 scrollbar'
+                                            placeholder='Enter new comment...'
+                                        />
+                                    </div>
+                                    <button
+                                        type='submit'
+                                        className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500'
+                                        aria-label='send comment'
+                                    >
+                                        Send
+                                    </button>
+                                </form>
+                            )}
                         </section>
                     </>
                 )}
+                <Notification
+                    isOpen={vm.notificationIsOpen}
+                    close={vm.closeNotification}
+                    message={vm.notificationMessage}
+                />
             </main>
         );
     }

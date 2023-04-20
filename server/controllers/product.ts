@@ -30,7 +30,6 @@ export const updateRating = async (
 ) => {
     try {
         const id = req.params.id;
-        console.log(id);
         const { user } = req.body.data;
         const product = await Product.findById(id);
         handleIfDocumentNotFound(product);
@@ -38,7 +37,6 @@ export const updateRating = async (
             ...product!.rating.filter((rate) => rate.user === user),
             req.body.data,
         ];
-        console.log(updatedRatings);
         const currentRating =
             updatedRatings.reduce((prev, curr) => {
                 return prev + curr.rating;
