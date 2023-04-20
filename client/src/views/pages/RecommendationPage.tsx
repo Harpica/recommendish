@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import IconHeart from '../svgWrappers/IconHeart';
 import { useParams } from 'react-router';
 import { RecommendationVM } from '../../viewModels/pages/Recommendation.VM';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import Notification from '../partials/Notification';
 
 interface RecommendationProps {
@@ -19,6 +19,15 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
             () => new RecommendationVM(params.id!, currentUser),
             [params, currentUser]
         );
+
+        useEffect(() => {
+            const interval = vm.setCommentUpdateInterval();
+            return () => {
+                console.log(interval);
+                clearInterval(interval);
+            };
+        }, []);
+
         return (
             <main className='flex flex-col gap-8'>
                 {vm.isLoading ? (
@@ -104,29 +113,31 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 Comments
                             </h2>
                             <ul className='flex flex-col gap-5 mb-10'>
-                                {(vm.recommendation.comments as Comment[]).map(
-                                    (comment, i) => (
-                                        <li
-                                            key={'comment' + i}
-                                            className='flex flex-col gap-3'
-                                        >
-                                            <div className='flex flex-row gap-3 items-center'>
-                                                <UserInfo
-                                                    user={comment.owner}
-                                                />
-                                                <p>{comment.createdAt}</p>
-                                            </div>
-                                            <p className='pl-11 pr-11'>
-                                                {comment.body}
-                                            </p>
-                                        </li>
-                                    )
-                                )}
+                                {vm.comments.map((comment, i) => (
+                                    <li
+                                        key={'comment' + i}
+                                        className='flex flex-col gap-3'
+                                    >
+                                        <div className='flex flex-row gap-3 items-center'>
+                                            <UserInfo user={comment.owner} />
+                                            <p>{comment.createdAt}</p>
+                                        </div>
+                                        <p className='pl-11 pr-11'>
+                                            {comment.body}
+                                        </p>
+                                    </li>
+                                ))}
                             </ul>
                             {vm.checkIsAuth() && (
-                                <form className='flex flex-row gap-3 justify-center items-start'>
+                                <form
+                                    className='flex flex-row gap-3 justify-center items-start'
+                                    onSubmit={(e) => {
+                                        vm.createCommentFormHandler(e);
+                                    }}
+                                >
                                     <div className='w-full max-w-3xl'>
                                         <textarea
+                                            name='comment-body'
                                             className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80 scrollbar'
                                             placeholder='Enter new comment...'
                                         />

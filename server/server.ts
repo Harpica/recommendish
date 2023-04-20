@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import routes from './routes';
-import { WsServer } from './services/ws';
 
 dotenv.config();
 
@@ -43,7 +42,5 @@ mongoose
         const server = app.listen(PORT, () => {
             console.log('Listening to', PORT);
         });
-        const wsServer = new WsServer(server);
-        wsServer.start();
     })
     .catch((err) => console.log(err));

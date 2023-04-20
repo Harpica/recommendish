@@ -1,6 +1,11 @@
 import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
-import { CurrentUser, Recommendation } from '../../utils/types';
+import {
+    Comment,
+    CreateCommentData,
+    CurrentUser,
+    Recommendation,
+} from '../../utils/types';
 import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { AxiosResponse } from 'axios';
 
@@ -8,6 +13,8 @@ export class RecommendationVM {
     private api: Api = api;
     private recommendationId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
+    public comments: Array<Comment> = [];
+    private latestUpdate: string = Date.now().toString();
     public isLoading: boolean = false;
     private currentUser: CurrentUser;
     public notificationIsOpen: boolean = false;
@@ -17,17 +24,54 @@ export class RecommendationVM {
         this.currentUser = currentUser;
         this.setRecommendation = this.setRecommendation.bind(this);
         this.closeNotification = this.closeNotification.bind(this);
-        this.getRecommendation();
+        this.getinitialData();
         makeAutoObservable(this);
     }
-
-    private getRecommendation() {
+    private getinitialData() {
         this.isLoading = true;
-        this.api.recommendations
-            .getRecommendationById(this.recommendationId)
-            .then(action(this.setRecommendation))
+        Promise.all([this.getRecommendation(), this.getComments()])
             .catch(action((err) => console.log(err)))
-            .finally(action(() => (this.isLoading = false)));
+            .finally(
+                action(() => {
+                    this.isLoading = false;
+                })
+            );
+    }
+    private getRecommendation() {
+        return this.api.recommendations
+            .getRecommendationById(this.recommendationId)
+            .then(action(this.setRecommendation));
+    }
+
+    private getComments() {
+        return this.api.comments.getAll(this.recommendationId).then(
+            action((response) => {
+                this.comments = response.data.comments;
+            })
+        );
+    }
+
+    private getLatestComments() {
+        this.api.comments
+            .getLatest(this.recommendationId, this.latestUpdate)
+            .then(
+                action((response) => {
+                    this.comments.concat(response.data.comments);
+                    this.latestUpdate = Date.now().toString();
+                })
+            )
+            .catch(
+                action((err) => {
+                    console.log(err);
+                    this.openNotification('Something went wrong with network');
+                })
+            );
+    }
+
+    public setCommentUpdateInterval() {
+        return setInterval(() => {
+            this.getLatestComments();
+        }, 5000);
     }
 
     private setRecommendation(response: AxiosResponse) {
@@ -106,5 +150,33 @@ export class RecommendationVM {
 
     public closeNotification() {
         this.notificationIsOpen = false;
+    }
+
+    public createCommentFormHandler(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const commentData: CreateCommentData = {
+            owner: this.currentUser._id,
+            recommendation: this.recommendationId,
+            body: (
+                e.currentTarget.elements.namedItem(
+                    'comment-body'
+                ) as HTMLInputElement
+            ).value,
+        };
+        this.api.comments
+            .createComment(commentData)
+            .then(
+                action((response) => {
+                    this.comments.push(response.data.comment);
+                })
+            )
+            .catch(
+                action((err) => {
+                    console.log(err);
+                    this.openNotification(
+                        'Something went wrong. Please try again.'
+                    );
+                })
+            );
     }
 }

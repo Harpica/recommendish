@@ -14,10 +14,12 @@ const CommentSchema = new Schema(
         owner: {
             type: Schema.Types.ObjectId,
             ref: 'User',
+            required: true,
         },
         recommendation: {
             type: Schema.Types.ObjectId,
             ref: 'Recommendation',
+            required: true,
         },
         body: {
             type: String,

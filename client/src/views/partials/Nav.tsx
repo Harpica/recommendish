@@ -25,7 +25,6 @@ interface NavProps {
 const Nav: React.FC<NavProps> = observer(
     ({ isAuth, setIsAuth, currentUser, setCurrentUser }) => {
         const vm = useMemo(() => {
-            console.log('new nav memo, current user theme', currentUser.theme);
             return new NavVM(
                 api,
                 isAuth,
