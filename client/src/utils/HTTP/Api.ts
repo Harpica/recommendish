@@ -3,7 +3,7 @@ import { Users } from './Users';
 import { BASE_URL, SERVER_PORT } from '../constants';
 import { Tags } from './Tags';
 import { Recommendations } from './Recommendations';
-import { Products } from './Product';
+import { Products } from './Products';
 import { Comments } from './Comments';
 
 axios.defaults.withCredentials = true;

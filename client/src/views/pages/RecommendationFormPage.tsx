@@ -19,7 +19,8 @@ const RecommendationFormPage = () => {
     const params = useParams();
     const recommendation = DEFAULT_RECOMMENDATION;
     const {
-        reset,
+        watch,
+        getValues,
         control,
         handleSubmit,
         formState: { errors },
@@ -34,6 +35,9 @@ const RecommendationFormPage = () => {
         } as { [x: string]: any },
         resolver: joiResolver(recommendationSchema),
     });
+
+    const watchGroup = watch('group', '');
+
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
@@ -65,6 +69,8 @@ const RecommendationFormPage = () => {
                         recommendation={recommendation}
                         control={control}
                         errors={errors}
+                        getValues={getValues}
+                        groupInputValue={watchGroup}
                     />
                 </form>
             </section>

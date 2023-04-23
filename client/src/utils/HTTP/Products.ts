@@ -6,12 +6,16 @@ export class Products {
         this.url = `${url}/products`;
     }
 
-    updateRating(id: string, userId: string, rating: number) {
+    public updateRating(id: string, userId: string, rating: number) {
         return axios.patch(this.url + `/${id}/rating`, {
             data: {
                 user: userId,
                 rating: rating,
             },
         });
+    }
+
+    public getAllProducts() {
+        return axios.get(this.url + '/');
     }
 }

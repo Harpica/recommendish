@@ -10,7 +10,7 @@ import { memo, useMemo, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import { observer } from 'mobx-react-lite';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
-import { Control, UseFormRegister } from 'react-hook-form';
+import { Control, UseFormGetValues, UseFormWatch } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
 import { Recommendation } from '../../utils/types';
@@ -22,10 +22,14 @@ interface RecommendationFieldsetProps {
     control: Control<FieldValues, any>;
     errors: FieldErrors<FieldValues>;
     recommendation?: Recommendation;
+    getValues: UseFormGetValues<{
+        [x: string]: any;
+    }>;
+    groupInputValue: string;
 }
 
 const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
-    observer(({ control, errors, recommendation }) => {
+    observer(({ control, getValues, groupInputValue }) => {
         console.log('child rerender');
         const [value, setValue] = useState('**Hello world!!!**');
         const [file, setFile] = useState<unknown | null>(null);
@@ -34,7 +38,10 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
             setFile(file);
         };
 
-        const vm = useMemo(() => new RecommendationFieldsetVM(), []);
+        const vm = useMemo(
+            () => new RecommendationFieldsetVM(groupInputValue),
+            []
+        );
 
         return vm.isLoading ? (
             <p>Loading...</p>
@@ -97,12 +104,13 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 {...field.field}
                                 freeSolo
                                 id='product-name'
-                                options={['Title', 'Title-1', 'Title-2']}
+                                options={vm.getProductOptions(groupInputValue)}
                                 value={field.field.value}
                                 onChange={(event, item) => {
                                     field.field.onChange(item);
                                 }}
-                                getOptionLabel={(option) => option}
+                                getOptionLabel={vm.getOptionLabel}
+                                isOptionEqualToValue={vm.isOptionEqualToValue}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
@@ -133,36 +141,10 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 disableCloseOnSelect={true}
                                 id='tags'
                                 options={vm.tags}
-                                // options={[
-                                //     { _id: '123', name: 'cats', usedIn: ['0'] },
-                                //     {
-                                //         _id: '124',
-                                //         name: 'drama',
-                                //         usedIn: ['0'],
-                                //     },
-                                //     {
-                                //         _id: '125',
-                                //         name: 'comedy',
-                                //         usedIn: ['0'],
-                                //     },
-                                // ]}
-                                getOptionLabel={vm.getTagOptionLabel}
-                                isOptionEqualToValue={(option, value) => {
-                                    console.log(option, value);
-                                    return (
-                                        option.name === value.name ||
-                                        option === value.name
-                                    );
-                                }}
+                                getOptionLabel={vm.getOptionLabel}
+                                isOptionEqualToValue={vm.isOptionEqualToValue}
                                 renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label='Tags'
-                                        // InputProps={{
-                                        //     ...params.InputProps,
-                                        //     type: 'search',
-                                        // }}
-                                    />
+                                    <TextField {...params} label='Tags' />
                                 )}
                                 sx={{ width: '500px' }}
                             />

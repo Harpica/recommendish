@@ -54,3 +54,16 @@ export const updateRating = async (
         next(err);
     }
 };
+
+export const getAllProducts = async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const products = await Product.find();
+        res.send({ products: products });
+    } catch (err) {
+        next(err);
+    }
+};
