@@ -23,7 +23,6 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
         useEffect(() => {
             const interval = vm.setCommentUpdateInterval();
             return () => {
-                console.log(interval);
                 clearInterval(interval);
             };
         }, []);

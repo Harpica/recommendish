@@ -5,15 +5,11 @@ import { DEFAULT_USER, DEFAULT_RECOMMENDATION } from '../utils/constants';
 export class AppVM {
     public isAuth: boolean;
     public currentUser: CurrentUser;
-    // public currentRecommendation: Recommendation = DEFAULT_RECOMMENDATION;
     constructor() {
-        console.log('init');
         this.currentUser = DEFAULT_USER;
-        this.isAuth = false;
+        this.isAuth = true;
         this.setIsAuth = this.setIsAuth.bind(this);
         this.setCurrentUser = this.setCurrentUser.bind(this);
-        // this.setCurrentRecommendation =
-        //     this.setCurrentRecommendation.bind(this);
         makeAutoObservable(this);
     }
 
@@ -24,8 +20,4 @@ export class AppVM {
     public setIsAuth(value: boolean) {
         this.isAuth = value;
     }
-
-    // public setCurrentRecommendation(recommendation: Recommendation) {
-    //     this.currentRecommendation = { ...recommendation };
-    // }
 }

@@ -31,7 +31,7 @@ export const getAllTags = (
     next: NextFunction
 ) => {
     Tag.find()
-        .then((tags) => res.send({ data: tags }))
+        .then((tags) => res.send({ tags: tags }))
         .catch(next);
 };
 

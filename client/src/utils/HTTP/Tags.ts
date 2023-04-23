@@ -9,4 +9,8 @@ export class Tags {
     getPopularTags() {
         return axios.get(this.url + '/popular');
     }
+
+    getAllTags() {
+        return axios.get(this.url + '/');
+    }
 }

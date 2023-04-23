@@ -6,7 +6,7 @@ import { useState, useMemo } from 'react';
 import ProtectedRoute from './views/partials/ProtectedRoute';
 import Nav from './views/partials/Nav';
 import RecommendationPage from './views/pages/RecommendationPage';
-import NewRecommendation from './views/pages/NewRecommendation';
+import RecommendationFormPage from './views/pages/RecommendationFormPage';
 import Profile from './views/pages/Profile';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles/mui';
@@ -76,7 +76,7 @@ const App: React.FC = observer(() => {
                                         path={ROUTES.new}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
-                                                <NewRecommendation />
+                                                <RecommendationFormPage />
                                             </ProtectedRoute>
                                         }
                                     />

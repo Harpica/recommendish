@@ -76,6 +76,22 @@ export const theme = createTheme({
                         border: 'none',
                     },
                 },
+                listbox: {
+                    backgroundColor: 'white',
+                    '&.MuiAutocomplete-listbox': {
+                        '& li': {
+                            '&:hover': {
+                                backgroundColor: 'rgb(245 158 11)',
+                            },
+                        },
+                        "& .MuiAutocomplete-option[aria-selected='true']": {
+                            backgroundColor: 'rgb(217 119 6)',
+                            '&.Mui-focused': {
+                                backgroundColor: 'rgb(245 158 11)',
+                            },
+                        },
+                    },
+                },
             },
         },
         MuiPopper: {
