@@ -201,7 +201,7 @@ export const createRecommendation = async (
     res: Response,
     next: NextFunction
 ) => {
-    const recommendData = req.body.data;
+    const recommendData = req.body.data.recommendation;
     try {
         if (!recommendData.product._id) {
             const productId = await updateOrCreateProduct(
@@ -274,7 +274,7 @@ export const updateRecommendation = async (
     next: NextFunction
 ) => {
     try {
-        let recommendData = req.body.data;
+        let recommendData = req.body.data.recommendation;
         const id = req.params.id;
         const tagsId = await addRecommendationToTags(recommendData.tags, id);
         const recommendation = await Recommendation.findByIdAndUpdate(

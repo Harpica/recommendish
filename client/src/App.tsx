@@ -38,23 +38,11 @@ const App: React.FC = observer(() => {
                                 <Routes>
                                     <Route
                                         path={ROUTES.main}
-                                        element={
-                                            <Main
-                                            // setCurrentRecommendation={
-                                            //     vm.setCurrentRecommendation
-                                            // }
-                                            />
-                                        }
+                                        element={<Main />}
                                     />
                                     <Route
                                         path={ROUTES.search}
-                                        element={
-                                            <SearchResults
-                                            // setCurrentRecommendation={
-                                            //     vm.setCurrentRecommendation
-                                            // }
-                                            />
-                                        }
+                                        element={<SearchResults />}
                                     />
                                     <Route
                                         path={ROUTES.recommendationById}
@@ -76,7 +64,21 @@ const App: React.FC = observer(() => {
                                         path={ROUTES.new}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
-                                                <RecommendationFormPage />
+                                                <RecommendationFormPage
+                                                    user={vm.currentUser}
+                                                    type='new'
+                                                />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+                                    <Route
+                                        path={ROUTES.edit}
+                                        element={
+                                            <ProtectedRoute authKey={vm.isAuth}>
+                                                <RecommendationFormPage
+                                                    user={vm.currentUser}
+                                                    type='edit'
+                                                />
                                             </ProtectedRoute>
                                         }
                                     />

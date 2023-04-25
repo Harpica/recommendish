@@ -1,6 +1,7 @@
 export type UserStatus = 'active' | 'blocked';
 export type UserRole = 'admin' | 'user' | 'unauthorized';
 export type Theme = 'light' | 'dark';
+export type ProductGroup = 'movie' | 'book' | 'game';
 
 export interface User {
     name: string;
@@ -28,16 +29,31 @@ export interface Recommendation {
     _id: string;
     createdAt?: number;
     updatedAt?: number;
-    owner: { _id: string; name: string; likes: Array<String>; avatar: string };
+    owner: UserPublic;
     name: string;
     product: Product;
-    productRating: number;
-    group: 'movie' | 'book' | 'game';
+    productRating: number | '';
+    group: ProductGroup | '';
     tags: Array<Tag>;
     body: string;
     images: Array<string>;
     likes: Array<string>;
     comments: Array<string> | Array<Comment>;
+}
+
+export interface RecommendationCreateOrEditData {
+    owner: string;
+    name: string;
+    product: {
+        _id: string;
+        name: string;
+        group: ProductGroup;
+    };
+    productRating: number | '';
+    group: ProductGroup | '';
+    tags: Array<Tag>;
+    body: string;
+    images: Array<string>;
 }
 
 export interface Tag {
@@ -65,7 +81,7 @@ export interface Comment {
 export interface Product {
     _id: string;
     name: string;
-    group: 'movie' | 'book' | 'game';
+    group: ProductGroup | '';
     current_rating: number;
     rating: Array<string>;
 }

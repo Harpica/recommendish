@@ -7,19 +7,22 @@ export const validator = {
                 data: Joi.object()
                     .required()
                     .keys({
-                        owner: Joi.string().required().max(30),
-                        name: Joi.string().required().min(2).max(40),
-                        product: Joi.object().keys({
-                            _id: Joi.string().max(30),
-                            name: Joi.string(),
-                        }),
-                        productRating: Joi.number().required(),
-                        group: Joi.string().required(),
-                        tags: Joi.array().required(),
-                        boby: Joi.string().required().min(10),
-                        images: Joi.array(),
-                        likes: Joi.array(),
-                        comments: Joi.array(),
+                        recommendation: Joi.object()
+                            .required()
+                            .keys({
+                                owner: Joi.string().required().max(30),
+                                name: Joi.string().required().min(2).max(40),
+                                product: Joi.object().keys({
+                                    _id: Joi.string().allow('').max(30),
+                                    name: Joi.string(),
+                                    group: Joi.string(),
+                                }),
+                                productRating: Joi.number().required(),
+                                group: Joi.string().required(),
+                                tags: Joi.array().required(),
+                                body: Joi.string().required().min(10),
+                                images: Joi.array(),
+                            }),
                     }),
             },
         },

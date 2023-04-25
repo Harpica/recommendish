@@ -20,16 +20,12 @@ const fileTypes = ['JPG', 'PNG', 'GIF'];
 
 interface RecommendationFieldsetProps {
     control: Control<FieldValues, any>;
-    errors: FieldErrors<FieldValues>;
-    recommendation?: Recommendation;
-    getValues: UseFormGetValues<{
-        [x: string]: any;
-    }>;
+    // errors: FieldErrors<FieldValues>;
     groupInputValue: string;
 }
 
 const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
-    observer(({ control, getValues, groupInputValue }) => {
+    observer(({ control, groupInputValue }) => {
         console.log('child rerender');
         const [value, setValue] = useState('**Hello world!!!**');
         const [file, setFile] = useState<unknown | null>(null);
@@ -51,7 +47,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     control={control}
                     name='title'
                     render={(field) => (
-                        <>
+                        <div>
                             <TextField
                                 {...field.field}
                                 value={field.field.value}
@@ -63,7 +59,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             <p className='text-amber-600'>
                                 {field.fieldState.error?.message}
                             </p>
-                        </>
+                        </div>
                     )}
                 />
                 <FormControl>
@@ -97,9 +93,9 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                 </FormControl>
                 <Controller
                     control={control}
-                    name='productTitle'
+                    name='product'
                     render={(field) => (
-                        <>
+                        <div>
                             <Autocomplete
                                 {...field.field}
                                 freeSolo
@@ -122,14 +118,14 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             <p className='text-amber-600'>
                                 {field.fieldState.error?.message}
                             </p>
-                        </>
+                        </div>
                     )}
                 />
                 <Controller
                     control={control}
                     name='tags'
                     render={(field) => (
-                        <>
+                        <div>
                             <Autocomplete
                                 {...field.field}
                                 value={field.field.value}
@@ -151,7 +147,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             <p className='text-amber-600'>
                                 {field.fieldState.error?.message}
                             </p>
-                        </>
+                        </div>
                     )}
                 />
                 <FormControl>
@@ -161,24 +157,35 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     <Controller
                         control={control}
                         name='rating'
-                        render={(field) => (
-                            <Select
-                                {...field.field}
-                                labelId='product-select-label'
-                                id='product-rating'
-                                value={field.field.value}
-                                label='Product rating'
-                            >
-                                {Array.from(
-                                    { length: 10 },
-                                    (_, i) => i + 1
-                                ).map((element, i) => (
-                                    <MenuItem key={`rating-${i}`} value={i + 1}>
-                                        {element}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        )}
+                        render={(field) => {
+                            console.log(field.field.value);
+                            return (
+                                <div>
+                                    <Select
+                                        {...field.field}
+                                        labelId='product-select-label'
+                                        id='product-rating'
+                                        value={field.field.value}
+                                        label='Product rating'
+                                    >
+                                        {Array.from(
+                                            { length: 10 },
+                                            (_, i) => i + 1
+                                        ).map((element, i) => (
+                                            <MenuItem
+                                                key={`rating-${i}`}
+                                                value={i + 1}
+                                            >
+                                                {element}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <p className='text-amber-600'>
+                                        {field.fieldState.error?.message}
+                                    </p>
+                                </div>
+                            );
+                        }}
                     />
                 </FormControl>
                 <div className='container text-inherit '>
@@ -194,22 +201,30 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     />
                 </div>
                 <div className='container rounded p-2 border-amber-600 border-[1px]'>
-                    <MDEditor
-                        value={value}
-                        onChange={(value, e) => {
-                            if (value) {
-                                setValue(value);
-                            }
-                        }}
-                        preview='edit'
-                        previewOptions={{
-                            rehypePlugins: [[rehypeSanitize]],
-                        }}
-                        className=''
-                    />
-                    <MDEditor.Markdown
-                        source={value}
-                        style={{ whiteSpace: 'pre-wrap' }}
+                    <Controller
+                        control={control}
+                        name='body'
+                        render={(field) => (
+                            <>
+                                <MDEditor
+                                    value={field.field.value}
+                                    onChange={(value, e) => {
+                                        if (value) {
+                                            field.field.onChange(value);
+                                        }
+                                    }}
+                                    preview='edit'
+                                    previewOptions={{
+                                        rehypePlugins: [[rehypeSanitize]],
+                                    }}
+                                    className=''
+                                />
+                                <MDEditor.Markdown
+                                    source={field.field.value}
+                                    style={{ whiteSpace: 'pre-wrap' }}
+                                />
+                            </>
+                        )}
                     />
                 </div>
             </fieldset>

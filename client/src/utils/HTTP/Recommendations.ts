@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Recommendation, RecommendationCreateOrEditData } from '../types';
 
 export class Recommendations {
     url: string;
@@ -42,6 +43,24 @@ export class Recommendations {
         return axios.patch(this.url + `/${id}/dislike`, {
             data: {
                 user: userId,
+            },
+        });
+    }
+
+    createRecommendation(recommendationData: RecommendationCreateOrEditData) {
+        return axios.post(this.url, {
+            data: {
+                recommendation: recommendationData,
+            },
+        });
+    }
+    updateRecommendation(
+        id: string,
+        recommendationData: RecommendationCreateOrEditData
+    ) {
+        return axios.put(this.url + id, {
+            data: {
+                recommendation: recommendationData,
             },
         });
     }
