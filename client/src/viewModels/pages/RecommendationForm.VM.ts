@@ -26,6 +26,7 @@ export class RecommendationFormVM {
         body: Joi.string().required().min(10),
     });
     public hookFormDefaultValues;
+    public imageUrls: Array<string> = [];
     constructor(
         currentUser: CurrentUser,
         type: 'new' | 'edit',
@@ -43,11 +44,9 @@ export class RecommendationFormVM {
         if (type === 'edit' && recommendationId) {
             this.getRecommendation(recommendationId);
         }
-
+        this.handleFileUpload = this.handleFileUpload.bind(this);
         makeAutoObservable(this);
     }
-
-    public setRecommendationBody(value: string | undefined) {}
 
     private getRecommendation(recommendationId: string) {
         this.api.recommendations
@@ -66,6 +65,24 @@ export class RecommendationFormVM {
                 })
             )
             .catch((err) => console.log(err));
+    }
+
+    public handleFileUpload(files: FileList) {
+        Array.from(files).forEach((file: Blob) => {
+            const reader = new FileReader();
+            console.log('file');
+            reader.onload = (e) => {
+                this.api.images
+                    .uploadImage(e.target?.result)
+                    .then(
+                        action((response) => {
+                            this.imageUrls.push(response.data.imageUrl);
+                        })
+                    )
+                    .catch((err) => console.log(err));
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
     public onValidationSuccess(
@@ -108,8 +125,7 @@ export class RecommendationFormVM {
             }),
             productRating: data.rating,
             body: data.body,
-            // add image handler!!!
-            images: this.recommendation.images,
+            images: [...this.recommendation.images, ...this.imageUrls],
         };
     }
 

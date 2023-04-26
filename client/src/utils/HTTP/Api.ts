@@ -5,6 +5,7 @@ import { Tags } from './Tags';
 import { Recommendations } from './Recommendations';
 import { Products } from './Products';
 import { Comments } from './Comments';
+import { Images } from './Images';
 
 axios.defaults.withCredentials = true;
 
@@ -15,6 +16,7 @@ export class Api {
     public recommendations: Recommendations;
     public products: Products;
     public comments: Comments;
+    public images: Images;
     constructor() {
         this.url = `http://${BASE_URL}:${SERVER_PORT}`;
         this.users = new Users(this.url);
@@ -22,6 +24,7 @@ export class Api {
         this.recommendations = new Recommendations(this.url);
         this.products = new Products(this.url);
         this.comments = new Comments(this.url);
+        this.images = new Images(this.url);
     }
 }
 

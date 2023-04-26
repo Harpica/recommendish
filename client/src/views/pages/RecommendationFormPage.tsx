@@ -68,6 +68,8 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                         <NewRecommendationFielset
                             control={control}
                             groupInputValue={watchGroup}
+                            imageUrls={vm.imageUrls}
+                            handleFileUpload={vm.handleFileUpload}
                         />
                     </form>
                 </section>

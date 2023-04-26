@@ -6,6 +6,7 @@ import errorHandler from '../middlewares/errorHandler';
 import tags from './tags';
 import products from './products';
 import comments from './comments';
+import images from './images';
 
 const routes = Router();
 
@@ -14,6 +15,7 @@ routes.use('/users', users);
 routes.use('/tags', tags);
 routes.use('/products', products);
 routes.use('/comments', comments);
+routes.use('/images', images);
 
 routes.use(() => {
     throw new DocumentNotFoundError('Page not found');

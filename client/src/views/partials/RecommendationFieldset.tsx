@@ -15,24 +15,20 @@ import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
 import { Recommendation } from '../../utils/types';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
+import { api } from '../../utils/HTTP/Api';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
 interface RecommendationFieldsetProps {
     control: Control<FieldValues, any>;
-    // errors: FieldErrors<FieldValues>;
     groupInputValue: string;
+    imageUrls: Array<string>;
+    handleFileUpload: (files: FileList) => void;
 }
 
 const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
-    observer(({ control, groupInputValue }) => {
+    observer(({ control, groupInputValue, imageUrls, handleFileUpload }) => {
         console.log('child rerender');
-        const [value, setValue] = useState('**Hello world!!!**');
-        const [file, setFile] = useState<unknown | null>(null);
-        const handleChange = (file: unknown) => {
-            console.log(file);
-            setFile(file);
-        };
 
         const vm = useMemo(
             () => new RecommendationFieldsetVM(groupInputValue),
@@ -191,7 +187,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                 <div className='container text-inherit '>
                     <FileUploader
                         multiple={true}
-                        handleChange={handleChange}
+                        handleChange={handleFileUpload}
                         name='file'
                         types={fileTypes}
                         label={'Upload or drop a file right here'}
@@ -199,6 +195,16 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             'rounded p-2 border-amber-600 border-[1px] border-solid h-[56px] w-[500px] path-color span-color'
                         }
                     />
+                </div>
+                <div className='flex flex-row gap-3 flex-wrap'>
+                    {imageUrls.map((url, i) => (
+                        <img
+                            key={'image' + i}
+                            src={url}
+                            alt='illustration not uploaded'
+                            className='h-28 w-28 object-cover rounded'
+                        />
+                    ))}
                 </div>
                 <div className='container rounded p-2 border-amber-600 border-[1px]'>
                     <Controller
