@@ -23,7 +23,7 @@ export const getRecentRecommendations = (
     next: NextFunction
 ) => {
     Recommendation.find({})
-        .sort({ createdAt: 1 })
+        .sort({ createdAt: -1 })
         .limit(5)
         .select(['-owner_name', '-product_name', '-tags_names'])
         .populate([
