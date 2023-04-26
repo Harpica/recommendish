@@ -2,7 +2,7 @@ import { Control, useForm } from 'react-hook-form';
 import NewRecommendationFielset from '../partials/RecommendationFieldset';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { useEffect, useMemo } from 'react';
 import { RecommendationFormVM } from '../../viewModels/pages/RecommendationForm.VM';
@@ -18,8 +18,9 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
     ({ user, type }) => {
         console.log('rerender');
         const params = useParams();
+        const navigate = useNavigate();
         const vm = useMemo(
-            () => new RecommendationFormVM(user, type, params.id),
+            () => new RecommendationFormVM(navigate, user, type, params.id),
             [params]
         );
 
@@ -68,8 +69,9 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                         <NewRecommendationFielset
                             control={control}
                             groupInputValue={watchGroup}
-                            imageUrls={vm.imageUrls}
+                            images={vm.images}
                             handleFileUpload={vm.handleFileUpload}
+                            handleImageDelete={vm.deleteImage}
                         />
                     </form>
                 </section>

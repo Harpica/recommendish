@@ -7,12 +7,14 @@ import {
     Tag,
 } from '../../utils/types';
 import Joi from 'joi';
-import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
+import { DEFAULT_RECOMMENDATION, ROUTES } from '../../utils/constants';
+import { NavigateFunction } from 'react-router';
 
 export class RecommendationFormVM {
     private currentUser: CurrentUser;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
     private api: Api = api;
+    private navigate: NavigateFunction;
     public recommendationSchema = Joi.object({
         title: Joi.string().required().min(2).max(40),
         group: Joi.string().required(),
@@ -26,12 +28,14 @@ export class RecommendationFormVM {
         body: Joi.string().required().min(10),
     });
     public hookFormDefaultValues;
-    public imageUrls: Array<string> = [];
+    public images: Array<{ url: string; publicId: string }> = [];
     constructor(
+        navigate: NavigateFunction,
         currentUser: CurrentUser,
         type: 'new' | 'edit',
         recommendationId?: string
     ) {
+        this.navigate = navigate;
         this.currentUser = currentUser;
         this.hookFormDefaultValues = {
             title: this.recommendation.name,
@@ -45,6 +49,7 @@ export class RecommendationFormVM {
             this.getRecommendation(recommendationId);
         }
         this.handleFileUpload = this.handleFileUpload.bind(this);
+        this.deleteImage = this.deleteImage.bind(this);
         makeAutoObservable(this);
     }
 
@@ -54,6 +59,7 @@ export class RecommendationFormVM {
             .then(
                 action((response) => {
                     this.recommendation = response.data.recommendation;
+                    this.images = [...this.recommendation.images];
                     this.hookFormDefaultValues = {
                         title: this.recommendation.name,
                         group: this.recommendation.group,
@@ -76,13 +82,27 @@ export class RecommendationFormVM {
                     .uploadImage(e.target?.result)
                     .then(
                         action((response) => {
-                            this.imageUrls.push(response.data.imageUrl);
+                            this.images.push(response.data.image);
                         })
                     )
                     .catch((err) => console.log(err));
             };
             reader.readAsDataURL(file);
         });
+    }
+
+    public deleteImage(id: string) {
+        console.log(id);
+        this.api.images
+            .deleteImage(id)
+            .then(
+                action((response) => {
+                    this.images = this.images.filter(
+                        (image) => image.publicId !== id
+                    );
+                })
+            )
+            .catch((err) => console.log(err));
     }
 
     public onValidationSuccess(
@@ -125,21 +145,33 @@ export class RecommendationFormVM {
             }),
             productRating: data.rating,
             body: data.body,
-            images: [...this.recommendation.images, ...this.imageUrls],
+            images: this.images,
         };
     }
 
     private createRecommendation(data: RecommendationCreateOrEditData) {
         this.api.recommendations
             .createRecommendation(data)
-            .then((response) => console.log(response.data.recommendation))
+            .then((response) =>
+                this.navigateToRecommendationPage(
+                    response.data.recommendation._id
+                )
+            )
             .catch((err) => console.log(err));
     }
 
     private updateRecommendation(data: RecommendationCreateOrEditData) {
         this.api.recommendations
             .updateRecommendation(this.recommendation._id, data)
-            .then((response) => console.log(response.data.recommendation))
+            .then((response) =>
+                this.navigateToRecommendationPage(
+                    response.data.recommendation._id
+                )
+            )
             .catch((err) => console.log(err));
+    }
+
+    private navigateToRecommendationPage(id: string) {
+        this.navigate(ROUTES(id).recommendationById, { replace: true });
     }
 }

@@ -11,7 +11,7 @@ export interface IRecommendation {
     group: 'movie' | 'book' | 'game';
     tags: Array<Types.ObjectId>;
     body: string;
-    images: Array<string>;
+    images: Array<{ url: string; publicId: string }>;
     likes: Array<Types.ObjectId>;
     comments: Array<Types.ObjectId>;
 }
@@ -75,7 +75,10 @@ const RecommendSchema = new Schema(
         images: {
             type: [
                 {
-                    type: String,
+                    type: {
+                        url: String,
+                        publicId: String,
+                    },
                 },
             ],
             default: [],

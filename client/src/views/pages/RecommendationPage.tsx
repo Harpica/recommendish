@@ -71,7 +71,12 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 </div>
                                 <UserInfo user={vm.recommendation.owner} />
                             </div>
-                            <p>{vm.recommendation.createdAt}</p>
+                            <p>
+                                {vm.recommendation.createdAt &&
+                                    new Date(
+                                        vm.recommendation.createdAt
+                                    ).toLocaleString()}
+                            </p>
                             <div className='flex flex-row gap-1 flex-wrap'>
                                 <h4 className='text-md font-bold text-amber-500 text-ellipsis overflow-hidden whitespace-nowrap'>
                                     {vm.recommendation.product.name}
@@ -108,11 +113,14 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 </p>
                                 {vm.recommendation.images.length > 0 ? (
                                     vm.recommendation.images.map((image, i) => (
-                                        <div className='w-52 max-h-52 h-52 bg-amber-500 rounded'>
+                                        <div
+                                            className='w-52 max-h-52 h-52 bg-amber-500 rounded'
+                                            key={'image' + i}
+                                        >
                                             <img
-                                                key={'image' + i}
-                                                src={image}
+                                                src={image.url}
                                                 alt='recommendation illustration'
+                                                className='w-52 h-52 rounded object-cover'
                                             />
                                         </div>
                                     ))
@@ -133,7 +141,11 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     >
                                         <div className='flex flex-row gap-3 items-center'>
                                             <UserInfo user={comment.owner} />
-                                            <p>{comment.createdAt}</p>
+                                            <p>
+                                                {new Date(
+                                                    comment.createdAt
+                                                ).toLocaleString()}
+                                            </p>
                                         </div>
                                         <p className='pl-11 pr-11'>
                                             {comment.body}

@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { auth } from '../middlewares/auth';
-import { uploadImages } from '../controllers/images';
+import { deleteImage, uploadImage } from '../controllers/images';
 
 const images = Router();
 
 images.use(auth);
-images.post('/', uploadImages);
+images.post('/', uploadImage);
+images.delete('/:id', deleteImage);
 
 export default images;

@@ -3,9 +3,9 @@ const IconClose = () => {
         <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
+            viewBox='1 1 24 24'
+            strokeWidth={2}
+            stroke='inherit'
             className='w-6 h-6'
         >
             <path

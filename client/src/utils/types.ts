@@ -36,7 +36,7 @@ export interface Recommendation {
     group: ProductGroup | '';
     tags: Array<Tag>;
     body: string;
-    images: Array<string>;
+    images: Array<{ url: string; publicId: string }>;
     likes: Array<string>;
     comments: Array<string> | Array<Comment>;
 }
@@ -53,7 +53,7 @@ export interface RecommendationCreateOrEditData {
     group: ProductGroup | '';
     tags: Array<Tag>;
     body: string;
-    images: Array<string>;
+    images: Array<{ url: string; publicId: string }>;
 }
 
 export interface Tag {
@@ -74,8 +74,8 @@ export interface Comment {
     owner: User;
     recommendation: string;
     body: string;
-    createdAt?: number;
-    updatedAt?: number;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export interface Product {

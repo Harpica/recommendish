@@ -1,22 +1,13 @@
 import { NavigateFunction } from 'react-router';
-import { Recommendation } from '../../utils/types';
 
 export class CardVM {
     private navigate: NavigateFunction;
-    // private setCurrentRecommendation: (recommendation: Recommendation) => void;
-    constructor(
-        navigate: NavigateFunction
-        // setCurrentRecommendation: (recommendation: Recommendation) => void
-    ) {
+
+    constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
-        // this.setCurrentRecommendation = setCurrentRecommendation;
     }
 
-    public navigateToRecommendationPage(
-        id: string,
-        recommendation: Recommendation
-    ) {
+    public navigateToRecommendationPage(id: string) {
         this.navigate('/' + id);
-        // this.setCurrentRecommendation(recommendation);
     }
 }

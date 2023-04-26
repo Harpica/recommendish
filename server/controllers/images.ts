@@ -11,18 +11,36 @@ cloud.config({
     api_secret: process.env.CLOUD_SECRET,
 });
 
-export const uploadImages = async (
+export const uploadImage = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const image = req.body.data.image;
-        const result = await cloud.uploader.upload(image, {
+        const imageData = req.body.data.image;
+        const result = await cloud.uploader.upload(imageData, {
             upload_preset: 'recommendish',
         });
         res.send({
-            imageUrl: result.url,
+            image: { url: result.url, publicId: result.public_id },
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+};
+
+export const deleteImage = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = 'recommendish/' + req.params.publicId;
+
+        await cloud.uploader.destroy(id);
+        res.send({
+            publicId: id,
         });
     } catch (err) {
         console.log(err);

@@ -21,4 +21,8 @@ export class Images {
             }
         );
     }
+
+    deleteImage(id: string) {
+        return axios.delete(this.url + `/${id.replace('recommendish/', '')}`);
+    }
 }

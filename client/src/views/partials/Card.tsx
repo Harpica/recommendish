@@ -10,13 +10,11 @@ import { useNavigate } from 'react-router';
 interface CardProps {
     isInteractive?: boolean;
     recommendation: Recommendation;
-    // setCurrentRecommendation: (recommendation: Recommendation) => void;
 }
 
 const Card: React.FC<CardProps> = ({
     isInteractive = true,
     recommendation = DEFAULT_RECOMMENDATION,
-    // setCurrentRecommendation,
 }) => {
     const navigate = useNavigate();
     const vm = useMemo(() => new CardVM(navigate), []);
@@ -26,18 +24,15 @@ const Card: React.FC<CardProps> = ({
                 isInteractive ? 'colored-corner-on-hover' : ''
             }`}
             onClick={() => {
-                vm.navigateToRecommendationPage(
-                    recommendation._id,
-                    recommendation
-                );
+                vm.navigateToRecommendationPage(recommendation._id);
             }}
         >
             <div className='bg-amber-500 w-12 h-12 md:w-48 md:h-48 rounded'>
                 {recommendation.images[0] && (
                     <img
                         alt='illustration'
-                        src={recommendation.images[0]}
-                        className='rounded'
+                        src={recommendation.images[0].url}
+                        className='w-48 h-48 rounded object-cover'
                     />
                 )}
             </div>
