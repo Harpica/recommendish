@@ -7,7 +7,7 @@ export class AppVM {
     public currentUser: CurrentUser;
     constructor() {
         this.currentUser = DEFAULT_USER;
-        this.isAuth = true;
+        this.isAuth = false;
         this.setIsAuth = this.setIsAuth.bind(this);
         this.setCurrentUser = this.setCurrentUser.bind(this);
         makeAutoObservable(this);

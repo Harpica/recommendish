@@ -2,7 +2,7 @@ import Main from './views/pages/Main';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import ProtectedRoute from './views/partials/ProtectedRoute';
 import Nav from './views/partials/Nav';
 import RecommendationPage from './views/pages/RecommendationPage';
@@ -17,7 +17,6 @@ import { ROUTES } from './utils/constants';
 import SearchResults from './views/pages/SearchResults';
 
 const App: React.FC = observer(() => {
-    console.log('app render');
     const vm = useMemo(() => {
         return new AppVM();
     }, []);
@@ -37,15 +36,15 @@ const App: React.FC = observer(() => {
                                 />
                                 <Routes>
                                     <Route
-                                        path={ROUTES.main}
+                                        path={ROUTES().main}
                                         element={<Main />}
                                     />
                                     <Route
-                                        path={ROUTES.search}
+                                        path={ROUTES().search}
                                         element={<SearchResults />}
                                     />
                                     <Route
-                                        path={ROUTES.recommendationById}
+                                        path={ROUTES().recommendationById}
                                         element={
                                             <RecommendationPage
                                                 currentUser={vm.currentUser}
@@ -53,7 +52,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path={ROUTES.admin}
+                                        path={ROUTES().admin}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Admin user={vm.currentUser} />
@@ -61,7 +60,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path={ROUTES.new}
+                                        path={ROUTES().new}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <RecommendationFormPage
@@ -72,7 +71,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path={ROUTES.edit}
+                                        path={ROUTES().edit}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <RecommendationFormPage
@@ -83,7 +82,7 @@ const App: React.FC = observer(() => {
                                         }
                                     />
                                     <Route
-                                        path={ROUTES.profile}
+                                        path={ROUTES().profile}
                                         element={
                                             <ProtectedRoute authKey={vm.isAuth}>
                                                 <Profile

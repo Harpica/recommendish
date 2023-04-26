@@ -58,7 +58,7 @@ export class Recommendations {
         id: string,
         recommendationData: RecommendationCreateOrEditData
     ) {
-        return axios.put(this.url + id, {
+        return axios.put(this.url + `/${id}`, {
             data: {
                 recommendation: recommendationData,
             },

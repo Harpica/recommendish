@@ -18,14 +18,16 @@ export const DEFAULT_USER: CurrentUser = {
     language: 'EN',
 };
 
-export const ROUTES = {
-    main: '/',
-    profile: '/profile',
-    new: '/new',
-    edit: '/edit/:id',
-    admin: '/admin',
-    recommendationById: '/:id',
-    search: '/search/:param',
+export const ROUTES = (id: string = ':id') => {
+    return {
+        main: '/',
+        profile: '/profile',
+        new: '/new',
+        edit: `/edit/${id}`,
+        admin: '/admin',
+        recommendationById: `/${id}`,
+        search: '/search/:param',
+    };
 };
 
 export const DEFAULT_RECOMMENDATION: Recommendation = {

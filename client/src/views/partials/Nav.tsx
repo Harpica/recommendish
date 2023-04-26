@@ -38,7 +38,7 @@ const Nav: React.FC<NavProps> = observer(
             <>
                 <nav className='sticky top-[20px] left-0  bg-inherit pt-3 pb-3 min-h-fit flex flex-row justify-between items-center font-bold z-10'>
                     <NavLink
-                        to={ROUTES.main}
+                        to={ROUTES().main}
                         aria-label='go to the home page'
                         className='flex flex-row gap-1 items-center hover:cursor-pointer hover:opacity-40'
                     >
@@ -63,7 +63,7 @@ const Nav: React.FC<NavProps> = observer(
                         {isAuth && (
                             <li>
                                 <NavLink
-                                    to={ROUTES.new}
+                                    to={ROUTES().new}
                                     aria-label='new recommendation'
                                     className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                 >
@@ -104,7 +104,7 @@ const Nav: React.FC<NavProps> = observer(
                             <>
                                 <li>
                                     <NavLink
-                                        to={ROUTES.profile}
+                                        to={ROUTES().profile}
                                         aria-label='profile'
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                     >

@@ -72,22 +72,17 @@ export class RecommendationFormVM {
         data: { [x: string]: any },
         type: 'new' | 'edit'
     ) {
+        const recommendationData: RecommendationCreateOrEditData =
+            this.getRecommendationData(data);
         if (type === 'new') {
-            this.handleCreation(data);
+            this.createRecommendation(recommendationData);
         } else {
-            // update recommendation
+            this.updateRecommendation(recommendationData);
         }
     }
 
     public onValidationFailure(errors: unknown) {
         console.log('errors', errors);
-    }
-
-    private handleCreation(data: { [x: string]: any }) {
-        const recommendationData: RecommendationCreateOrEditData =
-            this.getRecommendationData(data);
-        console.log(recommendationData);
-        this.createRecommendation(recommendationData);
     }
 
     private getRecommendationData(data: {
@@ -121,6 +116,13 @@ export class RecommendationFormVM {
     private createRecommendation(data: RecommendationCreateOrEditData) {
         this.api.recommendations
             .createRecommendation(data)
+            .then((response) => console.log(response.data.recommendation))
+            .catch((err) => console.log(err));
+    }
+
+    private updateRecommendation(data: RecommendationCreateOrEditData) {
+        this.api.recommendations
+            .updateRecommendation(this.recommendation._id, data)
             .then((response) => console.log(response.data.recommendation))
             .catch((err) => console.log(err));
     }

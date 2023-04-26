@@ -179,4 +179,11 @@ export class RecommendationVM {
                 })
             );
     }
+
+    public isUserOwner() {
+        return (
+            this.recommendation.owner._id === this.currentUser._id ||
+            this.currentUser.role === 'admin'
+        );
+    }
 }

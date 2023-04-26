@@ -7,6 +7,8 @@ import { useParams } from 'react-router';
 import { RecommendationVM } from '../../viewModels/pages/Recommendation.VM';
 import { useMemo, useEffect } from 'react';
 import Notification from '../partials/Notification';
+import { NavLink } from 'react-router-dom';
+import { ROUTES } from '../../utils/constants';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -54,6 +56,18 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         </div>
                                         <p>{vm.recommendation.likes.length}</p>
                                     </div>
+                                    {vm.isUserOwner() && (
+                                        <NavLink
+                                            to={
+                                                ROUTES(vm.recommendation._id)
+                                                    .edit
+                                            }
+                                            aria-label='edit'
+                                            className={'hover:opacity-50'}
+                                        >
+                                            Edit
+                                        </NavLink>
+                                    )}
                                 </div>
                                 <UserInfo user={vm.recommendation.owner} />
                             </div>
