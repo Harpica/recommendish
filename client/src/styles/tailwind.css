@@ -23,8 +23,8 @@
 .colored-corner-on-hover:hover {
     background: linear-gradient(
         to bottom right,
-        rgb(0 0 0 / 0) 80%,
-        rgba(217, 119, 6, 0.5) 80%
+        rgb(0 0 0 / 0) 90%,
+        rgb(251 191 36) 90%
     );
 }
 
@@ -34,7 +34,7 @@
 
 .scrollbar::-webkit-scrollbar-thumb {
     /* background-color: blueviolet; */
-    @apply bg-amber-600 rounded;
+    @apply bg-amber-400 rounded;
 }
 .scrollbar::-webkit-scrollbar-track {
     /* background-color: blueviolet; */

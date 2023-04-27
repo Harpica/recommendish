@@ -13,7 +13,7 @@ import { FieldValues } from 'react-hook-form/dist/types/fields';
 import { Control, UseFormGetValues, UseFormWatch } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
-import { Recommendation } from '../../utils/types';
+import { Recommendation, Tag } from '../../utils/types';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconClose from '../svgWrappers/IconClose';
@@ -116,6 +116,13 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     )}
                                     value={field.field.value}
                                     onChange={(event, item) => {
+                                        if (typeof item === 'string') {
+                                            item = {
+                                                _id: '',
+                                                name: item,
+                                                group: groupInputValue,
+                                            };
+                                        }
                                         field.field.onChange(item);
                                     }}
                                     getOptionLabel={vm.getOptionLabel}
@@ -145,6 +152,12 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     {...field.field}
                                     value={field.field.value}
                                     onChange={(event, item) => {
+                                        let recentItem = item[item.length - 1];
+                                        if (typeof recentItem === 'string') {
+                                            item[item.length - 1] = {
+                                                name: recentItem,
+                                            };
+                                        }
                                         field.field.onChange(item);
                                     }}
                                     multiple
@@ -157,7 +170,11 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                         vm.isOptionEqualToValue
                                     }
                                     renderInput={(params) => (
-                                        <TextField {...params} label='Tags' />
+                                        <TextField
+                                            {...params}
+                                            label='Tags'
+                                            placeholder='Favorites'
+                                        />
                                     )}
                                     sx={{ width: '500px' }}
                                 />

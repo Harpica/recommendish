@@ -13,7 +13,7 @@ import {
     removeRecommendationFromUser,
     setUserLikes,
 } from './users';
-import { updateOrCreateProduct } from './product';
+import { createProduct, updateProduct } from './product';
 import { Comment } from '../models/comment';
 import { IUser } from '../models/user';
 
@@ -203,13 +203,15 @@ export const createRecommendation = async (
 ) => {
     const recommendData = req.body.data.recommendation;
     try {
-        if (!recommendData.product._id) {
-            const productId = await updateOrCreateProduct(
+        if (recommendData.product._id === '') {
+            const productId = await createProduct(
                 recommendData.product.name,
                 recommendData.group
             );
             recommendData.product._id = productId;
             console.log(productId);
+        } else {
+            updateProduct(recommendData.product.name, recommendData.group);
         }
         const recommendation = await Recommendation.create({
             ...recommendData,
@@ -277,6 +279,16 @@ export const updateRecommendation = async (
         let recommendData = req.body.data.recommendation;
         const id = req.params.id;
         const tagsId = await addRecommendationToTags(recommendData.tags, id);
+        if (recommendData.product._id === '') {
+            const productId = await createProduct(
+                recommendData.product.name,
+                recommendData.group
+            );
+            recommendData.product._id = productId;
+            console.log(productId);
+        } else {
+            updateProduct(recommendData.product.name, recommendData.group);
+        }
         const recommendation = await Recommendation.findByIdAndUpdate(
             id,
             {

@@ -60,14 +60,11 @@ export class LoginVM {
 
     private authUser(login: string, name: string, avatar: string) {
         this.api.users
-            .authUser(login, name)
+            .authUser(login, name, avatar)
             .then(
                 action((data) => {
-                    console.log(data.data);
                     this.setCurrentUser(data.data.user);
-                    console.log(this.setIsAuth);
                     this.setIsAuth(true);
-                    console.log('isAuth setted');
                     this.closePopup();
                 })
             )

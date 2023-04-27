@@ -17,7 +17,6 @@ const UserInfo: React.FC<UserInfoProps> = observer(({ user }) => {
                         className={'w-full, h-full rounded-full bg-cover'}
                     />
                 )}
-                <p>{'avatar = ' + user.avatar}</p>
             </div>
             <h2>{user.name}</h2>
             <div className='flex flex-row gap-1'>

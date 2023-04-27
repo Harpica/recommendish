@@ -9,6 +9,8 @@ import { useMemo, useEffect } from 'react';
 import Notification from '../partials/Notification';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
+import IconEdit from '../svgWrappers/IconEdit';
+import { getGroupColor } from '../../utils/utils';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -63,9 +65,9 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                                     .edit
                                             }
                                             aria-label='edit'
-                                            className={'hover:opacity-50'}
+                                            className={'hover:opacity-50 pt-1'}
                                         >
-                                            Edit
+                                            <IconEdit />
                                         </NavLink>
                                     )}
                                 </div>
@@ -78,7 +80,11 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     ).toLocaleString()}
                             </p>
                             <div className='flex flex-row gap-1 flex-wrap'>
-                                <h4 className='text-md font-bold text-amber-500 text-ellipsis overflow-hidden whitespace-nowrap'>
+                                <h4
+                                    className={`text-md font-bold text-${getGroupColor(
+                                        vm.recommendation.group
+                                    )} text-ellipsis overflow-hidden whitespace-nowrap`}
+                                >
                                     {vm.recommendation.product.name}
                                 </h4>
                                 <Rating
@@ -101,7 +107,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 {vm.recommendation.tags.map((tag, i) => (
                                     <li
                                         key={tag.name + i}
-                                        className='pr-2 pl-2 border-[1px] rounded-full border-inherit'
+                                        className='pr-2 pl-2 border-[1px] rounded-full border-current'
                                     >
                                         {tag.name}
                                     </li>
@@ -160,16 +166,16 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         vm.createCommentFormHandler(e);
                                     }}
                                 >
-                                    <div className='w-full max-w-3xl'>
+                                    <div className='w-full max-w-3xl rounded border-amber-600 border-[1px] '>
                                         <textarea
                                             name='comment-body'
-                                            className='w-full rounded outline-none text-inherit bg-inherit p-5   h-[180px] bg-zinc-600 bg-opacity-50 resize-none hover:bg-opacity-80 scrollbar'
+                                            className='w-full outline-none rounded text-current p-5  h-[180px]  bg-inherit resize-none hover:bg-opacity-80 scrollbar'
                                             placeholder='Enter new comment...'
                                         />
                                     </div>
                                     <button
                                         type='submit'
-                                        className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500'
+                                        className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
                                         aria-label='send comment'
                                     >
                                         Send

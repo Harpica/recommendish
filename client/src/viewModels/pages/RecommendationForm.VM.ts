@@ -137,12 +137,7 @@ export class RecommendationFormVM {
                         : data.product.name,
                 group: data.group,
             },
-            tags: data.tags.map((tag: Tag | string) => {
-                if (typeof tag === 'string') {
-                    return { name: tag };
-                }
-                return tag;
-            }),
+            tags: data.tags,
             productRating: data.rating,
             body: data.body,
             images: this.images,

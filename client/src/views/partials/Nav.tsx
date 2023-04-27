@@ -127,7 +127,7 @@ const Nav: React.FC<NavProps> = observer(
                         ) : (
                             <li>
                                 <button
-                                    className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-400'
+                                    className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400'
                                     type='button'
                                     aria-label='log in'
                                     onClick={() => vm.toggleLoginIsOpen()}

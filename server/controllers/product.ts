@@ -3,18 +3,29 @@ import { Product } from '../models/product';
 import { NextFunction, Request, Response } from 'express';
 import { handleIfDocumentNotFound } from '../utils/utils';
 
-export const updateOrCreateProduct = async (
-    productName: string,
-    group: string
-) => {
+export const createProduct = async (productName: string, group: string) => {
+    try {
+        const product = await Product.create({
+            group: group,
+            name: productName,
+        });
+        return product._id;
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            throw new Error(err.message);
+        }
+        console.log(err);
+    }
+};
+export const updateProduct = async (productName: string, group: string) => {
     try {
         const product = await Product.findOneAndUpdate(
             { name: productName },
             { group: group, name: productName },
-            { new: true, upsert: true, useFindAndModify: false }
+            { upsert: true, useFindAndModify: false }
         );
-        console.log(product);
-        return product._id;
+        handleIfDocumentNotFound(product);
+        return product!._id;
     } catch (err: unknown) {
         if (err instanceof Error) {
             throw new Error(err.message);

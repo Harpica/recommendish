@@ -49,7 +49,6 @@ const Login: React.FC<LoginProps> = observer(
                         onLoginStart={() => {
                             console.log('start login');
                         }}
-                        // onLogoutSuccess={onLogoutSuccess}
                         onResolve={vm.handleLogin}
                         onReject={(err: any) => {
                             console.log(err);

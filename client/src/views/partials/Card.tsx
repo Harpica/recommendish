@@ -6,33 +6,34 @@ import IconComments from '../svgWrappers/IconComments';
 import { useMemo } from 'react';
 import { CardVM } from '../../viewModels/partials/Card.VM';
 import { useNavigate } from 'react-router';
+import { getGroupColor } from '../../utils/utils';
 
 interface CardProps {
-    isInteractive?: boolean;
     recommendation: Recommendation;
 }
 
 const Card: React.FC<CardProps> = ({
-    isInteractive = true,
     recommendation = DEFAULT_RECOMMENDATION,
 }) => {
     const navigate = useNavigate();
     const vm = useMemo(() => new CardVM(navigate), []);
     return (
         <div
-            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded ${
-                isInteractive ? 'colored-corner-on-hover' : ''
-            }`}
+            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded colored-corner-on-hover hover:shadow-md`}
             onClick={() => {
                 vm.navigateToRecommendationPage(recommendation._id);
             }}
         >
-            <div className='bg-amber-500 w-12 h-12 md:w-48 md:h-48 rounded'>
+            <div
+                className={`bg-${getGroupColor(
+                    recommendation.group
+                )} w-12 h-12 md:w-48 md:h-48 rounded`}
+            >
                 {recommendation.images[0] && (
                     <img
                         alt='illustration'
                         src={recommendation.images[0].url}
-                        className='w-48 h-48 rounded object-cover'
+                        className='w-full h-full rounded object-cover'
                     />
                 )}
             </div>
@@ -46,7 +47,11 @@ const Card: React.FC<CardProps> = ({
                 </div>
                 <h3 className='text-lg font-bold '>{recommendation.name}</h3>
                 <div className='flex flex-row gap-1 flex-wrap'>
-                    <h4 className='text-md font-bold text-amber-500 text-ellipsis overflow-hidden whitespace-nowrap'>
+                    <h4
+                        className={`text-md font-bold text-${getGroupColor(
+                            recommendation.group
+                        )} text-ellipsis overflow-hidden whitespace-nowrap`}
+                    >
                         {recommendation.product.name}
                     </h4>
                     <Rating
@@ -62,7 +67,7 @@ const Card: React.FC<CardProps> = ({
                     {recommendation.tags.map((tag, i) => (
                         <li
                             key={'tag' + i}
-                            className='pr-2 pl-2 border-[1px] rounded-full border-inherit'
+                            className='pr-2 pl-2 border-[1px] rounded-full border-current'
                         >
                             {tag.name}
                         </li>

@@ -61,12 +61,7 @@ const Main: React.FC<MainProps> = observer(({}) => {
                     <ul className='flex flex-col gap-4'>
                         {vm.popularRecommendations.map((recommendation, i) => (
                             <li key={'popular' + i}>
-                                <Card
-                                    recommendation={recommendation}
-                                    // setCurrentRecommendation={
-                                    //     setCurrentRecommendation
-                                    // }
-                                />
+                                <Card recommendation={recommendation} />
                             </li>
                         ))}
                     </ul>
@@ -78,12 +73,7 @@ const Main: React.FC<MainProps> = observer(({}) => {
                     <ul className='flex flex-col gap-4'>
                         {vm.recentRecommendations.map((recommendation, i) => (
                             <li key={'recent' + i}>
-                                <Card
-                                    recommendation={recommendation}
-                                    // setCurrentRecommendation={
-                                    //     setCurrentRecommendation
-                                    // }
-                                />
+                                <Card recommendation={recommendation} />
                             </li>
                         ))}
                     </ul>
