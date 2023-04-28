@@ -36,7 +36,12 @@ const Profile: React.FC<ProfileProps> = observer(({ user }) => {
                     </NavLink>
                 </div>
 
-                {<RecommendationTable recommendations={vm.recommendations} />}
+                {
+                    <RecommendationTable
+                        recommendations={vm.recommendations}
+                        handleDelete={vm.handleDeleteRecommendation}
+                    />
+                }
             </section>
         </main>
     );

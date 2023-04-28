@@ -1,8 +1,13 @@
-import { FilterQuery, Types } from 'mongoose';
+import { FilterQuery, ObjectId, Types } from 'mongoose';
 import { Comment } from '../models/comment';
 import { addCommentToRecommendation } from './recommendations';
 import { NextFunction, Request, Response } from 'express';
-import { incorrectDataHandler, sendDocumentIfFound } from '../utils/utils';
+import {
+    handleIfDocumentNotFound,
+    incorrectDataHandler,
+    sendDocumentIfFound,
+} from '../utils/utils';
+import recommendations from '../routes/recommendations';
 
 export const createComment = async (
     req: Request,
@@ -72,4 +77,11 @@ const findComments = <T>(query: FilterQuery<T>) => {
     return Comment.find(query).populate([
         { path: 'owner', select: 'name likes _id avatar' },
     ]);
+};
+
+export const deleteCommentsWithRecommendation = (
+    recommendationId: Types.ObjectId,
+    next: NextFunction
+) => {
+    Comment.findByIdAndDelete(recommendationId).catch(next);
 };

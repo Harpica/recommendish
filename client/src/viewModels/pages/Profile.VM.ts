@@ -8,6 +8,8 @@ export class ProfileVM {
     public recommendations: Array<Recommendation> = [];
     constructor(user: CurrentUser) {
         this.currentUser = user;
+        this.handleDeleteRecommendation =
+            this.handleDeleteRecommendation.bind(this);
         this.getUserRecommendation();
         makeAutoObservable(this);
     }
@@ -25,5 +27,21 @@ export class ProfileVM {
                 )
                 .catch((err) => console.log(err));
         }
+    }
+
+    public handleDeleteRecommendation(id: string) {
+        this.api.recommendations
+            .deleteRecommendation(id)
+            .then(
+                action(
+                    (response) =>
+                        (this.recommendations = this.recommendations.filter(
+                            (recommendation) =>
+                                recommendation._id !==
+                                response.data.recommendation._id
+                        ))
+                )
+            )
+            .catch((err) => console.log(err));
     }
 }

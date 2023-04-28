@@ -54,6 +54,7 @@ export class Recommendations {
             },
         });
     }
+
     updateRecommendation(
         id: string,
         recommendationData: RecommendationCreateOrEditData
@@ -63,5 +64,9 @@ export class Recommendations {
                 recommendation: recommendationData,
             },
         });
+    }
+
+    deleteRecommendation(id: string) {
+        return axios.delete(this.url + `/${id}`);
     }
 }

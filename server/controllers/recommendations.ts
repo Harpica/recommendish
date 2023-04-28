@@ -16,6 +16,7 @@ import {
 import { createProduct, updateProduct } from './product';
 import { Comment } from '../models/comment';
 import { IUser } from '../models/user';
+import { deleteCommentsWithRecommendation } from './comments';
 
 export const getRecentRecommendations = (
     _req: Request,
@@ -338,6 +339,7 @@ export const deleteRecommendation = (
                 recommendation!.owner,
                 recommendation!._id
             );
+            deleteCommentsWithRecommendation(recommendation!._id, next);
             res.send({ recommendation: recommendation });
         })
         .catch((err) => {

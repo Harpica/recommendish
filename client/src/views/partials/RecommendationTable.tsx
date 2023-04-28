@@ -1,13 +1,9 @@
 import {
     DataGrid,
     GridActionsCellItem,
-    GridCellParams,
     GridColDef,
-    GridFilterInputMultipleSingleSelect,
-    GridFilterItem,
     GridRenderCellParams,
     GridRowParams,
-    GridValueGetterParams,
     gridStringOrNumberComparator,
 } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,15 +14,14 @@ import { observer } from 'mobx-react-lite';
 import { Product, Recommendation, Tag } from '../../utils/types';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../utils/constants';
-import TextArea from '@uiw/react-md-editor/lib/components/TextArea';
-import { Input, InputBase } from '@mui/material';
 
 interface RecommendationTableProps {
     recommendations: Array<Recommendation>;
+    handleDelete: (id: string) => void;
 }
 
 const RecommendationTable: React.FC<RecommendationTableProps> = observer(
-    ({ recommendations }) => {
+    ({ recommendations, handleDelete }) => {
         const navigate = useNavigate();
 
         const columns: GridColDef[] = [
@@ -92,7 +87,9 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                     />,
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
-                        onClick={() => {}}
+                        onClick={() => {
+                            handleDelete(params.row._id);
+                        }}
                         label='Delete'
                     />,
                 ],
