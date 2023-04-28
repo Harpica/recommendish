@@ -21,8 +21,8 @@ export class Users {
         });
     }
 
-    getUser(id: string) {
-        return axios.get(`${this.url}/${id}`);
+    getUserRecommendations(id: string) {
+        return axios.get(`${this.url}/${id}/recommendations`);
     }
 
     // deleteUsers(ids: Array<number>) {

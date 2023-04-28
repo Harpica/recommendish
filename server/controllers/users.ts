@@ -3,7 +3,11 @@ import jwt from 'jsonwebtoken';
 import { IUser, User } from '../models/user';
 import { IRecommendation } from '../models/recommendation';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
-import { incorrectDataHandler, sendDocumentIfFound } from '../utils/utils';
+import {
+    handleIfDocumentNotFound,
+    incorrectDataHandler,
+    sendDocumentIfFound,
+} from '../utils/utils';
 import { ObjectId, Types } from 'mongoose';
 
 export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +15,28 @@ export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
         .populate(['recommendations'])
         .select(['-theme', '-language'])
         .then((users) => {
-            res.send({ data: users });
+            res.send({ users: users });
+        })
+        .catch(next);
+};
+
+export const getUserRecommendationsById = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    User.findById(req.params.id)
+        .select(['recommendations'])
+        .populate([
+            {
+                path: 'recommendations',
+                select: '-owner_name -product_name -tags_names',
+                populate: ['tags', 'product'],
+            },
+        ])
+        .then((user) => {
+            handleIfDocumentNotFound(user);
+            res.send({ recommendations: user!.recommendations });
         })
         .catch(next);
 };

@@ -1,17 +1,19 @@
-import Card from '../partials/Card';
-import CardToolbar from '../partials/CardToolbar';
 import RecommendationTable from '../partials/RecommendationTable';
 import UserInfo from '../partials/UserInfo';
 import { observer } from 'mobx-react-lite';
 import IconNew from '../svgWrappers/IconNew';
 import { NavLink } from 'react-router-dom';
 import { CurrentUser } from '../../utils/types';
+import { useMemo } from 'react';
+import { ProfileVM } from '../../viewModels/pages/Profile.VM';
 
 interface ProfileProps {
     user: CurrentUser;
 }
 
 const Profile: React.FC<ProfileProps> = observer(({ user }) => {
+    const vm = useMemo(() => new ProfileVM(user), [user._id]);
+
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
@@ -23,7 +25,7 @@ const Profile: React.FC<ProfileProps> = observer(({ user }) => {
             <section className='flex flex-col gap-3'>
                 <div className='flex flex-row gap-3 items-center mb-5'>
                     <h2 className='text-xl font-bold w-fit  '>
-                        My recommedations
+                        My recommendations
                     </h2>
                     <NavLink
                         to={'/new'}
@@ -34,73 +36,7 @@ const Profile: React.FC<ProfileProps> = observer(({ user }) => {
                     </NavLink>
                 </div>
 
-                {<RecommendationTable />}
-
-                {/* <ul className='min-h-[500px] max-h-[50vh] overflow-auto scrollbar flex flex-col gap-3'>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                    <li
-                        className='relative toolbar-visible-onhover'
-                        onClick={(e) => {
-                            e.currentTarget.classList.toggle('toolbar-visible');
-                        }}
-                    >
-                        <Card isInteractive={false} />
-                        <CardToolbar />
-                    </li>
-                </ul> */}
+                {<RecommendationTable recommendations={vm.recommendations} />}
             </section>
         </main>
     );
