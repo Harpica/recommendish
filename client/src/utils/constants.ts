@@ -10,7 +10,7 @@ export const DEFAULT_USER: CurrentUser = {
     name: 'Guest',
     role: 'unauthorized',
     status: 'active',
-    likes: [],
+    likes: 0,
     recommendations: [],
     _id: '0',
     login: 'guest',
@@ -36,7 +36,7 @@ export const DEFAULT_RECOMMENDATION: Recommendation = {
     owner: {
         _id: '',
         name: '',
-        likes: [],
+        likes: 0,
         avatar: '',
     },
     name: '',

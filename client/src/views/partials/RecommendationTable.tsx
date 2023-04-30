@@ -11,18 +11,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { DataGridClasses } from '../../styles/mui';
 import { observer } from 'mobx-react-lite';
-import { Product, Recommendation, Tag } from '../../utils/types';
+import { CurrentUser, Product, Recommendation, Tag } from '../../utils/types';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../utils/constants';
+import { useMemo } from 'react';
+import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
 
 interface RecommendationTableProps {
-    recommendations: Array<Recommendation>;
-    handleDelete: (id: string) => void;
+    user: CurrentUser;
 }
 
 const RecommendationTable: React.FC<RecommendationTableProps> = observer(
-    ({ recommendations, handleDelete }) => {
+    ({ user }) => {
         const navigate = useNavigate();
+        const vm = useMemo(() => new RecommendationsTableVM(user), [user._id]);
 
         const columns: GridColDef[] = [
             { field: 'createdAt', headerName: 'Created At', width: 120 },
@@ -88,7 +90,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         onClick={() => {
-                            handleDelete(params.row._id);
+                            vm.handleDeleteRecommendation(params.row._id);
                         }}
                         label='Delete'
                     />,
@@ -105,13 +107,14 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                 }}
             >
                 <DataGrid
-                    rows={recommendations}
+                    rows={vm.recommendations}
                     columns={columns}
                     getRowId={(row) => row._id}
                     hideFooter
                     disableRowSelectionOnClick
                     className='scrollbar text-inherit p-4 stroke-inherit'
                     sx={DataGridClasses}
+                    autoHeight
                 />
             </div>
         );

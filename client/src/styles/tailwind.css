@@ -33,11 +33,9 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    /* background-color: blueviolet; */
     @apply bg-amber-400 rounded;
 }
 .scrollbar::-webkit-scrollbar-track {
-    /* background-color: blueviolet; */
     @apply bg-transparent;
 }
 
@@ -46,11 +44,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    /* background-color: blueviolet; */
     @apply bg-amber-600 rounded;
 }
 ::-webkit-scrollbar-track {
-    /* background-color: blueviolet; */
     @apply bg-transparent;
 }
 
@@ -62,10 +58,10 @@
     color: inherit !important;
 }
 
-.toolbar-visible-onhover:hover #toolbar {
+/* .toolbar-visible-onhover:hover #toolbar {
     @apply visible;
 }
 
 .toolbar-visible #toolbar {
     @apply visible;
-}
+} */

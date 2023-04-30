@@ -7,7 +7,7 @@ export interface User {
     name: string;
     role: UserRole;
     status: UserStatus;
-    likes: Array<String>;
+    likes: number;
     recommendations: Array<String>;
     _id: string;
     avatar?: string;
@@ -16,7 +16,7 @@ export interface User {
 
 export interface UserPublic {
     name: string;
-    likes: Array<String>;
+    likes: number;
     _id: string;
     avatar?: string;
 }

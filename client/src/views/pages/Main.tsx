@@ -5,7 +5,6 @@ import { MainVM } from '../../viewModels/pages/Main.VM';
 import { useNavigate } from 'react-router';
 import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
-// import { setRecommendationProp } from '../../utils/types';
 
 interface MainProps {}
 

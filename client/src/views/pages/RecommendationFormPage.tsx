@@ -60,7 +60,7 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                             </h1>
                             <button
                                 type='submit'
-                                className='rounded-full p-2 pr-5 pl-5 border-inherit border-[1px] hover:bg-amber-500 shadow-md'
+                                className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
                                 aria-label='send comment'
                             >
                                 Send

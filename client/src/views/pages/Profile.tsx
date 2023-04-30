@@ -5,15 +5,13 @@ import IconNew from '../svgWrappers/IconNew';
 import { NavLink } from 'react-router-dom';
 import { CurrentUser } from '../../utils/types';
 import { useMemo } from 'react';
-import { ProfileVM } from '../../viewModels/pages/Profile.VM';
+import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
 
 interface ProfileProps {
     user: CurrentUser;
 }
 
 const Profile: React.FC<ProfileProps> = observer(({ user }) => {
-    const vm = useMemo(() => new ProfileVM(user), [user._id]);
-
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
@@ -36,12 +34,7 @@ const Profile: React.FC<ProfileProps> = observer(({ user }) => {
                     </NavLink>
                 </div>
 
-                {
-                    <RecommendationTable
-                        recommendations={vm.recommendations}
-                        handleDelete={vm.handleDeleteRecommendation}
-                    />
-                }
+                <RecommendationTable user={user} />
             </section>
         </main>
     );

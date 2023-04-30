@@ -2,7 +2,7 @@ import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
 import { CurrentUser, Recommendation } from '../../utils/types';
 
-export class ProfileVM {
+export class RecommendationsTableVM {
     private currentUser: CurrentUser;
     private api: Api = api;
     public recommendations: Array<Recommendation> = [];

@@ -104,7 +104,11 @@ const Nav: React.FC<NavProps> = observer(
                             <>
                                 <li>
                                     <NavLink
-                                        to={ROUTES().profile}
+                                        to={`${
+                                            currentUser.role === 'admin'
+                                                ? ROUTES().admin
+                                                : ROUTES().profile
+                                        }`}
                                         aria-label='profile'
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                     >
@@ -127,7 +131,7 @@ const Nav: React.FC<NavProps> = observer(
                         ) : (
                             <li>
                                 <button
-                                    className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400'
+                                    className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
                                     type='button'
                                     aria-label='log in'
                                     onClick={() => vm.toggleLoginIsOpen()}
