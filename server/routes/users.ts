@@ -4,6 +4,7 @@ import {
     authUser,
     getUserRecommendationsById,
     getUsers,
+    reauthUser,
     updateUserLanguage,
     updateUserStatus,
     updateUserTheme,
@@ -15,6 +16,7 @@ const users = Router();
 
 users.post('/auth', celebrate(validator.user.object), authUser);
 users.use(auth);
+users.get('/reauth', reauthUser);
 users.get('/', getUsers);
 users.get('/:id/recommendations', getUserRecommendationsById);
 users.patch('/:id/status', updateUserStatus);

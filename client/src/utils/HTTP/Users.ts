@@ -11,6 +11,10 @@ export class Users {
         return axios.get(this.url);
     }
 
+    reauthUser() {
+        return axios.get(this.url + '/reauth');
+    }
+
     authUser(login: string, name: string, avatar?: string) {
         return axios.post(`${this.url}/auth`, {
             data: {

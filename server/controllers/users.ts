@@ -57,6 +57,11 @@ export const authUser = (req: Request, res: Response, next: NextFunction) => {
         .catch(next);
 };
 
+export const reauthUser = (req: Request, res: Response, next: NextFunction) => {
+    const user = req.body.user;
+    sendUserAndToken(user, res);
+};
+
 const sendUserAndToken = async (user: any, res: Response) => {
     const populatedUser = await user.populate(['recommendations']);
     const token = jwt.sign({ id: user.id }, process.env.JWT_KEY || '');
