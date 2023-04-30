@@ -6,10 +6,16 @@ export class RecommendationsTableVM {
     private currentUser: CurrentUser;
     private api: Api = api;
     public recommendations: Array<Recommendation> = [];
+    public currentRecommendationId: string = '';
+    public isSurePopupOpen: boolean = false;
+    public closePopup: () => void;
     constructor(user: CurrentUser) {
         this.currentUser = user;
         this.handleDeleteRecommendation =
             this.handleDeleteRecommendation.bind(this);
+        this.closePopup = (() => {
+            this.isSurePopupOpen = false;
+        }).bind(this);
         this.getUserRecommendation();
         makeAutoObservable(this);
     }
@@ -29,9 +35,14 @@ export class RecommendationsTableVM {
         }
     }
 
-    public handleDeleteRecommendation(id: string) {
+    public handleDeleteButtonClick(id: string) {
+        this.isSurePopupOpen = true;
+        this.currentRecommendationId = id;
+    }
+
+    public handleDeleteRecommendation() {
         this.api.recommendations
-            .deleteRecommendation(id)
+            .deleteRecommendation(this.currentRecommendationId)
             .then(
                 action(
                     (response) =>
@@ -42,6 +53,7 @@ export class RecommendationsTableVM {
                         ))
                 )
             )
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => this.closePopup());
     }
 }

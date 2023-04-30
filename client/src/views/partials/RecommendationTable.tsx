@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router';
 import { ROUTES } from '../../utils/constants';
 import { useMemo } from 'react';
 import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
+import SurePopup from './SurePopup';
 
 interface RecommendationTableProps {
     user: CurrentUser;
@@ -90,7 +91,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         onClick={() => {
-                            vm.handleDeleteRecommendation(params.row._id);
+                            vm.handleDeleteButtonClick(params.row._id);
                         }}
                         label='Delete'
                     />,
@@ -99,24 +100,31 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
         ];
 
         return (
-            <div
-                style={{
-                    height: 500,
-                    width: '100%',
-                    overflowX: 'auto',
-                }}
-            >
-                <DataGrid
-                    rows={vm.recommendations}
-                    columns={columns}
-                    getRowId={(row) => row._id}
-                    hideFooter
-                    disableRowSelectionOnClick
-                    className='scrollbar text-inherit p-4 stroke-inherit'
-                    sx={DataGridClasses}
-                    autoHeight
+            <>
+                <div
+                    style={{
+                        height: 500,
+                        width: '100%',
+                        overflowX: 'auto',
+                    }}
+                >
+                    <DataGrid
+                        rows={vm.recommendations}
+                        columns={columns}
+                        getRowId={(row) => row._id}
+                        hideFooter
+                        disableRowSelectionOnClick
+                        className='scrollbar text-inherit p-4 stroke-inherit'
+                        sx={DataGridClasses}
+                        autoHeight
+                    />
+                </div>
+                <SurePopup
+                    isOpen={vm.isSurePopupOpen}
+                    closePopup={vm.closePopup}
+                    handleAction={vm.handleDeleteRecommendation}
                 />
-            </div>
+            </>
         );
     }
 );
