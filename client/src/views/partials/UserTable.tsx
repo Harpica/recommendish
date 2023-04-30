@@ -5,6 +5,7 @@ import {
     GridRenderCellParams,
     GridRowParams,
     GridValueGetterParams,
+    ruRU,
 } from '@mui/x-data-grid';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import BlockIcon from '@mui/icons-material/Block';
@@ -17,6 +18,7 @@ import { UserTableVM } from '../../viewModels/partials/UserTable.VM';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../utils/constants';
+import SurePopup from './SurePopup';
 
 interface UserTableProps {
     user: CurrentUser;
@@ -28,7 +30,7 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
     const vm = useMemo(() => new UserTableVM(user), [user._id]);
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', flex: 1 },
+        { field: 'name', headerName: 'Name', flex: 1, minWidth: 120 },
         {
             field: 'likes',
             headerName: 'Likes',
@@ -54,6 +56,7 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
             field: 'actions',
             type: 'actions',
             flex: 1,
+            minWidth: 165,
             getActions: (params: GridRowParams) => [
                 <GridActionsCellItem
                     icon={<OpenInNewIcon />}
@@ -78,7 +81,9 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
                 />,
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
-                    onClick={() => {}}
+                    onClick={() => {
+                        vm.handleDeleteButtonClick(params.row._id);
+                    }}
                     label='Delete'
                 />,
             ],
@@ -86,24 +91,34 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
     ];
 
     return (
-        <div
-            style={{
-                height: 500,
-                width: '100%',
-                overflowX: 'auto',
-            }}
-        >
-            <DataGrid
-                rows={vm.users}
-                columns={columns}
-                getRowId={(row) => row._id}
-                hideFooter
-                disableRowSelectionOnClick
-                className='scrollbar text-inherit p-4 stroke-inherit'
-                sx={DataGridClasses}
-                autoHeight
+        <>
+            <div
+                style={{
+                    height: 500,
+                    width: '100%',
+                    overflowX: 'auto',
+                }}
+            >
+                <DataGrid
+                    localeText={
+                        ruRU.components.MuiDataGrid.defaultProps.localeText
+                    }
+                    rows={vm.users}
+                    columns={columns}
+                    getRowId={(row) => row._id}
+                    hideFooter
+                    disableRowSelectionOnClick
+                    className='scrollbar text-inherit p-4 stroke-inherit'
+                    sx={DataGridClasses}
+                    autoHeight
+                />
+            </div>
+            <SurePopup
+                isOpen={vm.isSurePopupOpen}
+                closePopup={vm.closePopup}
+                handleAction={vm.handleDeleteUser}
             />
-        </div>
+        </>
     );
 });
 

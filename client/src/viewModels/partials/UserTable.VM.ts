@@ -6,8 +6,14 @@ export class UserTableVM {
     private currentUser: CurrentUser;
     private api: Api = api;
     public users: Array<CurrentUser> = [];
+    public currentUserId: string = '';
+    public isSurePopupOpen: boolean = false;
+    public closePopup: () => void;
     constructor(user: CurrentUser) {
         this.currentUser = user;
+        this.closePopup = (() => {
+            this.isSurePopupOpen = false;
+        }).bind(this);
         this.getUserRecommendation();
         makeAutoObservable(this);
     }
@@ -18,6 +24,11 @@ export class UserTableVM {
                 .then(action((response) => (this.users = response.data.users)))
                 .catch((err) => console.log(err));
         }
+    }
+
+    public handleDeleteButtonClick(id: string) {
+        this.isSurePopupOpen = true;
+        this.currentUserId = id;
     }
 
     public changeUserStatus(id: string, status: UserStatus) {
@@ -34,4 +45,6 @@ export class UserTableVM {
             )
             .catch((err) => console.log(err));
     }
+
+    public handleDeleteUser() {}
 }

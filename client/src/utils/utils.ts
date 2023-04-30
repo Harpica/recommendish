@@ -1,3 +1,4 @@
+import { timeStamp } from 'console';
 import { ProductGroup } from './types';
 
 export const randomNumber = (min: number = 0, max: number = 1) => {
@@ -15,4 +16,8 @@ export const getGroupColor = (group: ProductGroup | '') => {
         default:
             return 'current';
     }
+};
+
+export const getLocalDate = (timeStamp: number | string) => {
+    return new Date(timeStamp).toLocaleString();
 };

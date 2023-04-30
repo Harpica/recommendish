@@ -17,6 +17,7 @@ import { ROUTES } from '../../utils/constants';
 import { useMemo } from 'react';
 import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
 import SurePopup from './SurePopup';
+import { getLocalDate } from '../../utils/utils';
 
 interface RecommendationTableProps {
     user: CurrentUser;
@@ -28,26 +29,34 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
         const vm = useMemo(() => new RecommendationsTableVM(user), [user._id]);
 
         const columns: GridColDef[] = [
-            { field: 'createdAt', headerName: 'Created At', width: 120 },
-            { field: 'name', headerName: 'Title', flex: 1, width: 120 },
+            {
+                field: 'createdAt',
+                headerName: 'Created At',
+                flex: 1,
+                minWidth: 140,
+                valueGetter: (params: GridRenderCellParams) =>
+                    getLocalDate(params.value),
+            },
+            { field: 'name', headerName: 'Title', flex: 1, minWidth: 100 },
             {
                 field: 'product',
                 headerName: 'Product',
                 flex: 1,
-                width: 120,
+                minWidth: 120,
                 valueGetter: (params: GridRenderCellParams<Product>) =>
                     params.value.name,
             },
             {
                 field: 'group',
                 headerName: 'Group',
-                width: 70,
+                flex: 1,
+                minWidth: 70,
             },
             {
                 field: 'tags',
                 headerName: 'Tags',
                 flex: 1,
-                width: 230,
+                minWidth: 200,
                 valueGetter: (params: GridRenderCellParams<Array<Tag>>) =>
                     params.value.map((tag: Tag) => tag.name),
                 renderCell: (params: GridRenderCellParams<Array<string>>) => (
@@ -71,7 +80,23 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                     ),
             },
             {
+                field: 'likes',
+                headerName: 'Likes',
+                maxWidth: 40,
+                valueGetter: (params: GridRenderCellParams<Array<String>>) =>
+                    params.value.length,
+            },
+            {
+                field: 'comments',
+                headerName: 'Comments',
+                maxWidth: 80,
+                valueGetter: (params: GridRenderCellParams<Array<String>>) =>
+                    params.value.length,
+            },
+            {
                 field: 'actions',
+                flex: 1,
+                minWidth: 125,
                 type: 'actions',
                 getActions: (params: GridRowParams<Recommendation>) => [
                     <GridActionsCellItem

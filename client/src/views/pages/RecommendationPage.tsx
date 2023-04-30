@@ -10,7 +10,7 @@ import Notification from '../partials/Notification';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import IconEdit from '../svgWrappers/IconEdit';
-import { getGroupColor } from '../../utils/utils';
+import { getGroupColor, getLocalDate } from '../../utils/utils';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -148,9 +148,9 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         <div className='flex flex-row gap-3 items-center'>
                                             <UserInfo user={comment.owner} />
                                             <p>
-                                                {new Date(
+                                                {getLocalDate(
                                                     comment.createdAt
-                                                ).toLocaleString()}
+                                                )}
                                             </p>
                                         </div>
                                         <p className='pl-11 pr-11'>
