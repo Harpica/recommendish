@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
-import { CurrentUser } from '../../utils/types';
+import { CurrentUser, UserStatus } from '../../utils/types';
 
 export class UserTableVM {
     private currentUser: CurrentUser;
@@ -18,5 +18,20 @@ export class UserTableVM {
                 .then(action((response) => (this.users = response.data.users)))
                 .catch((err) => console.log(err));
         }
+    }
+
+    public changeUserStatus(id: string, status: UserStatus) {
+        this.api.users
+            .changeUserStatus(id, status)
+            .then(
+                action((response) => {
+                    const index = this.users.findIndex((user) => {
+                        return user._id === response.data.user._id;
+                    });
+                    this.users[index] = response.data.user;
+                    this.users = [...this.users];
+                })
+            )
+            .catch((err) => console.log(err));
     }
 }

@@ -146,7 +146,7 @@ export const updateUserStatus = (
         id,
         'status',
         req.body.data.status,
-        (user: IUser) => sendDocumentIfFound(user, res),
+        (user: IUser) => sendDocumentIfFound(user, res, 'user'),
         (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
     );
 };
@@ -161,7 +161,7 @@ export const updateUserTheme = (
         id,
         'theme',
         req.body.data.theme,
-        (user: IUser) => sendDocumentIfFound(user, res),
+        (user: IUser) => sendDocumentIfFound(user, res, 'user'),
         (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
     );
 };
@@ -176,7 +176,7 @@ export const updateUserLanguage = (
         id,
         'language',
         req.body.data.language,
-        (user: IUser) => sendDocumentIfFound(user, res),
+        (user: IUser) => sendDocumentIfFound(user, res, 'user'),
         (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
     );
 };
@@ -188,7 +188,7 @@ const updateUserField = (
     resolveHandler: Function,
     rejectHandler: Function
 ) => {
-    User.findByIdAndUpdate(id, { [field]: value })
+    User.findByIdAndUpdate(id, { [field]: value }, { new: true })
         .then((user) => {
             resolveHandler(user);
         })

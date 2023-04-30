@@ -15,89 +15,75 @@ import { CurrentUser } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import { UserTableVM } from '../../viewModels/partials/UserTable.VM';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '../../utils/constants';
 
 interface UserTableProps {
     user: CurrentUser;
 }
 
-const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', flex: 1 },
-    {
-        field: 'likes',
-        headerName: 'Likes',
-    },
-    {
-        field: 'recommendations',
-        headerName: 'Articles',
-        width: 100,
-        valueGetter: (params: GridRenderCellParams<Array<String>>) =>
-            params.value.length,
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-        width: 90,
-    },
-    {
-        field: 'role',
-        headerName: 'Role',
-        width: 90,
-    },
-    {
-        field: 'actions',
-        type: 'actions',
-        flex: 1,
-        getActions: (params: GridRowParams) => [
-            <GridActionsCellItem
-                icon={<OpenInNewIcon />}
-                onClick={() => {}}
-                label='Open'
-            />,
-            <GridActionsCellItem
-                icon={<BlockIcon />}
-                onClick={() => {}}
-                label='block'
-            />,
-            <GridActionsCellItem
-                icon={<LockOpenIcon />}
-                onClick={() => {}}
-                label='unblock'
-            />,
-            <GridActionsCellItem
-                icon={<DeleteIcon />}
-                onClick={() => {}}
-                label='Delete'
-            />,
-        ],
-    },
-];
-
-const rows = [
-    {
-        id: 1,
-        name: 'User Name',
-        likes: 23,
-        recommendations: 5,
-        status: 'active',
-    },
-    {
-        id: 2,
-        name: 'User Name',
-        likes: 23,
-        recommendations: 5,
-        status: 'active',
-    },
-    {
-        id: 3,
-        name: 'User Name',
-        likes: 23,
-        recommendations: 5,
-        status: 'active',
-    },
-];
-
 const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
+    const navigate = useNavigate();
+
     const vm = useMemo(() => new UserTableVM(user), [user._id]);
+
+    const columns: GridColDef[] = [
+        { field: 'name', headerName: 'Name', flex: 1 },
+        {
+            field: 'likes',
+            headerName: 'Likes',
+        },
+        {
+            field: 'recommendations',
+            headerName: 'Articles',
+            width: 100,
+            valueGetter: (params: GridRenderCellParams<Array<String>>) =>
+                params.value.length,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 90,
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            width: 90,
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            flex: 1,
+            getActions: (params: GridRowParams) => [
+                <GridActionsCellItem
+                    icon={<OpenInNewIcon />}
+                    onClick={() => {
+                        navigate(ROUTES().profile);
+                    }}
+                    label='Open'
+                />,
+                <GridActionsCellItem
+                    icon={<BlockIcon />}
+                    onClick={() => {
+                        vm.changeUserStatus(params.row._id, 'blocked');
+                    }}
+                    label='block'
+                />,
+                <GridActionsCellItem
+                    icon={<LockOpenIcon />}
+                    onClick={() => {
+                        vm.changeUserStatus(params.row._id, 'active');
+                    }}
+                    label='unblock'
+                />,
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    onClick={() => {}}
+                    label='Delete'
+                />,
+            ],
+        },
+    ];
 
     return (
         <div

@@ -33,8 +33,8 @@ const Admin: React.FC<AdminProps> = ({ user }) => {
                 </h1>
                 <UserInfo user={user} />
             </section>
-            <section className='flex flex-col gap-3 w-full'>
-                <div className='flex flex-row gap-3 items-center mb-5'>
+            <section className='flex flex-col w-full'>
+                <div className='flex flex-row gap-3 items-center mb-5  pb-3'>
                     <Tabs
                         value={value}
                         onChange={handleChange}
