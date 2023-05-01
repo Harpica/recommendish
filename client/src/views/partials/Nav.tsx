@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import Search from './Search';
 import { NavVM } from '../../viewModels/partials/Nav.VM';
 import { ROUTES, root } from '../../utils/constants';
-import { CurrentUser, Theme } from '../../utils/types';
+import { CurrentUser, Language, Theme } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import Login from './Login';
 import { api } from '../../utils/HTTP/Api';
@@ -94,9 +94,15 @@ const Nav: React.FC<NavProps> = observer(
                             <button
                                 type='button'
                                 aria-label='change language'
-                                className='hover:cursor-pointer hover:opacity-40'
+                                className='hover:cursor-pointer hover:opacity-40 uppercase'
+                                value={vm.language === 'en' ? 'ru' : 'en'}
+                                onClick={(e) => {
+                                    vm.changeLanguage(
+                                        e.currentTarget.value as Language
+                                    );
+                                }}
                             >
-                                EN
+                                {vm.language === 'en' ? 'ru' : 'en'}
                             </button>
                         </li>
 

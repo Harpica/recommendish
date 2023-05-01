@@ -1,7 +1,8 @@
 import { action, makeAutoObservable } from 'mobx';
-import { CurrentUser, Theme } from '../../utils/types';
+import { CurrentUser, Language, Theme } from '../../utils/types';
 import { DEFAULT_USER, root } from '../../utils/constants';
 import { Api } from '../../utils/HTTP/Api';
+import i18n from '../../localization/i18n';
 
 export class NavVM {
     private api: Api;
@@ -10,7 +11,8 @@ export class NavVM {
     public loginIsOpen: boolean = false;
     private currentUser: CurrentUser;
     private setCurrentUser: (value: CurrentUser) => void;
-    public theme: 'light' | 'dark';
+    public theme: Theme;
+    public language: Language = 'en';
     public menuIsOpen: boolean = window.innerWidth >= 768 ? true : false;
     constructor(
         api: Api,
@@ -26,6 +28,7 @@ export class NavVM {
         this.setCurrentUser = setCurrentUser;
         this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
         this.theme = this.currentUser.theme;
+        this.setLanguage(this.currentUser.language);
         this.setRootTheme();
         makeAutoObservable(this);
     }
@@ -38,6 +41,29 @@ export class NavVM {
         if (this.isAuth) {
             this.setUserTheme();
         }
+    }
+    public changeLanguage(language: Language) {
+        this.setLanguage(language);
+        if (this.isAuth) {
+            this.setUserLanguage();
+        }
+    }
+
+    private setLanguage(language: Language) {
+        this.language = language;
+        i18n.changeLanguage(language);
+    }
+
+    private setUserLanguage() {
+        this.api.users
+            .changeUserLanguage(this.currentUser._id, this.language)
+            .then(() =>
+                this.setCurrentUser({
+                    ...this.currentUser,
+                    language: this.language,
+                })
+            )
+            .catch((err) => console.log(err));
     }
 
     private setTheme(theme: Theme) {

@@ -6,6 +6,7 @@ import Tab from '@mui/material/Tab';
 import { useState } from 'react';
 import TabPanel from '../layouts/TabPanel';
 import RecommendationTable from '../partials/RecommendationTable';
+import { useTranslation } from 'react-i18next';
 
 function a11yProps(index: number) {
     return {
@@ -19,6 +20,8 @@ interface AdminProps {
 }
 
 const Admin: React.FC<AdminProps> = ({ user }) => {
+    const { t } = useTranslation();
+
     const [value, setValue] = useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -29,7 +32,7 @@ const Admin: React.FC<AdminProps> = ({ user }) => {
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
                 <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
-                    Admin Profile
+                    {t('pages.admin.title')}
                 </h1>
                 <UserInfo user={user} />
             </section>
@@ -38,15 +41,15 @@ const Admin: React.FC<AdminProps> = ({ user }) => {
                     <Tabs
                         value={value}
                         onChange={handleChange}
-                        aria-label='basic tabs example'
+                        aria-label='tabs'
                     >
                         <Tab
-                            label='Users'
+                            label={t('pages.admin.tabUser')}
                             {...a11yProps(0)}
-                            className='text-lg font-bold w-fit capitalize text-inherit  rounded'
+                            className='text-lg font-bold w-fit capitalize text-inherit rounded'
                         />
                         <Tab
-                            label='My recommendations'
+                            label={t('pages.admin.tabRecommendations')}
                             {...a11yProps(1)}
                             className='text-lg font-bold w-fit capitalize text-inherit rounded'
                         />

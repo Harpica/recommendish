@@ -1,0 +1,27 @@
+{
+      "form": {
+        "required": "This field is required",
+        "minLength2": "Minimun length is 2",
+        "minLength3": "Minimun length is 3",
+        "minLength10": "Minimun length is 10",
+        "maxLength40": "Maximun length is 40",
+        "tag": "This field is required and minimum length of tag is 3"
+      },
+      "pages": {
+        "admin": {
+          "title": "Admin Profile",
+          "tabUser": "Users",
+          "tabRecommendations": "Recommendations"
+        },
+        "main": {
+          "subtitle": "Share your thoughts on:",
+          "group": {
+            "movies": "Movies",
+            "games": "Games",
+            "books": "Books"
+          },
+          "popular": "Popular recommendations",
+          "recent": "Recent recommendations"
+        }
+      }
+    }

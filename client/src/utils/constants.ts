@@ -15,7 +15,7 @@ export const DEFAULT_USER: CurrentUser = {
     _id: '0',
     login: 'guest',
     theme: 'light',
-    language: 'EN',
+    language: 'en',
 };
 
 export const ROUTES = (id: string = ':id') => {

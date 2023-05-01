@@ -9,6 +9,7 @@ import {
 import Joi from 'joi';
 import { DEFAULT_RECOMMENDATION, ROUTES } from '../../utils/constants';
 import { NavigateFunction } from 'react-router';
+import i18n from '../../localization/i18n';
 
 export class RecommendationFormVM {
     private currentUser: CurrentUser;
@@ -16,23 +17,29 @@ export class RecommendationFormVM {
     private api: Api = api;
     private navigate: NavigateFunction;
     public recommendationSchema = Joi.object({
-        title: Joi.string().required().min(2).max(40).messages({
-            'string.empty': 'This field is required',
-            'string.min': 'Minimun length is 2',
-            'string.max': 'Maximun length is 40',
-        }),
-        group: Joi.string().required().messages({
-            'string.empty': 'This field is required',
-        }),
+        title: Joi.string()
+            .required()
+            .min(2)
+            .max(40)
+            .messages({
+                'string.empty': i18n.t('form.required'),
+                'string.min': i18n.t('form.minLength2'),
+                'string.max': i18n.t('form.maxLength40'),
+            }),
+        group: Joi.string()
+            .required()
+            .messages({
+                'string.empty': i18n.t('form.required'),
+            }),
         product: Joi.object({
             name: Joi.string().required().min(3),
         })
             .required()
             .unknown()
             .messages({
-                'object.base': 'This field is required',
-                'string.empty': 'This field is required',
-                'string.min': 'Minimun length is 3',
+                'object.base': i18n.t('form.required'),
+                'string.empty': i18n.t('form.required'),
+                'string.min': i18n.t('form.minLength3'),
             }),
         tags: Joi.array()
             .items(
@@ -44,15 +51,19 @@ export class RecommendationFormVM {
             )
             .required()
             .messages({
-                'array.includesRequiredUnknowns':
-                    'This field is required and minimum length of tag is 3',
+                'array.includesRequiredUnknowns': i18n.t('form.tag'),
             }),
-        rating: Joi.number().required().messages({
-            'number.base': 'This field is required',
-        }),
-        body: Joi.string().required().min(10).messages({
-            'string.min': 'Minimun length is 10',
-        }),
+        rating: Joi.number()
+            .required()
+            .messages({
+                'number.base': i18n.t('form.required'),
+            }),
+        body: Joi.string()
+            .required()
+            .min(10)
+            .messages({
+                'string.min': i18n.t('form.minLength10'),
+            }),
     });
     public hookFormDefaultValues;
     public images: Array<{ url: string; publicId: string }> = [];

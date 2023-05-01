@@ -58,7 +58,7 @@ const UserSchema = new Schema({
     },
     language: {
         type: String,
-        default: 'EN',
+        default: 'en',
         required: true,
     },
 });

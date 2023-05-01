@@ -1,6 +1,7 @@
 export type UserStatus = 'active' | 'blocked';
 export type UserRole = 'admin' | 'user' | 'unauthorized';
 export type Theme = 'light' | 'dark';
+export type Language = 'en' | 'ru';
 export type ProductGroup = 'movie' | 'book' | 'game';
 
 export interface User {
@@ -22,7 +23,7 @@ export interface UserPublic {
 }
 export interface CurrentUser extends User {
     theme: Theme;
-    language: string;
+    language: Language;
 }
 
 export interface Recommendation {
