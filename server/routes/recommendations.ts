@@ -24,7 +24,7 @@ recommendations.get(
     (req, res, next) => findRecommendations(req, res, next)
 );
 recommendations.get('/:id', getRecommendationById);
-recommendations.use(auth);
+recommendations.use(auth());
 recommendations.post(
     '/',
     celebrate(validator.recommendation.object),

@@ -15,8 +15,8 @@ import { validator } from '../utils/celebrate/validations';
 const users = Router();
 
 users.post('/auth', celebrate(validator.user.object), authUser);
-users.use(auth);
-users.get('/reauth', reauthUser);
+users.get('/reauth', auth(true), reauthUser);
+users.use(auth());
 users.get('/', getUsers);
 users.get('/:id/recommendations', getUserRecommendationsById);
 users.patch('/:id/status', updateUserStatus);

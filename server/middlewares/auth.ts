@@ -9,23 +9,30 @@ interface JwtPayload {
     id: string;
 }
 
-export const auth = (req: Request, _res: Response, next: NextFunction) => {
-    const token = req.cookies.jwt;
+export const auth = (sendUser: boolean = false) => {
+    return (req: Request, _res: Response, next: NextFunction) => {
+        const token = req.cookies.jwt;
 
-    if (!token) {
-        next(new UnauthorizedError());
-    } else {
-        let payload: string | jwt.JwtPayload;
-        payload = jwt.verify(token, process.env.JWT_KEY || '') as JwtPayload;
-        User.findById(payload.id)
-            .then((user) => {
-                handleIfDocumentNotFound(user);
-                if (user!.status === 'blocked') {
-                    throw new ForbiddenError('User is blocked');
-                }
-                req.body.user = user;
-                next();
-            })
-            .catch(next);
-    }
+        if (!token) {
+            next(new UnauthorizedError());
+        } else {
+            let payload: string | jwt.JwtPayload;
+            payload = jwt.verify(
+                token,
+                process.env.JWT_KEY || ''
+            ) as JwtPayload;
+            User.findById(payload.id)
+                .then((user) => {
+                    handleIfDocumentNotFound(user);
+                    if (user!.status === 'blocked') {
+                        throw new ForbiddenError('User is blocked');
+                    }
+                    if (sendUser) {
+                        req.body.user = user;
+                    }
+                    next();
+                })
+                .catch(next);
+        }
+    };
 };

@@ -28,7 +28,7 @@ export const validator = {
         },
         toggleLike: {
             body: {
-                data: Joi.object().required().keys({
+                data: Joi.object().keys({
                     user: Joi.string().required(),
                 }),
             },
