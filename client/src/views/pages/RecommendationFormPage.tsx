@@ -1,4 +1,4 @@
-import { Control, useForm } from 'react-hook-form';
+import { Control, Controller, useForm } from 'react-hook-form';
 import NewRecommendationFielset from '../partials/RecommendationFieldset';
 import { joiResolver } from '@hookform/resolvers/joi';
 
@@ -8,6 +8,8 @@ import { useEffect, useMemo } from 'react';
 import { RecommendationFormVM } from '../../viewModels/pages/RecommendationForm.VM';
 import { observer } from 'mobx-react-lite';
 import { CurrentUser } from '../../utils/types';
+import { ErrorMessage } from '@hookform/error-message';
+import { TextField } from '@mui/material';
 
 interface RecommendationFormPageProps {
     type: 'new' | 'edit';
@@ -19,10 +21,10 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
         console.log('rerender');
         const params = useParams();
         const navigate = useNavigate();
-        const vm = useMemo(
-            () => new RecommendationFormVM(navigate, user, type, params.id),
-            [params]
-        );
+        const vm = useMemo(() => {
+            console.log('set useMemo');
+            return new RecommendationFormVM(navigate, user, type, params.id);
+        }, [params]);
 
         const {
             watch,
@@ -66,7 +68,9 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                                 Send
                             </button>
                         </div>
+
                         <NewRecommendationFielset
+                            errors={errors}
                             control={control}
                             groupInputValue={watchGroup}
                             images={vm.images}

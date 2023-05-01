@@ -17,10 +17,14 @@ import { Recommendation, Tag } from '../../utils/types';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
 import CancelIcon from '@mui/icons-material/Cancel';
 import IconClose from '../svgWrappers/IconClose';
+import { ErrorMessage } from '@hookform/error-message';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
 interface RecommendationFieldsetProps {
+    errors: FieldErrors<{
+        [x: string]: any;
+    }>;
     control: Control<FieldValues, any>;
     groupInputValue: string;
     images: Array<{ url: string; publicId: string }>;
@@ -31,6 +35,7 @@ interface RecommendationFieldsetProps {
 const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
     observer(
         ({
+            errors,
             control,
             groupInputValue,
             images,
@@ -38,6 +43,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
             handleImageDelete,
         }) => {
             console.log('child rerender');
+            console.log(errors);
 
             const vm = useMemo(
                 () => new RecommendationFieldsetVM(groupInputValue),
@@ -51,10 +57,21 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     <Controller
                         control={control}
                         name='title'
+                        rules={{
+                            required: {
+                                value: true,
+                                message: 'This field is required',
+                            },
+                            minLength: {
+                                value: 2,
+                                message: 'Minimun length is ...',
+                            },
+                        }}
                         render={(field) => (
                             <div>
                                 <TextField
                                     {...field.field}
+                                    inputRef={field.field.ref}
                                     value={field.field.value}
                                     id='outlined-basic'
                                     label='Recommendation title'
@@ -110,6 +127,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 <Autocomplete
                                     {...field.field}
                                     freeSolo
+                                    autoSelect
                                     id='product-name'
                                     options={vm.getProductOptions(
                                         groupInputValue
@@ -132,13 +150,26 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
+                                            inputProps={{
+                                                ...params.inputProps,
+                                                onKeyDown: (e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        console.log(
+                                                            'prevented'
+                                                        );
+                                                    }
+                                                },
+                                            }}
                                             label='Product title'
                                         />
                                     )}
                                     sx={{ width: '500px' }}
                                 />
                                 <p className='text-amber-600'>
-                                    {field.fieldState.error?.message}
+                                    {field.fieldState.error?.message ??
+                                        (field.fieldState.error as any)?.name
+                                            .message}
                                 </p>
                             </div>
                         )}
@@ -255,12 +286,12 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             </div>
                         ))}
                     </div>
-                    <div className='container rounded p-2 border-amber-600 border-[1px] hover:border-amber-500'>
-                        <Controller
-                            control={control}
-                            name='body'
-                            render={(field) => (
-                                <>
+                    <Controller
+                        control={control}
+                        name='body'
+                        render={(field) => (
+                            <>
+                                <div className='container rounded p-2 border-amber-600 border-[1px] hover:border-amber-500'>
                                     <MDEditor
                                         value={field.field.value}
                                         onChange={(value, e) => {
@@ -278,10 +309,13 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                         source={field.field.value}
                                         style={{ whiteSpace: 'pre-wrap' }}
                                     />
-                                </>
-                            )}
-                        />
-                    </div>
+                                    <p className='text-amber-600'>
+                                        {field.fieldState.error?.message}
+                                    </p>
+                                </div>
+                            </>
+                        )}
+                    />
                 </fieldset>
             );
         }

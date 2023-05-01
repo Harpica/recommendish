@@ -16,16 +16,43 @@ export class RecommendationFormVM {
     private api: Api = api;
     private navigate: NavigateFunction;
     public recommendationSchema = Joi.object({
-        title: Joi.string().required().min(2).max(40),
-        group: Joi.string().required(),
+        title: Joi.string().required().min(2).max(40).messages({
+            'string.empty': 'This field is required',
+            'string.min': 'Minimun length is 2',
+            'string.max': 'Maximun length is 40',
+        }),
+        group: Joi.string().required().messages({
+            'string.empty': 'This field is required',
+        }),
         product: Joi.object({
             name: Joi.string().required().min(3),
         })
             .required()
-            .unknown(),
-        tags: Joi.array().required(),
-        rating: Joi.number().required(),
-        body: Joi.string().required().min(10),
+            .unknown()
+            .messages({
+                'object.base': 'This field is required',
+                'string.empty': 'This field is required',
+                'string.min': 'Minimun length is 3',
+            }),
+        tags: Joi.array()
+            .items(
+                Joi.object({
+                    name: Joi.string().min(3),
+                })
+                    .unknown()
+                    .required()
+            )
+            .required()
+            .messages({
+                'array.includesRequiredUnknowns':
+                    'This field is required and minimum length of tag is 3',
+            }),
+        rating: Joi.number().required().messages({
+            'number.base': 'This field is required',
+        }),
+        body: Joi.string().required().min(10).messages({
+            'string.min': 'Minimun length is 10',
+        }),
     });
     public hookFormDefaultValues;
     public images: Array<{ url: string; publicId: string }> = [];
