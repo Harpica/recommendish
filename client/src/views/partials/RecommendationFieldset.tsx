@@ -1,23 +1,20 @@
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
-import { memo, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import { observer } from 'mobx-react-lite';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
-import { Control, UseFormGetValues, UseFormWatch } from 'react-hook-form';
+import { Control } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
-import { Recommendation, Tag } from '../../utils/types';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
 import CancelIcon from '@mui/icons-material/Cancel';
-import IconClose from '../svgWrappers/IconClose';
-import { ErrorMessage } from '@hookform/error-message';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
