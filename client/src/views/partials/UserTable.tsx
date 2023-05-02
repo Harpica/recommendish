@@ -19,6 +19,8 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../utils/constants';
 import SurePopup from './SurePopup';
+import { useTranslation } from 'react-i18next';
+import { setLocalTextInDataGrid } from '../../utils/utils';
 
 interface UserTableProps {
     user: CurrentUser;
@@ -28,28 +30,34 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
     const navigate = useNavigate();
 
     const vm = useMemo(() => new UserTableVM(user), [user._id]);
+    const { t } = useTranslation();
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', flex: 1, minWidth: 120 },
+        {
+            field: 'name',
+            headerName: t('partials.userTable.name') ?? 'Name',
+            flex: 1,
+            minWidth: 120,
+        },
         {
             field: 'likes',
-            headerName: 'Likes',
+            headerName: t('partials.userTable.likes') ?? 'Likes',
         },
         {
             field: 'recommendations',
-            headerName: 'Articles',
+            headerName: t('partials.userTable.recommendations') ?? 'Articles',
             width: 100,
             valueGetter: (params: GridRenderCellParams<Array<String>>) =>
                 params.value.length,
         },
         {
             field: 'status',
-            headerName: 'Status',
+            headerName: t('partials.userTable.status') ?? 'Status',
             width: 90,
         },
         {
             field: 'role',
-            headerName: 'Role',
+            headerName: t('partials.userTable.role') ?? 'Role',
             width: 90,
         },
         {
@@ -100,9 +108,7 @@ const UserTable: React.FC<UserTableProps> = observer(({ user }) => {
                 }}
             >
                 <DataGrid
-                    localeText={
-                        ruRU.components.MuiDataGrid.defaultProps.localeText
-                    }
+                    localeText={setLocalTextInDataGrid(user.language)}
                     rows={vm.users}
                     columns={columns}
                     getRowId={(row) => row._id}

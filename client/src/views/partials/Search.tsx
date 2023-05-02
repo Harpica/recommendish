@@ -2,10 +2,13 @@ import { useMemo } from 'react';
 import IconSearch from '../svgWrappers/IconSearch';
 import { SearchInputVM } from '../../viewModels/partials/SearchInput.VM';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const Search = () => {
     const navigate = useNavigate();
     const vm = useMemo(() => new SearchInputVM(navigate), []);
+    const { t } = useTranslation();
+
     return (
         <form
             autoComplete='off'
@@ -18,12 +21,12 @@ const Search = () => {
                 className='outline-none w-[130px] md:min-w-[230px]'
                 type='text'
                 name='search-input'
-                placeholder='Search...'
+                placeholder={t('partials.search.placeholder') ?? 'Search...'}
                 required
                 minLength={2}
                 maxLength={40}
             ></input>
-            <button type='submit' aria-label='Search' className=''>
+            <button type='submit' aria-label='Search'>
                 <IconSearch />
             </button>
         </form>

@@ -14,6 +14,7 @@ import IconLogo from '../svgWrappers/IconLogo';
 import IconBurger from '../svgWrappers/IconBurger';
 import IconClose from '../svgWrappers/IconClose';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface NavProps {
     isAuth: boolean;
@@ -24,6 +25,8 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = observer(
     ({ isAuth, setIsAuth, currentUser, setCurrentUser }) => {
+        const { t } = useTranslation();
+
         const vm = useMemo(() => {
             return new NavVM(
                 api,
@@ -48,6 +51,7 @@ const Nav: React.FC<NavProps> = observer(
                     <Search />
                     <button
                         type='button'
+                        aria-label='open menu'
                         className='md:invisible md:hidden hover:cursor-pointer hover:opacity-40 transition-all'
                         onClick={() => {
                             vm.toggleMenu();
@@ -64,7 +68,7 @@ const Nav: React.FC<NavProps> = observer(
                             <li>
                                 <NavLink
                                     to={ROUTES().new}
-                                    aria-label='new recommendation'
+                                    aria-label='create new recommendation'
                                     className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                 >
                                     <IconNew />
@@ -142,7 +146,7 @@ const Nav: React.FC<NavProps> = observer(
                                     aria-label='log in'
                                     onClick={() => vm.toggleLoginIsOpen()}
                                 >
-                                    Log In
+                                    {t('partials.nav.logIn')}
                                 </button>
                             </li>
                         )}

@@ -1,12 +1,15 @@
 {
       "form": {
-        "required": "This field is required",
-        "minLength2": "Minimun length is 2",
-        "minLength3": "Minimun length is 3",
-        "minLength10": "Minimun length is 10",
-        "maxLength40": "Maximun length is 40",
-        "tag": "This field is required and minimum length of tag is 3"
+        "errors": {
+          "required": "This field is required",
+          "minLength": "Minimun length is {{length}}",
+          "maxLength": "Maximun length is {{length}}",
+          "tag": "This field is required and minimum length of tag is 3"
+
+        }
       },
+      "loading": "Loading...",
+      "defaultRecommendationBody": "Start writting...",
       "pages": {
         "admin": {
           "title": "Admin Profile",
@@ -22,6 +25,66 @@
           },
           "popular": "Popular recommendations",
           "recent": "Recent recommendations"
+        },
+        "recommendationForm": {
+          "send": "Send",
+          "titleNew": "Create new recommendation",
+          "titleEdit": "Edit recommendation"
+        },
+        "recommendation": {
+          "comments": "Comments",
+          "send": "Send"
+        },
+        "searchResults": {
+          "title": "Search results for",
+          "notFound": "No recommendation found :C"
+        }
+      },
+      "partials": {
+        "nav": {
+          "logIn": "Log in"
+        },
+        "search": {
+          "placeholder": "Search..."
+        },
+        "login": {
+          "header": "Choose how to log in:"
+        },
+        "surePopup": {
+          "header": "Are you sure?",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "userTable": {
+          "name": "Name",
+          "likes": "Likes",
+          "recommendations": "Articles",
+          "status": "Status",
+          "role": "Role"
+        },
+        "recommendationTable": {
+          "createdAt": "Created At",
+          "name": "Title",
+          "product": "Product",
+          "group": "Group",
+          "tags": "Tags",
+          "likes": "Likes",
+          "comments": "Comments"
+
+        },
+        "recommendationFieldset": {
+          "title": "Recommendation title",
+          "group": "Product",
+          "product": "Product title",
+          "tags": "Tags",
+          "addTag": "Add tag...",
+          "rating": "Product rating",
+          "fileUploader": {
+            "label": "Upload or drop a file right here"
+          },
+          "movie": "Movie",
+          "game": "Game",
+          "book": "Book"
         }
       }
     }

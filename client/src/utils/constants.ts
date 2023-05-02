@@ -1,3 +1,4 @@
+import i18n from '../localization/i18n';
 import { CurrentUser, Recommendation } from './types';
 
 export const root = document.querySelector('#root');

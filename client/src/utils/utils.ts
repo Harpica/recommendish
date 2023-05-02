@@ -1,5 +1,5 @@
-import { timeStamp } from 'console';
-import { ProductGroup } from './types';
+import { Language, ProductGroup } from './types';
+import { enUS, ruRU } from '@mui/x-data-grid';
 
 export const randomNumber = (min: number = 0, max: number = 1) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -20,4 +20,15 @@ export const getGroupColor = (group: ProductGroup | '') => {
 
 export const getLocalDate = (timeStamp: number | string) => {
     return new Date(timeStamp).toLocaleString();
+};
+
+export const setLocalTextInDataGrid = (language: Language) => {
+    switch (language) {
+        case 'ru':
+            return ruRU.components.MuiDataGrid.defaultProps.localeText;
+        case 'en':
+            return enUS.components.MuiDataGrid.defaultProps.localeText;
+        default:
+            return enUS.components.MuiDataGrid.defaultProps.localeText;
+    }
 };

@@ -7,6 +7,7 @@ import { useEffect, useMemo } from 'react';
 import { RecommendationFormVM } from '../../viewModels/pages/RecommendationForm.VM';
 import { observer } from 'mobx-react-lite';
 import { CurrentUser } from '../../utils/types';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationFormPageProps {
     type: 'new' | 'edit';
@@ -15,11 +16,11 @@ interface RecommendationFormPageProps {
 
 const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
     ({ user, type }) => {
-        console.log('rerender');
         const params = useParams();
         const navigate = useNavigate();
+        const { t } = useTranslation();
+
         const vm = useMemo(() => {
-            console.log('set useMemo');
             return new RecommendationFormVM(navigate, user, type, params.id);
         }, [params]);
 
@@ -54,15 +55,15 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                         <div className='flex flex-row gap-3 items-center justify-between'>
                             <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
                                 {type === 'new'
-                                    ? 'Create new recommendation'
-                                    : 'Edit recommendation'}
+                                    ? t('pages.recommendationForm.titleNew')
+                                    : t('pages.recommendationForm.titleEdit')}
                             </h1>
                             <button
                                 type='submit'
                                 className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
                                 aria-label='send comment'
                             >
-                                Send
+                                {t('pages.recommendationForm.send')}
                             </button>
                         </div>
 

@@ -13,8 +13,10 @@ import { FieldValues } from 'react-hook-form/dist/types/fields';
 import { Control } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
-import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
+
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useTranslation } from 'react-i18next';
+import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
@@ -39,31 +41,19 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
             handleFileUpload,
             handleImageDelete,
         }) => {
-            console.log('child rerender');
-            console.log(errors);
-
             const vm = useMemo(
                 () => new RecommendationFieldsetVM(groupInputValue),
                 []
             );
+            const { t } = useTranslation();
 
             return vm.isLoading ? (
-                <p>Loading...</p>
+                <p>{t('loading')}</p>
             ) : (
                 <fieldset className='flex flex-col items-start gap-3'>
                     <Controller
                         control={control}
                         name='title'
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'This field is required',
-                            },
-                            minLength: {
-                                value: 2,
-                                message: 'Minimun length is ...',
-                            },
-                        }}
                         render={(field) => (
                             <div>
                                 <TextField
@@ -71,7 +61,11 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     inputRef={field.field.ref}
                                     value={field.field.value}
                                     id='outlined-basic'
-                                    label='Recommendation title'
+                                    label={
+                                        t(
+                                            'partials.recommendationFieldset.title'
+                                        ) ?? 'Recommendation title'
+                                    }
                                     variant='outlined'
                                     className='w-[500px] max-w-[90vw]'
                                 />
@@ -83,7 +77,8 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     />
                     <FormControl>
                         <InputLabel id='product-select-label'>
-                            Product
+                            {t('partials.recommendationFieldset.group') ??
+                                'Product'}
                         </InputLabel>
                         <Controller
                             control={control}
@@ -96,16 +91,26 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                             labelId={'product-select-label'}
                                             id='product-select'
                                             value={field.field.value}
-                                            label='Product'
+                                            label={
+                                                t(
+                                                    'partials.recommendationFieldset.group'
+                                                ) ?? 'Product'
+                                            }
                                         >
                                             <MenuItem value={'movie'}>
-                                                Movie
+                                                {t(
+                                                    'partials.recommendationFieldset.movie'
+                                                )}
                                             </MenuItem>
                                             <MenuItem value={'game'}>
-                                                Game
+                                                {t(
+                                                    'partials.recommendationFieldset.game'
+                                                )}
                                             </MenuItem>
                                             <MenuItem value={'book'}>
-                                                Book
+                                                {t(
+                                                    'partials.recommendationFieldset.book'
+                                                )}
                                             </MenuItem>
                                         </Select>
                                         <p className='text-amber-600'>
@@ -152,13 +157,14 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                                 onKeyDown: (e) => {
                                                     if (e.key === 'Enter') {
                                                         e.preventDefault();
-                                                        console.log(
-                                                            'prevented'
-                                                        );
                                                     }
                                                 },
                                             }}
-                                            label='Product title'
+                                            label={
+                                                t(
+                                                    'partials.recommendationFieldset.product'
+                                                ) ?? 'Product title'
+                                            }
                                         />
                                     )}
                                     sx={{ width: '500px' }}
@@ -200,8 +206,16 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-                                            label='Tags'
-                                            placeholder='Favorites'
+                                            label={
+                                                t(
+                                                    'partials.recommendationFieldset.tags'
+                                                ) ?? 'Tags'
+                                            }
+                                            placeholder={
+                                                t(
+                                                    'partials.recommendationFieldset.addTag'
+                                                ) ?? 'Add tag...'
+                                            }
                                         />
                                     )}
                                     sx={{ width: '500px' }}
@@ -214,7 +228,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                     />
                     <FormControl>
                         <InputLabel id='product-select-label'>
-                            Product rating
+                            {t('partials.recommendationFieldset.rating')}
                         </InputLabel>
                         <Controller
                             control={control}
@@ -228,7 +242,11 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                             labelId='product-select-label'
                                             id='product-rating'
                                             value={field.field.value}
-                                            label='Product rating'
+                                            label={
+                                                t(
+                                                    'partials.recommendationFieldset.rating'
+                                                ) ?? 'Product rating'
+                                            }
                                         >
                                             {Array.from(
                                                 { length: 10 },
@@ -256,7 +274,11 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             handleChange={handleFileUpload}
                             name='file'
                             types={fileTypes}
-                            label={'Upload or drop a file right here'}
+                            label={
+                                t(
+                                    'partials.recommendationFieldset.fileUploader.label'
+                                ) ?? 'Upload or drop a file right here'
+                            }
                             classes={
                                 'rounded p-2 border-amber-600 border-[1px] border-solid h-[56px] w-[500px] path-color span-color hover:border-amber-500'
                             }

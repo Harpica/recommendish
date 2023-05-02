@@ -14,6 +14,7 @@ import { CurrentUser } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import useOutsideClick from '../../utils/hooks/useOutsideClick';
 import Popup from '../layouts/Popup';
+import { useTranslation } from 'react-i18next';
 
 interface LoginProps {
     currentUser: CurrentUser;
@@ -28,11 +29,12 @@ const Login: React.FC<LoginProps> = observer(
         const [vm] = useState(
             new LoginVM(api, currentUser, setCurrentUser, setIsAuth, closePopup)
         );
+        const { t } = useTranslation();
 
         return (
             <Popup isOpen={loginIsOpen} closePopup={closePopup}>
                 <h2 className='font-bold text-2xl self-center mb-5'>
-                    Choose how to log in:
+                    {t('partials.login.header')}
                 </h2>
                 <LoginSocialGithub
                     client_id={vm.githubId}

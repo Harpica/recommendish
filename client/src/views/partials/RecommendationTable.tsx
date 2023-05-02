@@ -17,7 +17,8 @@ import { ROUTES } from '../../utils/constants';
 import { useMemo } from 'react';
 import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
 import SurePopup from './SurePopup';
-import { getLocalDate } from '../../utils/utils';
+import { getLocalDate, setLocalTextInDataGrid } from '../../utils/utils';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationTableProps {
     user: CurrentUser;
@@ -27,20 +28,28 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
     ({ user }) => {
         const navigate = useNavigate();
         const vm = useMemo(() => new RecommendationsTableVM(user), [user._id]);
+        const { t } = useTranslation();
 
         const columns: GridColDef[] = [
             {
                 field: 'createdAt',
-                headerName: 'Created At',
+                headerName:
+                    t('partials.recommendationTable.createdAt') ?? 'Created At',
                 flex: 1,
                 minWidth: 140,
                 valueGetter: (params: GridRenderCellParams) =>
                     getLocalDate(params.value),
             },
-            { field: 'name', headerName: 'Title', flex: 1, minWidth: 100 },
+            {
+                field: 'name',
+                headerName: t('partials.recommendationTable.name') ?? 'Title',
+                flex: 1,
+                minWidth: 100,
+            },
             {
                 field: 'product',
-                headerName: 'Product',
+                headerName:
+                    t('partials.recommendationTable.product') ?? 'Product',
                 flex: 1,
                 minWidth: 120,
                 valueGetter: (params: GridRenderCellParams<Product>) =>
@@ -48,13 +57,13 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
             },
             {
                 field: 'group',
-                headerName: 'Group',
+                headerName: t('partials.recommendationTable.group') ?? 'Group',
                 flex: 1,
                 minWidth: 70,
             },
             {
                 field: 'tags',
-                headerName: 'Tags',
+                headerName: t('partials.recommendationTable.tags') ?? 'Tags',
                 flex: 1,
                 minWidth: 200,
                 valueGetter: (params: GridRenderCellParams<Array<Tag>>) =>
@@ -81,14 +90,15 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
             },
             {
                 field: 'likes',
-                headerName: 'Likes',
+                headerName: t('partials.recommendationTable.likes') ?? 'Likes',
                 maxWidth: 40,
                 valueGetter: (params: GridRenderCellParams<Array<String>>) =>
                     params.value.length,
             },
             {
                 field: 'comments',
-                headerName: 'Comments',
+                headerName:
+                    t('partials.recommendationTable.comments') ?? 'Comments',
                 maxWidth: 80,
                 valueGetter: (params: GridRenderCellParams<Array<String>>) =>
                     params.value.length,
@@ -134,6 +144,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                     }}
                 >
                     <DataGrid
+                        localeText={setLocalTextInDataGrid(user.language)}
                         rows={vm.recommendations}
                         columns={columns}
                         getRowId={(row) => row._id}

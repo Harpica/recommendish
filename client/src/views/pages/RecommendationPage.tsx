@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import IconEdit from '../svgWrappers/IconEdit';
 import { getGroupColor, getLocalDate } from '../../utils/utils';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -19,6 +20,7 @@ interface RecommendationProps {
 const RecommendationPage: React.FC<RecommendationProps> = observer(
     ({ currentUser }) => {
         const params = useParams();
+        const { t } = useTranslation();
         const vm = useMemo(
             () => new RecommendationVM(params.id!, currentUser),
             [params, currentUser]
@@ -34,7 +36,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
         return (
             <main className='flex flex-col gap-8'>
                 {vm.isLoading ? (
-                    <div>Loading...</div>
+                    <div>{t('loading')}</div>
                 ) : (
                     <>
                         <section className='flex flex-col gap-3'>
@@ -137,7 +139,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                         </section>
                         <section>
                             <h2 className='font-bold text-xl mb-5 uppercase'>
-                                Comments
+                                {t('pages.recommendation.comments')}
                             </h2>
                             <ul className='flex flex-col gap-5 mb-10'>
                                 {vm.comments.map((comment, i) => (
@@ -178,7 +180,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
                                         aria-label='send comment'
                                     >
-                                        Send
+                                        {t('pages.recommendation.send')}
                                     </button>
                                 </form>
                             )}

@@ -16,55 +16,7 @@ export class RecommendationFormVM {
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
     private api: Api = api;
     private navigate: NavigateFunction;
-    public recommendationSchema = Joi.object({
-        title: Joi.string()
-            .required()
-            .min(2)
-            .max(40)
-            .messages({
-                'string.empty': i18n.t('form.required'),
-                'string.min': i18n.t('form.minLength2'),
-                'string.max': i18n.t('form.maxLength40'),
-            }),
-        group: Joi.string()
-            .required()
-            .messages({
-                'string.empty': i18n.t('form.required'),
-            }),
-        product: Joi.object({
-            name: Joi.string().required().min(3),
-        })
-            .required()
-            .unknown()
-            .messages({
-                'object.base': i18n.t('form.required'),
-                'string.empty': i18n.t('form.required'),
-                'string.min': i18n.t('form.minLength3'),
-            }),
-        tags: Joi.array()
-            .items(
-                Joi.object({
-                    name: Joi.string().min(3),
-                })
-                    .unknown()
-                    .required()
-            )
-            .required()
-            .messages({
-                'array.includesRequiredUnknowns': i18n.t('form.tag'),
-            }),
-        rating: Joi.number()
-            .required()
-            .messages({
-                'number.base': i18n.t('form.required'),
-            }),
-        body: Joi.string()
-            .required()
-            .min(10)
-            .messages({
-                'string.min': i18n.t('form.minLength10'),
-            }),
-    });
+    public recommendationSchema: Joi.ObjectSchema<any> = Joi.object();
     public hookFormDefaultValues;
     public images: Array<{ url: string; publicId: string }> = [];
     constructor(
@@ -75,13 +27,14 @@ export class RecommendationFormVM {
     ) {
         this.navigate = navigate;
         this.currentUser = currentUser;
+        this.setRecommendationSchema();
         this.hookFormDefaultValues = {
             title: this.recommendation.name,
             group: this.recommendation.group,
             product: this.recommendation.product,
             tags: this.recommendation.tags,
             rating: this.recommendation.productRating,
-            body: this.recommendation.body,
+            body: i18n.t('defaultRecommendationBody'),
         };
         if (type === 'edit' && recommendationId) {
             this.getRecommendation(recommendationId);
@@ -89,6 +42,66 @@ export class RecommendationFormVM {
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.deleteImage = this.deleteImage.bind(this);
         makeAutoObservable(this);
+    }
+
+    public setRecommendationSchema() {
+        this.recommendationSchema = Joi.object({
+            title: Joi.string()
+                .required()
+                .min(2)
+                .max(40)
+                .messages({
+                    'string.empty': i18n.t('form.errors.required'),
+                    'string.min': i18n.t('form.errors.minLength', {
+                        length: 2,
+                    }),
+                    'string.max': i18n.t('form.errors.maxLength', {
+                        length: 40,
+                    }),
+                }),
+            group: Joi.string()
+                .required()
+                .messages({
+                    'string.empty': i18n.t('form.errors.required'),
+                }),
+            product: Joi.object({
+                name: Joi.string().required().min(3),
+            })
+                .required()
+                .unknown()
+                .messages({
+                    'object.base': i18n.t('form.errors.required'),
+                    'string.empty': i18n.t('form.errors.required'),
+                    'string.min': i18n.t('form.errors.minLength', {
+                        length: 3,
+                    }),
+                }),
+            tags: Joi.array()
+                .items(
+                    Joi.object({
+                        name: Joi.string().min(3),
+                    })
+                        .unknown()
+                        .required()
+                )
+                .required()
+                .messages({
+                    'array.includesRequiredUnknowns': i18n.t('form.errors.tag'),
+                }),
+            rating: Joi.number()
+                .required()
+                .messages({
+                    'number.base': i18n.t('form.errors.required'),
+                }),
+            body: Joi.string()
+                .required()
+                .min(10)
+                .messages({
+                    'string.min': i18n.t('form.errors.minLength', {
+                        length: 10,
+                    }),
+                }),
+        });
     }
 
     private getRecommendation(recommendationId: string) {
