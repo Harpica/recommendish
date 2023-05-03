@@ -29,9 +29,10 @@ const CommentSchema = new Schema(
     },
     { timestamps: true }
 );
+export const Comment = model('Comment', CommentSchema);
 
 CommentSchema.index({
     body: 'text',
 });
 
-export const Comment = model('Comment', CommentSchema);
+Comment.syncIndexes();

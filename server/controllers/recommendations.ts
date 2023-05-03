@@ -112,19 +112,16 @@ export const findRecommendations = async (
             return comment.recommendation;
         });
 
+        console.log(recommendationsIds);
+
         const recommendations = await Recommendation.aggregate([
             {
                 $match: {
-                    $text: { $search: searchString },
-                },
-            },
-            {
-                $unionWith: {
-                    coll: 'Recommendations',
-                    pipeline: [
+                    $or: [
+                        { $text: { $search: searchString } },
                         {
-                            $match: {
-                                _id: recommendationsIds,
+                            _id: {
+                                $in: recommendationsIds,
                             },
                         },
                     ],
