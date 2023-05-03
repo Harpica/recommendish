@@ -42,10 +42,11 @@ export const getUserRecommendationsById = (
 };
 
 export const authUser = (req: Request, res: Response, next: NextFunction) => {
-    const userData = req.body.data;
+    // const userData = req.body.data;
+    const userData = req.user as { name: string; login: string };
     User.findOne({
-        name: userData.name,
-        login: userData.login,
+        name: userData?.name,
+        login: userData?.login,
     })
         .then((user) => {
             if (!user) {
@@ -74,7 +75,7 @@ const sendUserAndToken = async (user: any, res: Response) => {
 };
 
 const createUser = async (
-    userData: typeof User,
+    userData: { name: string; login: string; avatar?: string },
     res: Response,
     next: NextFunction
 ) => {

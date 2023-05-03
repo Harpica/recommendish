@@ -91,7 +91,12 @@ export class NavVM {
     }
 
     public logOut() {
-        this.setIsAuth(false);
-        this.setCurrentUser(DEFAULT_USER);
+        this.api.auth
+            .logOut()
+            .catch((err) => console.log(err))
+            .finally(() => {
+                this.setIsAuth(false);
+                this.setCurrentUser(DEFAULT_USER);
+            });
     }
 }

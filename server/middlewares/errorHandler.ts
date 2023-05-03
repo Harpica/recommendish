@@ -18,6 +18,7 @@ const errorHandler = (
         next();
     } else {
         console.log({ message: err.message });
+        console.log(err);
 
         res.status(500).send({ message: 'Server error' });
         next();

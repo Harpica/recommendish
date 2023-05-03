@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import routes from './routes';
+import session from 'express-session';
+import passport from './middlewares/passport';
+import UnauthorizedError from './utils/errors/UnautorizedError';
 
 dotenv.config();
 
@@ -19,7 +22,7 @@ const MONGODB_DATABASE_NAME =
     process.env.MONGODB_DATABASE_NAME || 'recommendish-db';
 
 const corsOptions = {
-    origin: `http://${BASE_URL}:${CLIENT_PORT}`,
+    origin: [`http://${BASE_URL}:${PORT}`, `http://${BASE_URL}:${CLIENT_PORT}`],
     credentials: true,
     optionSuccessStatus: 200,
 };
@@ -27,10 +30,19 @@ const corsOptions = {
 console.log(corsOptions);
 
 app.use(cors(corsOptions));
-app.use(cookieParser());
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
-
+app.use(cookieParser());
+app.use(
+    session({
+        secret: process.env.JWT_KEY || 'mysecret',
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', routes);
 
 mongoose

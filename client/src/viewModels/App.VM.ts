@@ -13,7 +13,7 @@ export class AppVM {
         this.isAuth = false;
         this.setIsAuth = this.setIsAuth.bind(this);
         this.setCurrentUser = this.setCurrentUser.bind(this);
-        this.reauthUser();
+        this.authUser();
         makeAutoObservable(this);
     }
 
@@ -25,10 +25,10 @@ export class AppVM {
         this.isAuth = value;
     }
 
-    public reauthUser() {
+    public authUser() {
         this.isLoading = true;
-        this.api.users
-            .reauthUser()
+        this.api.auth
+            .authUser()
             .then(
                 action((response) => {
                     this.setIsAuth(true);

@@ -55,19 +55,31 @@ export class LoginVM {
             login = data.login;
             avatar = data.avatar_url;
         }
-        this.authUser(login, data.name, avatar);
+        // this.authUser(login, data.name, avatar);
     }
 
-    private authUser(login: string, name: string, avatar: string) {
-        this.api.users
-            .authUser(login, name, avatar)
-            .then(
-                action((data) => {
-                    this.setCurrentUser(data.data.user);
-                    this.setIsAuth(true);
-                    this.closePopup();
-                })
-            )
-            .catch((err) => console.log(err));
-    }
+    // private authUser(login: string, name: string, avatar: string) {
+    //     this.api.users
+    //         .authUser(login, name, avatar)
+    //         .then(
+    //             action((data) => {
+    //                 this.setCurrentUser(data.data.user);
+    //                 this.setIsAuth(true);
+    //                 this.closePopup();
+    //             })
+    //         )
+    //         .catch((err) => console.log(err));
+    // }
+    // public authUser() {
+    //     this.api.auth
+    //         .authWithGithub()
+    //         .then(
+    //             action((data) => {
+    //                 this.setCurrentUser(data.data.user);
+    //                 this.setIsAuth(true);
+    //                 this.closePopup();
+    //             })
+    //         )
+    //         .catch((err) => console.log(err));
+    // }
 }

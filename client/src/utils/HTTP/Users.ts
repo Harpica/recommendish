@@ -25,6 +25,10 @@ export class Users {
         });
     }
 
+    authWithGithub() {
+        return axios.get(`${this.url}/aith/github`);
+    }
+
     getUserRecommendations(id: string) {
         return axios.get(`${this.url}/${id}/recommendations`);
     }

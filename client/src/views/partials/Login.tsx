@@ -15,6 +15,7 @@ import { observer } from 'mobx-react-lite';
 import useOutsideClick from '../../utils/hooks/useOutsideClick';
 import Popup from '../layouts/Popup';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 interface LoginProps {
     currentUser: CurrentUser;
@@ -36,7 +37,7 @@ const Login: React.FC<LoginProps> = observer(
                 <h2 className='font-bold text-2xl self-center mb-5'>
                     {t('partials.login.header')}
                 </h2>
-                <LoginSocialGithub
+                {/* <LoginSocialGithub
                     client_id={vm.githubId}
                     client_secret={vm.githubSecret}
                     redirect_uri={vm.redirectUrl}
@@ -62,7 +63,14 @@ const Login: React.FC<LoginProps> = observer(
                     }}
                 >
                     <TwitterLoginButton />
-                </LoginSocialTwitter>
+                </LoginSocialTwitter> */}
+                <div>
+                    {/* <button onClick={() => vm.authUser()}> */}
+                    <a href={'http://localhost:5004/auth/github/'}>
+                        Log in with github on server
+                    </a>
+                    {/* </button> */}
+                </div>
             </Popup>
         );
     }

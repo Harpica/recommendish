@@ -11,8 +11,8 @@ export class MainVM {
     constructor(navigate: NavigateFunction, api: Api) {
         this.navigate = navigate;
         this.api = api;
-        this.getPopularRecommendations();
         this.getRecentRecommendations();
+        this.getPopularRecommendations();
         makeAutoObservable(this);
     }
 

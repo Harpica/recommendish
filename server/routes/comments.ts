@@ -10,7 +10,7 @@ const comments = Router();
 
 comments.get('/', getAllComments);
 comments.get('/latest', getLatestComments);
-comments.use(auth());
+// comments.use(auth());
 comments.post('/create', createComment);
 
 export default comments;
