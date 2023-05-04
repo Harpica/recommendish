@@ -1,4 +1,4 @@
-FROM node:16 as build-stage
+FROM node:18 as build-stage
 
 WORKDIR /server
 COPY package.json .
@@ -7,7 +7,7 @@ COPY . .
 RUN  npm run build
 
 # Stage 2
-FROM node:16-alpine
+FROM node:18-alpine
 
 COPY --from=build-stage /server/dist ./dist
 COPY --from=build-stage /server/package.json ./
