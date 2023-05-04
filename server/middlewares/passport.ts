@@ -18,7 +18,9 @@ passport.use(
         {
             clientID: SOCIALS_GITHUB_ID,
             clientSecret: SOCIALS_GITHUB_SECRET,
-            callbackURL: `http://${BASE_URL}:${PORT}/auth/github/callback/`,
+            callbackURL: encodeURI(
+                `http://${BASE_URL}:${PORT}/auth/github/callback/`
+            ),
         },
         function (_accessToken, _refreshToken, profile, done) {
             handleUserData('githubId', profile, done);
@@ -33,7 +35,9 @@ passport.use(
             clientType: 'public',
             clientID: SOCIALS_TWITTER_ID,
             clientSecret: SOCIALS_TWITTER_SECRET,
-            callbackURL: `http://${BASE_URL}:${PORT}/auth/twitter/callback/`,
+            callbackURL: encodeURI(
+                `http://${BASE_URL}:${PORT}/auth/twitter/callback/`
+            ),
         },
         function (_accessToken, _refreshToken, profile, done) {
             handleUserData('twitterId', profile, done);
