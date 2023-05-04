@@ -6,7 +6,7 @@ import IconHeart from '../svgWrappers/IconHeart';
 import { useParams } from 'react-router';
 import { RecommendationVM } from '../../viewModels/pages/Recommendation.VM';
 import { useMemo, useEffect } from 'react';
-import Notification from '../partials/Notification';
+import Notification from '../layouts/Notification';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import IconEdit from '../svgWrappers/IconEdit';

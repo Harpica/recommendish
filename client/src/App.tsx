@@ -3,7 +3,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router';
 import { useMemo } from 'react';
-import ProtectedRoute from './views/partials/ProtectedRoute';
+import ProtectedRoute from './views/layouts/ProtectedRoute';
 import Nav from './views/partials/Nav';
 import RecommendationPage from './views/pages/RecommendationPage';
 import RecommendationFormPage from './views/pages/RecommendationFormPage';

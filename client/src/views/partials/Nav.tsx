@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Search from './Search';
 import { NavVM } from '../../viewModels/partials/Nav.VM';
-import { ROUTES, root } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
 import { CurrentUser, Language, Theme } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import Login from './Login';
@@ -15,6 +15,7 @@ import IconBurger from '../svgWrappers/IconBurger';
 import IconClose from '../svgWrappers/IconClose';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Avatar from './Avatar';
 
 interface NavProps {
     isAuth: boolean;
@@ -122,9 +123,9 @@ const Nav: React.FC<NavProps> = observer(
                                         aria-label='profile'
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
                                     >
-                                        <div className='w-11 h-11 rounded-full bg-fuchsia-600'>
-                                            <img />
-                                        </div>
+                                        <Avatar
+                                            avatar={currentUser.avatar || ''}
+                                        />
                                     </NavLink>
                                 </li>
                                 <li>

@@ -5,6 +5,8 @@ export type Language = 'en' | 'ru';
 export type ProductGroup = 'movie' | 'book' | 'game';
 
 export interface User {
+    githubId?: number;
+    twitterId?: number;
     name: string;
     role: UserRole;
     status: UserStatus;

@@ -16,6 +16,8 @@ import useOutsideClick from '../../utils/hooks/useOutsideClick';
 import Popup from '../layouts/Popup';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 interface LoginProps {
     currentUser: CurrentUser;
@@ -64,12 +66,21 @@ const Login: React.FC<LoginProps> = observer(
                 >
                     <TwitterLoginButton />
                 </LoginSocialTwitter> */}
-                <div>
-                    {/* <button onClick={() => vm.authUser()}> */}
-                    <a href={'http://localhost:5004/auth/github/'}>
-                        Log in with github on server
+                <div className='flex flex-col gap-4 justify-center items-center'>
+                    <a
+                        href={'http://localhost:5004/auth/github/'}
+                        className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                    >
+                        <GitHubIcon />
+                        <p>Log in with Github</p>
                     </a>
-                    {/* </button> */}
+                    <a
+                        href={'http://localhost:5004/auth/twitter/'}
+                        className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                    >
+                        <TwitterIcon />
+                        <p>Log in with Twitter</p>
+                    </a>
                 </div>
             </Popup>
         );

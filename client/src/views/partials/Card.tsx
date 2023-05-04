@@ -17,6 +17,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
     const navigate = useNavigate();
     const vm = useMemo(() => new CardVM(navigate), []);
+
     return (
         <div
             className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded colored-corner-on-hover hover:shadow-md`}

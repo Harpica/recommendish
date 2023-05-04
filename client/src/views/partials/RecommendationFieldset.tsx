@@ -34,7 +34,6 @@ interface RecommendationFieldsetProps {
 const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
     observer(
         ({
-            errors,
             control,
             groupInputValue,
             images,
@@ -234,7 +233,6 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             control={control}
                             name='rating'
                             render={(field) => {
-                                console.log(field.field.value);
                                 return (
                                     <div>
                                         <Select
