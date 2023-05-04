@@ -38,8 +38,12 @@ passport.use(
             callbackURL: encodeURI(
                 `http://${BASE_URL}:${PORT}/auth/twitter/callback/`
             ),
+            // callbackURL: encodeURI(
+            //     `http://127.0.0.1:${PORT}/auth/twitter/callback/`
+            // ),
         },
         function (_accessToken, _refreshToken, profile, done) {
+            console.log(profile);
             handleUserData('twitterId', profile, done);
         }
     )

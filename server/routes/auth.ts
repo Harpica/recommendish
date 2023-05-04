@@ -17,12 +17,17 @@ auth.get(
     })
 );
 
-auth.get('/twitter', passport.authenticate('twitter'));
+auth.get(
+    '/twitter',
+    passport.authenticate('twitter', {
+        scope: ['tweet.read', 'tweet.write', 'users.read'],
+    })
+);
 
 auth.get(
     '/twitter/callback',
     passport.authenticate('twitter', {
-        failureRedirect: redirect,
+        // failureRedirect: redirect,
         successRedirect: redirect,
     })
 );
