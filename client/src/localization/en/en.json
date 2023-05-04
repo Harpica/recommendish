@@ -16,6 +16,10 @@
           "tabUser": "Users",
           "tabRecommendations": "Recommendations"
         },
+        "profile": {
+          "title": "Profile",
+          "subtitle": "My recommendations"
+        },
         "main": {
           "subtitle": "Share your thoughts on:",
           "group": {
