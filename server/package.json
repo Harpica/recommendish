@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@superfaceai/passport-twitter-oauth2": "^1.2.3",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
     "cloudinary": "^1.36.2",
@@ -25,7 +26,6 @@
     "mongoose": "^7.0.3",
     "passport": "^0.6.0",
     "passport-github": "^1.1.0",
-    "passport-twitter": "^0.1.5",
     "ws": "^8.13.0"
   },
   "devDependencies": {
@@ -38,6 +38,7 @@
     "@types/node": "^18.15.2",
     "@types/passport": "^1.0.12",
     "@types/passport-github": "^1.1.7",
+    "@types/passport-twitter": "^1.0.37",
     "@types/ws": "^8.5.4",
     "i": "^0.3.7",
     "nodemon": "^2.0.21",

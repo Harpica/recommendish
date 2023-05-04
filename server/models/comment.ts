@@ -1,13 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-// export interface IComment {
-//     _id: string;
-//     owner: Schema.Types.ObjectId;
-//     recommendation: Schema.Types.ObjectId;
-//     body: string;
-//     createdAt: number;
-//     updatedAt: number;
-// }
+export interface IComment {
+    _id: string;
+    owner: Schema.Types.ObjectId;
+    recommendation: Schema.Types.ObjectId;
+    body: string;
+    createdAt: number;
+    updatedAt: number;
+}
 
 const CommentSchema = new Schema(
     {

@@ -2,6 +2,9 @@ import { Schema, Types, model } from 'mongoose';
 import { IRecommendation } from './recommendation';
 
 export interface IUser {
+    _id: Types.ObjectId;
+    githubId?: number;
+    twitterId?: number;
     name: string;
     role: 'admin' | 'user';
     status: 'active' | 'blocked';
@@ -9,12 +12,17 @@ export interface IUser {
     recommendations: Types.ObjectId[] | Array<IRecommendation>;
     theme: string;
     language: string;
-    _id: Types.ObjectId;
     avatar?: string | undefined;
     login?: string | undefined;
 }
 
 const UserSchema = new Schema({
+    githubId: {
+        type: Number,
+    },
+    twitterId: {
+        type: Number,
+    },
     name: {
         type: String,
         required: true,

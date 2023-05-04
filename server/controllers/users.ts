@@ -41,52 +41,52 @@ export const getUserRecommendationsById = (
         .catch(next);
 };
 
-export const authUser = (req: Request, res: Response, next: NextFunction) => {
-    // const userData = req.body.data;
-    const userData = req.user as { name: string; login: string };
-    User.findOne({
-        name: userData?.name,
-        login: userData?.login,
-    })
-        .then((user) => {
-            if (!user) {
-                createUser(userData, res, next);
-                return;
-            }
-            sendUserAndToken(user, res);
-        })
-        .catch(next);
-};
+// export const authUser = (req: Request, res: Response, next: NextFunction) => {
+//     // const userData = req.body.data;
+//     const userData = req.user as { name: string; login: string };
+//     User.findOne({
+//         name: userData?.name,
+//         login: userData?.login,
+//     })
+//         .then((user) => {
+//             if (!user) {
+//                 createUser(userData, res, next);
+//                 return;
+//             }
+//             sendUserAndToken(user, res);
+//         })
+//         .catch(next);
+// };
 
-export const reauthUser = (req: Request, res: Response, next: NextFunction) => {
-    const user = req.body.user;
-    sendUserAndToken(user, res);
-};
+// export const reauthUser = (req: Request, res: Response, next: NextFunction) => {
+//     const user = req.body.user;
+//     sendUserAndToken(user, res);
+// };
 
-const sendUserAndToken = async (user: any, res: Response) => {
-    const populatedUser = await user.populate(['recommendations']);
-    const token = jwt.sign({ id: user.id }, process.env.JWT_KEY || '');
-    res.cookie('jwt', token, {
-        maxAge: 3600000,
-        httpOnly: true,
-    }).send({
-        user: populatedUser,
-    });
-};
+// const sendUserAndToken = async (user: any, res: Response) => {
+//     const populatedUser = await user.populate(['recommendations']);
+//     const token = jwt.sign({ id: user.id }, process.env.JWT_KEY || '');
+//     res.cookie('jwt', token, {
+//         maxAge: 3600000,
+//         httpOnly: true,
+//     }).send({
+//         user: populatedUser,
+//     });
+// };
 
-const createUser = async (
-    userData: { name: string; login: string; avatar?: string },
-    res: Response,
-    next: NextFunction
-) => {
-    return User.create(userData)
-        .then((user) => {
-            sendUserAndToken(user, res);
-        })
-        .catch((err) => {
-            incorrectDataHandler(err, next, 'Incorrect data for user creation');
-        });
-};
+// const createUser = async (
+//     userData: { name: string; login: string; avatar?: string },
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     return User.create(userData)
+//         .then((user) => {
+//             sendUserAndToken(user, res);
+//         })
+//         .catch((err) => {
+//             incorrectDataHandler(err, next, 'Incorrect data for user creation');
+//         });
+// };
 
 export const setUserLikes = async (id: Types.ObjectId, next: NextFunction) => {
     await getPopulatedRecommendations(
