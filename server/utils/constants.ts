@@ -35,5 +35,3 @@ export const sessionOptions: SessionOptions = {
     resave: false,
     saveUninitialized: false,
 };
-
-console.log(SOCIALS_TWITTER_APP_KEY, SOCIALS_TWITTER_APP_KEY_SECRET);
