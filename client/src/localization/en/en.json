@@ -52,7 +52,9 @@
           "placeholder": "Search..."
         },
         "login": {
-          "header": "Choose how to log in:"
+          "header": "Choose how to log in:",
+          "logInWithGithub": "Log in with Github",
+          "logInWithTwitter": "Log in with Twitter"
         },
         "surePopup": {
           "header": "Are you sure?",

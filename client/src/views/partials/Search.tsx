@@ -3,8 +3,9 @@ import IconSearch from '../svgWrappers/IconSearch';
 import { SearchInputVM } from '../../viewModels/partials/SearchInput.VM';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
-const Search = () => {
+const Search = observer(() => {
     const navigate = useNavigate();
     const vm = useMemo(() => new SearchInputVM(navigate), []);
     const { t } = useTranslation();
@@ -31,6 +32,6 @@ const Search = () => {
             </button>
         </form>
     );
-};
+});
 
 export default Search;

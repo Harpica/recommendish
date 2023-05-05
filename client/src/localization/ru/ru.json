@@ -52,7 +52,9 @@
       "placeholder": "Поиск..."
     },
     "login": {
-      "header": "Выберите как войти на сайт:"
+      "header": "Выберите как войти на сайт:",
+      "logInWithGithub": "Войти с аккаунтом Github",
+      "logInWithTwitter": "Войти с аккаунтом Twitter"
     },
     "surePopup": {
       "header": "Вы уверены?",

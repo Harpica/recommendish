@@ -28,7 +28,6 @@ export class NavVM {
         this.setCurrentUser = setCurrentUser;
         this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
         this.theme = this.currentUser.theme;
-        this.setLanguage(this.currentUser.language);
         this.setRootTheme();
         makeAutoObservable(this);
     }
@@ -49,9 +48,10 @@ export class NavVM {
         }
     }
 
-    private setLanguage(language: Language) {
-        this.language = language;
-        i18n.changeLanguage(language);
+    public setLanguage(language: Language) {
+        i18n.changeLanguage(language).then(
+            action(() => (this.language = language))
+        );
     }
 
     private setUserLanguage() {

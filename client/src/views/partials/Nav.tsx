@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Search from './Search';
 import { NavVM } from '../../viewModels/partials/Nav.VM';
 import { ROUTES } from '../../utils/constants';
@@ -37,6 +37,10 @@ const Nav: React.FC<NavProps> = observer(
                 setCurrentUser
             );
         }, [currentUser._id, isAuth]);
+
+        useEffect(() => {
+            vm.setLanguage(currentUser.language);
+        }, [currentUser._id]);
 
         return (
             <>
@@ -154,9 +158,6 @@ const Nav: React.FC<NavProps> = observer(
                     </ul>
                 </nav>
                 <Login
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    setIsAuth={setIsAuth}
                     closePopup={vm.toggleLoginIsOpen}
                     loginIsOpen={vm.loginIsOpen}
                 />
