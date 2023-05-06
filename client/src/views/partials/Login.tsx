@@ -31,6 +31,12 @@ const Login: React.FC<LoginProps> = observer(({ closePopup, loginIsOpen }) => {
                     <p>{t('partials.login.logInWithGithub')}</p>
                 </a>
                 <a
+                    href={`${linkBase.current}/auth/vkontakte/`}
+                    className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                >
+                    <p>{t('partials.login.logInWithVK')}</p>
+                </a>
+                <a
                     href={`${linkBase.current}/auth/twitter/`}
                     className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
                 >

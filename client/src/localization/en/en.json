@@ -54,6 +54,7 @@
         "login": {
           "header": "Choose how to log in:",
           "logInWithGithub": "Log in with Github",
+          "logInWithVK": "Log in with VK",
           "logInWithTwitter": "Log in with Twitter"
         },
         "surePopup": {

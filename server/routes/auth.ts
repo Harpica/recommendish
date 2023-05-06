@@ -17,6 +17,16 @@ auth.get(
     })
 );
 
+auth.get('/vkontakte', passport.authenticate('vkontakte'));
+
+auth.get(
+    '/vkontakte/callback',
+    passport.authenticate('vkontakte', {
+        failureRedirect: redirect,
+        successRedirect: redirect,
+    })
+);
+
 auth.get(
     '/twitter',
     passport.authenticate('twitter', {

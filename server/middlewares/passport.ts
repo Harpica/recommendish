@@ -2,6 +2,7 @@ import passport from 'passport';
 import GitHubStrategy from 'passport-github';
 // import TwitterStrategy from '@superfaceai/passport-twitter-oauth2';
 import TwitterStrategy from 'passport-twitter';
+import VkontakteStrategy from 'passport-vkontakte';
 import { User } from '../models/user';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
@@ -12,6 +13,8 @@ import {
     SOCIALS_GITHUB_SECRET,
     SOCIALS_TWITTER_APP_KEY,
     SOCIALS_TWITTER_APP_KEY_SECRET,
+    SOCIALS_VK_ID,
+    SOCIALS_VK_SECRET,
     // SOCIALS_TWITTER_ID,
     // SOCIALS_TWITTER_SECRET,
 } from '../utils/constants';
@@ -26,6 +29,19 @@ passport.use(
         },
         function (_accessToken, _refreshToken, profile, done) {
             handleUserData('githubId', profile, done);
+        }
+    )
+);
+passport.use(
+    'vkontakte',
+    new VkontakteStrategy.Strategy(
+        {
+            clientID: SOCIALS_VK_ID,
+            clientSecret: SOCIALS_VK_SECRET,
+            callbackURL: `${SERVER_URL}/auth/vkontakte/callback/`,
+        },
+        (_accessToken: any, _refreshToken: any, profile: any, done: any) => {
+            handleUserData('vkId', profile, done);
         }
     )
 );
@@ -65,6 +81,7 @@ passport.use(
 );
 
 passport.serializeUser((user: any, done) => {
+    console.log(user);
     done(null, user);
 });
 
@@ -73,7 +90,7 @@ passport.deserializeUser(function (user: any, done: any) {
 });
 
 function handleUserData(
-    profileId: 'githubId' | 'twitterId',
+    profileId: 'githubId' | 'twitterId' | 'vkId',
     // profile: TwitterStrategy.ProfileWithMetaData | GitHubStrategy.Profile | TwitterStrategy.Profile,
     profile: GitHubStrategy.Profile | TwitterStrategy.Profile,
     done: any
@@ -84,21 +101,25 @@ function handleUserData(
         login: profile.username!,
         avatar: profile.photos && profile.photos[0].value,
     };
-    const findQuery =
-        profileId === 'githubId'
-            ? {
-                  githubId: userData.id,
-              }
-            : {
-                  twitterId: userData.id,
-              };
+    const findQuery = {
+        githubId: {
+            githubId: userData.id,
+        },
+        vkId: {
+            vkId: userData.id,
+        },
+        twitterId: {
+            twitterId: userData.id,
+        },
+    };
 
     User.findOneAndUpdate(
-        findQuery,
+        findQuery[profileId],
         { ...userData },
         { new: true, upsert: true, useFindAndModify: false }
     )
         .then((user) => {
+            console.log(user);
             if (!user) {
                 return done(new DocumentNotFoundError(), user);
             }

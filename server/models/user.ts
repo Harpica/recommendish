@@ -5,6 +5,7 @@ export interface IUser {
     _id: Types.ObjectId;
     githubId?: number;
     twitterId?: number;
+    vkId?: number;
     name: string;
     role: 'admin' | 'user';
     status: 'active' | 'blocked';
@@ -21,6 +22,9 @@ const UserSchema = new Schema({
         type: Number,
     },
     twitterId: {
+        type: Number,
+    },
+    vkId: {
         type: Number,
     },
     name: {

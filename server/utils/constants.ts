@@ -19,6 +19,8 @@ export const MONGODB_DATABASE_NAME =
 export const JWT_KEY = process.env.JWT_KEY || 'mysecret';
 export const SOCIALS_GITHUB_ID = process.env.SOCIALS_GITHUB_ID || '';
 export const SOCIALS_GITHUB_SECRET = process.env.SOCIALS_GITHUB_SECRET || '';
+export const SOCIALS_VK_ID = process.env.SOCIALS_VK_ID || '';
+export const SOCIALS_VK_SECRET = process.env.SOCIALS_VK_SECRET || '';
 export const SOCIALS_TWITTER_ID = process.env.SOCIALS_TWITTER_ID || '';
 export const SOCIALS_TWITTER_SECRET = process.env.SOCIALS_GITHUB_SECRET || '';
 export const SOCIALS_TWITTER_APP_KEY =
@@ -28,7 +30,7 @@ export const SOCIALS_TWITTER_APP_KEY_SECRET =
 
 // Configs
 export const corsOptions = {
-    origin: [`${BASE_URL}`],
+    origin: `${BASE_URL}`,
     credentials: true,
     optionSuccessStatus: 200,
 };

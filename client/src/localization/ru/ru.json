@@ -54,6 +54,7 @@
     "login": {
       "header": "Выберите как войти на сайт:",
       "logInWithGithub": "Войти с аккаунтом Github",
+      "logInWithVK": "Войти с аккаунтом VK",
       "logInWithTwitter": "Войти с аккаунтом Twitter"
     },
     "surePopup": {

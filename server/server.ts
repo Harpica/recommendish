@@ -22,6 +22,7 @@ import {
 const app = express();
 
 app.set('trust proxy', true);
+
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -38,6 +39,7 @@ mongoose
     )
     .then(() => {
         console.log('Connected to DB');
+
         https
             .createServer(
                 {
