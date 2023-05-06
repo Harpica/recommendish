@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Users } from './Users';
-import { SERVER_URL, SERVER_PORT } from '../constants';
+import { SERVER_URL } from '../constants';
 import { Tags } from './Tags';
 import { Recommendations } from './Recommendations';
 import { Products } from './Products';
@@ -20,7 +20,7 @@ export class Api {
     public images: Images;
     public auth: Auth;
     constructor() {
-        this.url = `${SERVER_URL}:${SERVER_PORT}`;
+        this.url = `${SERVER_URL}`;
         this.users = new Users(this.url);
         this.tags = new Tags(this.url);
         this.recommendations = new Recommendations(this.url);

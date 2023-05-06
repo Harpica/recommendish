@@ -7,9 +7,8 @@ RUN npm install
 COPY . .
 
 ARG REACT_APP_SERVER_URL
-ARG REACT_APP_PORT_EXTERNAL
 
-RUN npm run build $REACT_APP_SERVER_URL $REACT_APP_PORT_EXTERNAL 
+RUN npm run build $REACT_APP_SERVER_URL 
 
 # Stage 2
 FROM nginx:1.17.0-alpine

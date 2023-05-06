@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import passport from '../middlewares/passport';
-import { BASE_URL, PORT_EXTERNAL } from '../utils/constants';
+import { BASE_URL } from '../utils/constants';
 import UnauthorizedError from '../utils/errors/UnautorizedError';
 
 const auth = Router();
 
-const redirect = `${BASE_URL}:${PORT_EXTERNAL}`;
+const redirect = `${BASE_URL}`;
 
 auth.get('/github', passport.authenticate('github'));
 

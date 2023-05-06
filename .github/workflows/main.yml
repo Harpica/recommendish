@@ -38,7 +38,6 @@ jobs:
                   context: ./client
                   build-args: |
                       REACT_APP_SERVER_URL=${{ vars.SERVER_URL }}
-                      REACT_APP_PORT_EXTERNAL=${{ vars.PORT_EXTERNAL }}
                   #   REACT_APP_SOCIALS_GITHUB_ID=${{ secrets.SOCIALS_GITHUB_ID }}
                   #   REACT_APP_SOCIALS_GITHUB_SECRET=${{ secrets.SOCIALS_GITHUB_SECRET }}
                   #   REACT_APP_SOCIALS_TWITTER_ID=${{ secrets.SOCIALS_TWITTER_ID }}
@@ -62,7 +61,6 @@ jobs:
                   JWT_KEY: ${{ secrets.JWT_KEY }}
                   CLIENT_PORT_INTERNAL: ${{ vars.CLIENT_PORT_INTERNAL }}
                   SERVER_PORT_INTERNAL: ${{ vars.SERVER_PORT_INTERNAL }}
-                  PORT_EXTERNAL: ${{ vars.PORT_EXTERNAL }}
                   BASE_URL: ${{ vars.BASE_URL }}
                   SOCIALS_GITHUB_ID: ${{ secrets.SOCIALS_GITHUB_ID }}
                   SOCIALS_GITHUB_SECRET: ${{ secrets.SOCIALS_GITHUB_SECRET }}
