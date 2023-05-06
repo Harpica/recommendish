@@ -39,6 +39,8 @@ const App: React.FC = observer(() => {
                                             setIsAuth={vm.setIsAuth}
                                             currentUser={vm.currentUser}
                                             setCurrentUser={vm.setCurrentUser}
+                                            adminUser={vm.adminUser}
+                                            setAdminUser={vm.setAdminUser}
                                         />
                                     )}
                                     <Routes>
@@ -66,6 +68,12 @@ const App: React.FC = observer(() => {
                                                 >
                                                     <Admin
                                                         user={vm.currentUser}
+                                                        setCurrentUser={
+                                                            vm.setCurrentUser
+                                                        }
+                                                        setAdminUser={
+                                                            vm.setAdminUser
+                                                        }
                                                     />
                                                 </ProtectedRoute>
                                             }

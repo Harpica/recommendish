@@ -6,6 +6,7 @@ import { Api, api } from '../utils/HTTP/Api';
 export class AppVM {
     public isAuth: boolean;
     public currentUser: CurrentUser;
+    public adminUser: CurrentUser = DEFAULT_USER;
     public isLoading: boolean = false;
     private api: Api = api;
     constructor() {
@@ -13,12 +14,17 @@ export class AppVM {
         this.isAuth = false;
         this.setIsAuth = this.setIsAuth.bind(this);
         this.setCurrentUser = this.setCurrentUser.bind(this);
+        this.setAdminUser = this.setAdminUser.bind(this);
         this.authUser();
         makeAutoObservable(this);
     }
 
     public setCurrentUser(user: CurrentUser) {
         this.currentUser = { ...user };
+    }
+
+    public setAdminUser(user: CurrentUser) {
+        this.adminUser = { ...user };
     }
 
     public setIsAuth(value: boolean) {

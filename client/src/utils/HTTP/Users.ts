@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Theme, UserStatus } from '../types';
+import { Theme, UserRole, UserStatus } from '../types';
 
 export class Users {
     url: string;
@@ -41,10 +41,19 @@ export class Users {
     //     });
     // }
 
-    changeUserStatus(id: string, status: UserStatus) {
-        return axios.patch(`${this.url}/${id}/status`, {
+    changeUsersStatus(ids: Array<unknown>, status: UserStatus) {
+        return axios.patch(`${this.url}/status`, {
             data: {
+                ids: ids,
                 status: status,
+            },
+        });
+    }
+    changeUsersRole(ids: Array<unknown>, role: UserRole) {
+        return axios.patch(`${this.url}/role`, {
+            data: {
+                ids: ids,
+                role: role,
             },
         });
     }

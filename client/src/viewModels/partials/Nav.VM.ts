@@ -10,7 +10,9 @@ export class NavVM {
     private setIsAuth: (value: boolean) => void;
     public loginIsOpen: boolean = false;
     private currentUser: CurrentUser;
+    private adminUser: CurrentUser;
     private setCurrentUser: (value: CurrentUser) => void;
+    private setAdminUser: (value: CurrentUser) => void;
     public theme: Theme;
     public language: Language = 'en';
     public menuIsOpen: boolean = window.innerWidth >= 768 ? true : false;
@@ -19,13 +21,17 @@ export class NavVM {
         isAuth: boolean,
         setIsAuth: (value: boolean) => void,
         currentUser: CurrentUser,
-        setCurrentUser: (value: CurrentUser) => void
+        setCurrentUser: (value: CurrentUser) => void,
+        adminUser: CurrentUser,
+        setAdminUser: (value: CurrentUser) => void
     ) {
         this.api = api;
         this.isAuth = isAuth;
         this.setIsAuth = setIsAuth;
         this.currentUser = currentUser;
+        this.adminUser = adminUser;
         this.setCurrentUser = setCurrentUser;
+        this.setAdminUser = setAdminUser;
         this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
         this.theme = this.currentUser.theme;
         this.setRootTheme();
@@ -98,5 +104,14 @@ export class NavVM {
                 this.setIsAuth(false);
                 this.setCurrentUser(DEFAULT_USER);
             });
+    }
+
+    public returnToAdminUser() {
+        this.setCurrentUser(this.adminUser!);
+        this.setAdminUser(DEFAULT_USER);
+    }
+
+    public isAdminActsAsOtherUser() {
+        return this.adminUser.role === 'admin' ? true : false;
     }
 }

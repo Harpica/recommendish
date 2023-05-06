@@ -17,9 +17,15 @@ function a11yProps(index: number) {
 
 interface AdminProps {
     user: CurrentUser;
+    setCurrentUser: (value: CurrentUser) => void;
+    setAdminUser: (value: CurrentUser) => void;
 }
 
-const Admin: React.FC<AdminProps> = ({ user }) => {
+const Admin: React.FC<AdminProps> = ({
+    user,
+    setCurrentUser,
+    setAdminUser,
+}) => {
     const { t } = useTranslation();
 
     const [value, setValue] = useState(0);
@@ -56,7 +62,11 @@ const Admin: React.FC<AdminProps> = ({ user }) => {
                     </Tabs>
                 </div>
                 <TabPanel value={value} index={0}>
-                    <UserTable user={user} />
+                    <UserTable
+                        user={user}
+                        setCurrentUser={setCurrentUser}
+                        setAdminUser={setAdminUser}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <RecommendationTable user={user} />

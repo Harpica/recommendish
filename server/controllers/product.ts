@@ -45,7 +45,9 @@ export const updateRating = async (
         const product = await Product.findById(id);
         handleIfDocumentNotFound(product);
         const updatedRatings = [
-            ...product!.rating.filter((rate) => rate.user === user),
+            ...product!.rating.filter((rate) => {
+                return rate.user?._id.toString() !== user;
+            }),
             req.body.data,
         ];
         const currentRating =

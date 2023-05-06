@@ -16,16 +16,26 @@ import IconClose from '../svgWrappers/IconClose';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Avatar from './Avatar';
+import IconReturn from '../svgWrappers/IconReturn';
 
 interface NavProps {
     isAuth: boolean;
     setIsAuth: (value: boolean) => void;
     currentUser: CurrentUser;
     setCurrentUser: (value: CurrentUser) => void;
+    adminUser: CurrentUser;
+    setAdminUser: (value: CurrentUser) => void;
 }
 
 const Nav: React.FC<NavProps> = observer(
-    ({ isAuth, setIsAuth, currentUser, setCurrentUser }) => {
+    ({
+        isAuth,
+        setIsAuth,
+        currentUser,
+        adminUser,
+        setCurrentUser,
+        setAdminUser,
+    }) => {
         const { t } = useTranslation();
 
         const vm = useMemo(() => {
@@ -34,7 +44,9 @@ const Nav: React.FC<NavProps> = observer(
                 isAuth,
                 setIsAuth,
                 currentUser,
-                setCurrentUser
+                setCurrentUser,
+                adminUser,
+                setAdminUser
             );
         }, [currentUser._id, isAuth]);
 
@@ -132,6 +144,20 @@ const Nav: React.FC<NavProps> = observer(
                                         />
                                     </NavLink>
                                 </li>
+                                {vm.isAdminActsAsOtherUser() && (
+                                    <li>
+                                        <button
+                                            className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                            type='button'
+                                            aria-label='return to admin user'
+                                            onClick={() =>
+                                                vm.returnToAdminUser()
+                                            }
+                                        >
+                                            <IconReturn />
+                                        </button>
+                                    </li>
+                                )}
                                 <li>
                                     <button
                                         className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'

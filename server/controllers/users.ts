@@ -41,53 +41,6 @@ export const getUserRecommendationsById = (
         .catch(next);
 };
 
-// export const authUser = (req: Request, res: Response, next: NextFunction) => {
-//     // const userData = req.body.data;
-//     const userData = req.user as { name: string; login: string };
-//     User.findOne({
-//         name: userData?.name,
-//         login: userData?.login,
-//     })
-//         .then((user) => {
-//             if (!user) {
-//                 createUser(userData, res, next);
-//                 return;
-//             }
-//             sendUserAndToken(user, res);
-//         })
-//         .catch(next);
-// };
-
-// export const reauthUser = (req: Request, res: Response, next: NextFunction) => {
-//     const user = req.body.user;
-//     sendUserAndToken(user, res);
-// };
-
-// const sendUserAndToken = async (user: any, res: Response) => {
-//     const populatedUser = await user.populate(['recommendations']);
-//     const token = jwt.sign({ id: user.id }, process.env.JWT_KEY || '');
-//     res.cookie('jwt', token, {
-//         maxAge: 3600000,
-//         httpOnly: true,
-//     }).send({
-//         user: populatedUser,
-//     });
-// };
-
-// const createUser = async (
-//     userData: { name: string; login: string; avatar?: string },
-//     res: Response,
-//     next: NextFunction
-// ) => {
-//     return User.create(userData)
-//         .then((user) => {
-//             sendUserAndToken(user, res);
-//         })
-//         .catch((err) => {
-//             incorrectDataHandler(err, next, 'Incorrect data for user creation');
-//         });
-// };
-
 export const setUserLikes = async (id: Types.ObjectId, next: NextFunction) => {
     await getPopulatedRecommendations(
         id,
@@ -142,17 +95,34 @@ const getPopulatedRecommendations = async (
         });
 };
 
-export const updateUserStatus = (
+export const updateUsersStatus = (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const id = req.params.id;
+    const ids = req.body.data.ids;
     updateUserField(
-        id,
+        ids,
         'status',
         req.body.data.status,
-        (user: IUser) => sendDocumentIfFound(user, res, 'user'),
+        (updateResult: unknown) =>
+            sendDocumentIfFound(updateResult, res, 'updateResult'),
+        (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
+    );
+};
+
+export const updateUsersRole = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const ids = req.body.data.ids;
+    updateUserField(
+        ids,
+        'role',
+        req.body.data.role,
+        (updateResult: unknown) =>
+            sendDocumentIfFound(updateResult, res, 'updateResult'),
         (err: Error) => incorrectDataHandler(err, next, 'Incorrect _id')
     );
 };
@@ -188,15 +158,16 @@ export const updateUserLanguage = (
 };
 
 const updateUserField = (
-    id: string,
+    ids: Array<string> | string,
     field: string,
     value: unknown,
     resolveHandler: Function,
     rejectHandler: Function
 ) => {
-    User.findByIdAndUpdate(id, { [field]: value }, { new: true })
-        .then((user) => {
-            resolveHandler(user);
+    User.updateMany({ _id: { $in: ids } }, { [field]: value }, { new: true })
+        .then((data) => {
+            console.log(data);
+            resolveHandler(data);
         })
         .catch((err) => {
             rejectHandler(err);
