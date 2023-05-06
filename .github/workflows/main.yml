@@ -38,8 +38,7 @@ jobs:
                   context: ./client
                   build-args: |
                       REACT_APP_SERVER_URL=${{ vars.SERVER_URL }}
-                      REACT_APP_SERVER_PORT=${{ vars.SERVER_PORT }}
-                      REACT_APP_CLIENT_PORT=${{ vars.CLIENT_PORT }}
+                      REACT_APP_PORT_EXTERNAL=${{ vars.PORT_EXTERNAL }}
                   #   REACT_APP_SOCIALS_GITHUB_ID=${{ secrets.SOCIALS_GITHUB_ID }}
                   #   REACT_APP_SOCIALS_GITHUB_SECRET=${{ secrets.SOCIALS_GITHUB_SECRET }}
                   #   REACT_APP_SOCIALS_TWITTER_ID=${{ secrets.SOCIALS_TWITTER_ID }}
@@ -61,9 +60,10 @@ jobs:
                   MONGODB_DATABASE_PASSWORD: ${{ secrets.MONGODB_DATABASE_PASSWORD }}
                   MONGODB_DATABASE_PORT: ${{ secrets.MONGODB_DATABASE_PORT }}
                   JWT_KEY: ${{ secrets.JWT_KEY }}
-                  CLIENT_PORT: ${{ vars.CLIENT_PORT }}
+                  CLIENT_PORT_INTERNAL: ${{ vars.CLIENT_PORT_INTERNAL }}
+                  SERVER_PORT_INTERNAL: ${{ vars.SERVER_PORT_INTERNAL }}
+                  PORT_EXTERNAL: ${{ vars.PORT_EXTERNAL }}
                   BASE_URL: ${{ vars.BASE_URL }}
-                  SERVER_PORT: ${{ vars.PORT }}
                   SOCIALS_GITHUB_ID: ${{ secrets.SOCIALS_GITHUB_ID }}
                   SOCIALS_GITHUB_SECRET: ${{ secrets.SOCIALS_GITHUB_SECRET }}
                   SOCIALS_TWITTER_APP_KEY: ${{ secrets.SOCIALS_TWITTER_APP_KEY }}
@@ -74,7 +74,7 @@ jobs:
                   SOCIALS_TWITTER_SECRET: ${{ secrets.SOCIALS_TWITTER_SECRET }}
               uses: appleboy/ssh-action@master
               with:
-                  envs: MONGODB_DATABASE_NAME,MONGODB_DATABASE_USERNAME,MONGODB_DATABASE_PASSWORD,MONGODB_DATABASE_PORT,CLIENT_PORT,BASE_URL,SERVER_PORT,JWT_KEY, SOCIALS_GITHUB_ID,SOCIALS_GITHUB_SECRET, SOCIALS_TWITTER_ID, SOCIALS_TWITTER_SECRET, SOCIALS_TWITTER_APP_KEY, SOCIALS_TWITTER_APP_KEY_SECRET
+                  envs: MONGODB_DATABASE_NAME,MONGODB_DATABASE_USERNAME,MONGODB_DATABASE_PASSWORD,MONGODB_DATABASE_PORT,CLIENT_PORT_INTERNAL,BASE_URL,SERVER_PORT_INTERNAL,PORT_EXTERNAL,JWT_KEY, SOCIALS_GITHUB_ID,SOCIALS_GITHUB_SECRET, SOCIALS_TWITTER_ID, SOCIALS_TWITTER_SECRET, SOCIALS_TWITTER_APP_KEY, SOCIALS_TWITTER_APP_KEY_SECRET
                   host: ${{ secrets.VPS_SSH_HOST }}
                   username: ${{ secrets.VPS_SSH_USERNAME }}
                   key: ${{ secrets.VPS_SSH_SECRET }}

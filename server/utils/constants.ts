@@ -4,8 +4,8 @@ import { SessionOptions } from 'express-session';
 dotenv.config();
 
 // Envs
-export const INTERNAL_PORT = 5004;
-export const CLIENT_PORT = process.env.CLIENT_PORT || 3000;
+export const SERVER_PORT_INTERNAL = 5004;
+export const PORT_EXTERNAL = process.env.PORT_EXTERNAL || 3000;
 export const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1';
 export const MONGODB_PORT = process.env.MONGODB_DATABASE_PORT || 27017;
 export const MONGODB_DATABASE_USERNAME =
@@ -26,7 +26,7 @@ export const SOCIALS_TWITTER_APP_KEY_SECRET =
 
 // Configs
 export const corsOptions = {
-    origin: [`${BASE_URL}:${CLIENT_PORT}`],
+    origin: [`${BASE_URL}:${PORT_EXTERNAL}`],
     credentials: true,
     optionSuccessStatus: 200,
 };

@@ -5,8 +5,8 @@ export const root = document.querySelector('#root');
 
 export const SERVER_URL =
     process.env.REACT_APP_SERVER_URL || 'http://127.0.0.1';
-export const SERVER_PORT = process.env.REACT_APP_SERVER_PORT || '5004';
-export const CLIENT_PORT = process.env.REACT_APP_CLIENT_PORT || '3000';
+export const SERVER_PORT = process.env.REACT_APP_PORT_EXTERNAL || '5004';
+export const CLIENT_PORT = process.env.REACT_APP_PORT_EXTERNAL || '3000';
 
 export const DEFAULT_USER: CurrentUser = {
     name: 'Guest',

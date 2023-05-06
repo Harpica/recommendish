@@ -26,9 +26,9 @@ services:
     image: harpica/recommendish-node:latest
     restart: unless-stopped
     environment:
-      - CLIENT_PORT=$CLIENT_PORT
       - BASE_URL=$BASE_URL
-      - SERVER_PORT=$SERVER_PORT
+      - PORT_EXTERNAL=$PORT_EXTERNAL
+      - SERVER_PORT_INTERNAL=$SERVER_PORT_INTERNAL
       - MONGODB_DATABASE_PORT=$MONGODB_DATABASE_PORT
       - MONGODB_DATABASE_USERNAME=$MONGODB_DATABASE_USERNAME
       - MONGODB_DATABASE_PASSWORD=$MONGODB_DATABASE_PASSWORD
@@ -42,9 +42,9 @@ services:
       - SOCIALS_TWITTER_ID=$SOCIALS_TWITTER_ID
       - SOCIALS_TWITTER_SECRET=$SOCIALS_TWITTER_SECRET
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_PORT_INTERNAL}:${SERVER_PORT_INTERNAL}"
     expose:
-      - "${SERVER_PORT}"
+      - "${SERVER_PORT_INTERNAL}"
     networks:
       - backend
       - frontend
@@ -55,7 +55,7 @@ services:
     depends_on:
       - node
     ports:
-      - "${CLIENT_PORT}:80"
+      - "${CLIENT_PORT_INTERNAL}:80"
     networks:
       - frontend
 
