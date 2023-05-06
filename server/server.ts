@@ -31,7 +31,7 @@ app.use('/', routes);
 
 mongoose
     .connect(
-        `mongodb://${MONGODB_DATABASE_USERNAME}:${MONGODB_DATABASE_PASSWORD}@127.0.0.1:${MONGODB_PORT}/${MONGODB_DATABASE_NAME}?authSource=admin`
+        `mongodb://${MONGODB_DATABASE_USERNAME}:${MONGODB_DATABASE_PASSWORD}@db:${MONGODB_PORT}/${MONGODB_DATABASE_NAME}?authSource=admin`
     )
     .then(() => {
         console.log('Connected to DB');
