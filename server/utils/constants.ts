@@ -7,7 +7,9 @@ dotenv.config();
 export const SERVER_PORT_INTERNAL = 5004;
 export const PORT_EXTERNAL = process.env.PORT_EXTERNAL || 3000;
 export const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1';
-export const MONGODB_PORT = process.env.MONGODB_DATABASE_PORT || 27017;
+export const MONGODB_DATABASE_HOST =
+    process.env.MONGODB_DATABASE_HOST || 'recommendish-mongodb'; // 'recommendish-mongodb' is used while running node from docker container
+export const MONGODB_DATABASE_PORT = process.env.MONGODB_DATABASE_PORT || 27017;
 export const MONGODB_DATABASE_USERNAME =
     process.env.MONGODB_DATABASE_USERNAME || '';
 export const MONGODB_DATABASE_PASSWORD =
