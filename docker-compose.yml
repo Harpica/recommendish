@@ -43,6 +43,8 @@ services:
       - "${SERVER_PORT_INTERNAL}:${SERVER_PORT_INTERNAL}"
     expose:
       - "${SERVER_PORT_INTERNAL}"
+    volumes:
+      - /etc/ssl/ssl_certs_porkbun:/etc/ssl/ssl_certs_porkbun:ro
     networks:
       - backend
       - frontend

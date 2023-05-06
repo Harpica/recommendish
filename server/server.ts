@@ -1,4 +1,6 @@
 import express from 'express';
+import https from 'node:https';
+import fs from 'node:fs';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -36,8 +38,20 @@ mongoose
     )
     .then(() => {
         console.log('Connected to DB');
-        app.listen(SERVER_PORT_INTERNAL, () => {
-            console.log('Listening to', SERVER_PORT_INTERNAL);
-        });
+        https
+            .createServer(
+                {
+                    key: fs.readFileSync(
+                        '/etc/ssl/ssl_certs_porkbun/private.key.pem'
+                    ),
+                    cert: fs.readFileSync(
+                        '/etc/ssl/ssl_certs_porkbun/ssl-bundle.crt'
+                    ),
+                },
+                app
+            )
+            .listen(SERVER_PORT_INTERNAL, () => {
+                console.log('Listening to', SERVER_PORT_INTERNAL);
+            });
     })
     .catch((err) => console.log(err));
