@@ -20,7 +20,7 @@ export class Api {
     public images: Images;
     public auth: Auth;
     constructor() {
-        this.url = `${SERVER_URL}-api:${SERVER_PORT}`;
+        this.url = `${SERVER_URL}:${SERVER_PORT}`;
         this.users = new Users(this.url);
         this.tags = new Tags(this.url);
         this.recommendations = new Recommendations(this.url);
