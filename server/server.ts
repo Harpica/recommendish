@@ -11,7 +11,7 @@ import {
     MONGODB_DATABASE_PASSWORD,
     MONGODB_DATABASE_USERNAME,
     MONGODB_PORT,
-    PORT,
+    INTERNAL_PORT,
     corsOptions,
     sessionOptions,
 } from './utils/constants';
@@ -35,8 +35,8 @@ mongoose
     )
     .then(() => {
         console.log('Connected to DB');
-        app.listen(PORT, () => {
-            console.log('Listening to', PORT);
+        app.listen(INTERNAL_PORT, () => {
+            console.log('Listening to', INTERNAL_PORT);
         });
     })
     .catch((err) => console.log(err));

@@ -6,7 +6,7 @@ import { User } from '../models/user';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
     BASE_URL,
-    PORT,
+    INTERNAL_PORT,
     SOCIALS_GITHUB_ID,
     SOCIALS_GITHUB_SECRET,
     SOCIALS_TWITTER_APP_KEY,
@@ -22,7 +22,7 @@ passport.use(
             clientID: SOCIALS_GITHUB_ID,
             clientSecret: SOCIALS_GITHUB_SECRET,
             callbackURL: encodeURI(
-                `http://${BASE_URL}:${PORT}/auth/github/callback/`
+                `http://${BASE_URL}:${INTERNAL_PORT}/auth/github/callback/`
             ),
         },
         function (_accessToken, _refreshToken, profile, done) {
@@ -57,7 +57,7 @@ passport.use(
         {
             consumerKey: SOCIALS_TWITTER_APP_KEY,
             consumerSecret: SOCIALS_TWITTER_APP_KEY_SECRET,
-            callbackURL: `http://${BASE_URL}:${PORT}/auth/twitter/callback/`,
+            callbackURL: `http://${BASE_URL}:${INTERNAL_PORT}/auth/twitter/callback/`,
         },
         function (_accessToken, _refreshToken, profile, done) {
             handleUserData('twitterId', profile, done);
