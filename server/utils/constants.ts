@@ -28,7 +28,7 @@ export const SOCIALS_TWITTER_APP_KEY_SECRET =
 
 // Configs
 export const corsOptions = {
-    origin: [`${BASE_URL}:${PORT_EXTERNAL}`],
+    origin: [`${BASE_URL}`],
     credentials: true,
     optionSuccessStatus: 200,
 };
