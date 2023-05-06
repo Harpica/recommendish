@@ -3,7 +3,7 @@ import Popup from '../layouts/Popup';
 import { useTranslation } from 'react-i18next';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { BASE_URL, SERVER_PORT } from '../../utils/constants';
+import { SERVER_URL, SERVER_PORT } from '../../utils/constants';
 
 interface LoginProps {
     closePopup: () => void;
@@ -20,14 +20,14 @@ const Login: React.FC<LoginProps> = observer(({ closePopup, loginIsOpen }) => {
             </h2>
             <div className='flex flex-col gap-4 justify-center items-center'>
                 <a
-                    href={`http://${BASE_URL}:${SERVER_PORT}/auth/github/`}
+                    href={`http://${SERVER_URL}:${SERVER_PORT}/auth/github/`}
                     className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
                 >
                     <GitHubIcon />
                     <p>{t('partials.login.logInWithGithub')}</p>
                 </a>
                 <a
-                    href={`http://${BASE_URL}:${SERVER_PORT}/auth/twitter/`}
+                    href={`http://${SERVER_URL}:${SERVER_PORT}/auth/twitter/`}
                     className='flex flex-row gap-3 text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
                 >
                     <TwitterIcon />

@@ -5,7 +5,7 @@ import UnauthorizedError from '../utils/errors/UnautorizedError';
 
 const auth = Router();
 
-const redirect = `http://${BASE_URL}:${CLIENT_PORT}`;
+const redirect = `${BASE_URL}:${CLIENT_PORT}`;
 
 auth.get('/github', passport.authenticate('github'));
 
