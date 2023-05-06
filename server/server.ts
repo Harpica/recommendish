@@ -47,6 +47,8 @@ mongoose
                     cert: fs.readFileSync(
                         '/etc/ssl/ssl_certs_porkbun/ssl-bundle.crt'
                     ),
+                    minVersion: 'TLSv1.2',
+                    maxVersion: 'TLSv1.2',
                 },
                 app
             )
