@@ -63,19 +63,24 @@ jobs:
                   SERVER_PORT_INTERNAL: ${{ vars.SERVER_PORT_INTERNAL }}
                   BASE_URL: ${{ vars.BASE_URL }}
                   SERVER_URL: ${{ vars.SERVER_URL }}
+                  # Socials
                   SOCIALS_GITHUB_ID: ${{ secrets.SOCIALS_GITHUB_ID }}
                   SOCIALS_GITHUB_SECRET: ${{ secrets.SOCIALS_GITHUB_SECRET }}
                   SOCIALS_VK_ID: ${{ secrets.SOCIALS_VK_ID }}
                   SOCIALS_VK_SECRET: ${{ secrets.SOCIALS_VK_SECRET }}
                   SOCIALS_TWITTER_APP_KEY: ${{ secrets.SOCIALS_TWITTER_APP_KEY }}
-                  SOCIALS_TWITTER_APP_KEY_SECRET:
-                      ${{ secrets.SOCIALS_TWITTER_APP_KEY_SECRET }}
-                      # for OAuth 2.0
+                  SOCIALS_TWITTER_APP_KEY_SECRET: ${{ secrets.SOCIALS_TWITTER_APP_KEY_SECRET }}
+                  # for OAuth 2.0 Twitter
                   SOCIALS_TWITTER_ID: ${{ secrets.SOCIALS_TWITTER_ID }}
                   SOCIALS_TWITTER_SECRET: ${{ secrets.SOCIALS_TWITTER_SECRET }}
+                  # Cloudinary
+                  CLOUD_NAME: ${{secrets.CLOUD_NAME}}
+                  CLOUD_KEY: ${{secrets.CLOUD_KEY}}
+                  CLOUD_SECRET: ${{secrets.CLOUD_SECRET}}
+
               uses: appleboy/ssh-action@master
               with:
-                  envs: MONGODB_DATABASE_NAME,MONGODB_DATABASE_USERNAME,MONGODB_DATABASE_PASSWORD,MONGODB_DATABASE_PORT,CLIENT_PORT_INTERNAL,BASE_URL,SERVER_URL,SERVER_PORT_INTERNAL,PORT_EXTERNAL,JWT_KEY, SOCIALS_GITHUB_ID,SOCIALS_GITHUB_SECRET, SOCIALS_VK_ID,SOCIALS_VK_SECRET,SOCIALS_TWITTER_ID, SOCIALS_TWITTER_SECRET, SOCIALS_TWITTER_APP_KEY, SOCIALS_TWITTER_APP_KEY_SECRET
+                  envs: MONGODB_DATABASE_NAME,MONGODB_DATABASE_USERNAME,MONGODB_DATABASE_PASSWORD,MONGODB_DATABASE_PORT,CLIENT_PORT_INTERNAL,BASE_URL,SERVER_URL,SERVER_PORT_INTERNAL,PORT_EXTERNAL,JWT_KEY, SOCIALS_GITHUB_ID,SOCIALS_GITHUB_SECRET, SOCIALS_VK_ID,SOCIALS_VK_SECRET,SOCIALS_TWITTER_ID, SOCIALS_TWITTER_SECRET, SOCIALS_TWITTER_APP_KEY, SOCIALS_TWITTER_APP_KEY_SECRET, CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET
                   host: ${{ secrets.VPS_SSH_HOST }}
                   username: ${{ secrets.VPS_SSH_USERNAME }}
                   key: ${{ secrets.VPS_SSH_SECRET }}

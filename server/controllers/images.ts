@@ -1,15 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
+import { cloudConfig } from '../utils/constants';
 
 dotenv.config();
 
 const cloud = cloudinary.v2;
-cloud.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_KEY,
-    api_secret: process.env.CLOUD_SECRET,
-});
+cloud.config(cloudConfig);
 
 export const uploadImage = async (
     req: Request,
