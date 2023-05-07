@@ -8,7 +8,7 @@ export class RecommendationFieldsetVM {
     public products: Array<Product> = [];
     public isLoading: boolean = false;
 
-    constructor(groupInputValue: string) {
+    constructor() {
         this.getAllTags();
         this.getAllProducts();
         makeAutoObservable(this);

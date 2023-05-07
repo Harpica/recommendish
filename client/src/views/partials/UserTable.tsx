@@ -40,7 +40,7 @@ const UserTable: React.FC<UserTableProps> = observer(
                     setAdminUser,
                     navigate
                 ),
-            [setCurrentUser, setAdminUser, navigate]
+            [userRole, setCurrentUser, setAdminUser, navigate]
         );
         const { t } = useTranslation();
 

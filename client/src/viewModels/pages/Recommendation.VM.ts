@@ -3,7 +3,6 @@ import { Api, api } from '../../utils/HTTP/Api';
 import {
     Comment,
     CreateCommentData,
-    CurrentUser,
     Recommendation,
     UserRole,
 } from '../../utils/types';

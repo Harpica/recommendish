@@ -40,10 +40,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
             handleFileUpload,
             handleImageDelete,
         }) => {
-            const vm = useMemo(
-                () => new RecommendationFieldsetVM(groupInputValue),
-                [groupInputValue]
-            );
+            const vm = useMemo(() => new RecommendationFieldsetVM(), []);
             const { t } = useTranslation();
 
             return vm.isLoading ? (
