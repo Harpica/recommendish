@@ -16,7 +16,7 @@ const Card: React.FC<CardProps> = ({
     recommendation = DEFAULT_RECOMMENDATION,
 }) => {
     const navigate = useNavigate();
-    const vm = useMemo(() => new CardVM(navigate), []);
+    const vm = useMemo(() => new CardVM(navigate), [navigate]);
 
     return (
         <div
@@ -56,7 +56,7 @@ const Card: React.FC<CardProps> = ({
                         {recommendation.product.name}
                     </h4>
                     <Rating
-                        name='read-only'
+                        name='rating-read-only'
                         value={recommendation.product.current_rating}
                         readOnly
                     />

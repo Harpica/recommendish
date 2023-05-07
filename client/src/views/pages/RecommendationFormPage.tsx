@@ -21,7 +21,7 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
 
         const vm = useMemo(() => {
             return new RecommendationFormVM(navigate, user, type, params.id);
-        }, [params]);
+        }, [params, navigate, user, type]);
 
         const {
             watch,
@@ -37,7 +37,7 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
 
         useEffect(() => {
             reset({ ...vm.hookFormDefaultValues });
-        }, [vm.hookFormDefaultValues]);
+        }, [vm.hookFormDefaultValues, reset]);
 
         const watchGroup = watch('group', '');
 

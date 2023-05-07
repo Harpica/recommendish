@@ -1,6 +1,6 @@
 import { Rating } from '@mui/material';
 import UserInfo from '../partials/UserInfo';
-import { Comment, CurrentUser, Recommendation } from '../../utils/types';
+import { CurrentUser } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import IconHeart from '../svgWrappers/IconHeart';
 import { useParams } from 'react-router';
@@ -31,7 +31,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
             return () => {
                 clearInterval(interval);
             };
-        }, []);
+        }, [vm]);
 
         return (
             <main className='flex flex-col gap-8'>
@@ -90,7 +90,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     {vm.recommendation.product.name}
                                 </h4>
                                 <Rating
-                                    name='read-only'
+                                    name='rating'
                                     value={
                                         vm.recommendation.product.current_rating
                                     }

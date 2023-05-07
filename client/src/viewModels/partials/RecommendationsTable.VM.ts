@@ -15,7 +15,7 @@ export class RecommendationsTableVM {
             this.handleDeleteRecommendation.bind(this);
         this.closePopup = (() => {
             this.isSurePopupOpen = false;
-        }).bind(this);
+        });
         this.getUserRecommendation();
         makeAutoObservable(this);
     }

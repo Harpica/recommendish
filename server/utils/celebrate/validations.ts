@@ -38,6 +38,7 @@ export const validator = {
                 query: Joi.object().required().keys({
                     page: Joi.string().required(),
                     limit: Joi.string().required(),
+                    value: Joi.string().required(),
                 }),
             }),
         },

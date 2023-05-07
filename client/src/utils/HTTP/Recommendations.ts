@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Recommendation, RecommendationCreateOrEditData } from '../types';
+import { RecommendationCreateOrEditData } from '../types';
 
 export class Recommendations {
     url: string;
@@ -24,7 +24,7 @@ export class Recommendations {
                 }`
             );
         }, '');
-        return axios.get(this.url + '/search' + `?${query}`);
+        return axios.get(`${this.url}/search?${query}`);
     }
 
     getRecommendationById(id: string) {

@@ -8,14 +8,14 @@ export class Comments {
     }
 
     getLatest(id: string, lastUpdate: string) {
-        return axios.get(this.url + '/latest' + `?id=${id}&date=${lastUpdate}`);
+        return axios.get(`${this.url}/latest?id=${id}&date=${lastUpdate}`);
     }
     getAll(id: string) {
-        return axios.get(this.url + '/' + `?id=${id}`);
+        return axios.get(`${this.url}/?id=${id}`);
     }
 
     createComment(commentData: CreateCommentData) {
-        return axios.post(this.url + '/create', {
+        return axios.post(`${this.url}/create`, {
             data: {
                 comment: commentData,
             },

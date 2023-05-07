@@ -1,6 +1,6 @@
-import { action, makeAutoObservable, makeObservable } from 'mobx';
-import { CurrentUser, Recommendation } from '../utils/types';
-import { DEFAULT_USER, DEFAULT_RECOMMENDATION } from '../utils/constants';
+import { action, makeAutoObservable } from 'mobx';
+import { CurrentUser } from '../utils/types';
+import { DEFAULT_USER } from '../utils/constants';
 import { Api, api } from '../utils/HTTP/Api';
 
 export class AppVM {

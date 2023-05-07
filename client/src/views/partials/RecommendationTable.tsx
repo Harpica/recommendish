@@ -27,7 +27,7 @@ interface RecommendationTableProps {
 const RecommendationTable: React.FC<RecommendationTableProps> = observer(
     ({ user }) => {
         const navigate = useNavigate();
-        const vm = useMemo(() => new RecommendationsTableVM(user), [user._id]);
+        const vm = useMemo(() => new RecommendationsTableVM(user), [user]);
         const { t } = useTranslation();
 
         const columns: GridColDef[] = [

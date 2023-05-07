@@ -4,7 +4,6 @@ import {
     CurrentUser,
     Recommendation,
     RecommendationCreateOrEditData,
-    Tag,
 } from '../../utils/types';
 import Joi from 'joi';
 import { DEFAULT_RECOMMENDATION, ROUTES } from '../../utils/constants';

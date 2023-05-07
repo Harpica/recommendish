@@ -2,12 +2,7 @@ import { FilterQuery, ObjectId, Types } from 'mongoose';
 import { Comment } from '../models/comment';
 import { addCommentToRecommendation } from './recommendations';
 import { NextFunction, Request, Response } from 'express';
-import {
-    handleIfDocumentNotFound,
-    incorrectDataHandler,
-    sendDocumentIfFound,
-} from '../utils/utils';
-import recommendations from '../routes/recommendations';
+import { incorrectDataHandler, sendDocumentIfFound } from '../utils/utils';
 
 export const createComment = async (
     req: Request,

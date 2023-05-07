@@ -20,7 +20,7 @@ recommendations.get('/recent', getRecentRecommendations);
 recommendations.get('/popular', getPopularRecommendations);
 recommendations.get(
     '/search',
-    // celebrate(validator.recommendation.pagination),
+    celebrate(validator.recommendation.pagination),
     (req, res, next) => findRecommendations(req, res, next)
 );
 recommendations.get('/:id', getRecommendationById);

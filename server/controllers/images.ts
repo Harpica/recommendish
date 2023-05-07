@@ -22,7 +22,6 @@ export const uploadImage = async (
             image: { url: result.url, publicId: result.public_id },
         });
     } catch (err) {
-        console.log(err);
         next(err);
     }
 };
@@ -40,7 +39,6 @@ export const deleteImage = async (
             publicId: id,
         });
     } catch (err) {
-        console.log(err);
         next(err);
     }
 };

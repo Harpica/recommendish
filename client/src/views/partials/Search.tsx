@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 
 const Search = observer(() => {
     const navigate = useNavigate();
-    const vm = useMemo(() => new SearchInputVM(navigate), []);
+    const vm = useMemo(() => new SearchInputVM(navigate), [navigate]);
     const { t } = useTranslation();
 
     return (

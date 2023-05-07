@@ -1,7 +1,11 @@
 import dotenv from 'dotenv';
+
 import { SessionOptions } from 'express-session';
 
 dotenv.config();
+
+// Dev Mode
+export const DEV_MODE = process.env.DEV_MODE || 'false';
 
 // Envs
 export const SERVER_PORT_INTERNAL = 5004;

@@ -1,7 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
 import { Product, Tag } from '../../utils/types';
-import { UseFormGetValues } from 'react-hook-form';
 
 export class RecommendationFieldsetVM {
     private api: Api = api;

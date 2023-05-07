@@ -28,7 +28,7 @@ export class UserTableVM {
         this.navigate = navigate;
         this.closePopup = (() => {
             this.isSurePopupOpen = false;
-        }).bind(this);
+        });
         this.getUserRecommendation();
         makeAutoObservable(this);
     }

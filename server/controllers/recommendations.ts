@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IRecommendation, Recommendation } from '../models/recommendation';
+import { Recommendation } from '../models/recommendation';
 import { Error, Types } from 'mongoose';
 import { removeRecommendationFromTag, updateOrCreateTag } from './tags';
 import { Tag } from '../models/tag';
@@ -102,7 +102,6 @@ export const findRecommendations = async (
         const page = parseInt(req.query.page as string);
         const limit = parseInt(req.query.limit as string);
         const searchString = req.query.value as string;
-        console.log(page, limit, searchString);
 
         const comments = await Comment.find({
             $text: { $search: searchString },
@@ -111,8 +110,6 @@ export const findRecommendations = async (
         const recommendationsIds = comments.map((comment) => {
             return comment.recommendation;
         });
-
-        console.log(recommendationsIds);
 
         const recommendations = await Recommendation.aggregate([
             {
@@ -177,8 +174,6 @@ export const findRecommendations = async (
             .sort({ score: { $meta: 'textScore' } })
             .limit(limit)
             .skip((page - 1) * limit);
-
-        console.log(recommendations);
 
         const count = recommendations.length;
 
@@ -283,7 +278,6 @@ export const updateRecommendation = async (
                 recommendData.group
             );
             recommendData.product._id = productId;
-            console.log(productId);
         } else {
             updateProduct(recommendData.product.name, recommendData.group);
         }

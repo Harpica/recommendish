@@ -9,10 +9,10 @@ import { useTranslation } from 'react-i18next';
 
 interface MainProps {}
 
-const Main: React.FC<MainProps> = observer(({}) => {
+const Main: React.FC<MainProps> = observer(() => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const vm = useMemo(() => new MainVM(navigate, api), []);
+    const vm = useMemo(() => new MainVM(navigate, api), [navigate]);
     return (
         <>
             <header className='flex flex-col gap-3 w-full font-bold'>

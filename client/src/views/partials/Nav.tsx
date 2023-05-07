@@ -48,11 +48,18 @@ const Nav: React.FC<NavProps> = observer(
                 adminUser,
                 setAdminUser
             );
-        }, [currentUser._id, isAuth]);
+        }, [
+            isAuth,
+            setIsAuth,
+            currentUser,
+            setCurrentUser,
+            adminUser,
+            setAdminUser,
+        ]);
 
         useEffect(() => {
             vm.setLanguage(currentUser.language);
-        }, [currentUser._id]);
+        }, [currentUser.language, vm]);
 
         return (
             <>

@@ -1,13 +1,10 @@
 import passport from 'passport';
 import GitHubStrategy from 'passport-github';
-// import TwitterStrategy from '@superfaceai/passport-twitter-oauth2';
 import TwitterStrategy from 'passport-twitter';
 import VkontakteStrategy from 'passport-vkontakte';
 import { User } from '../models/user';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
-    BASE_URL,
-    SERVER_PORT_INTERNAL,
     SERVER_URL,
     SOCIALS_GITHUB_ID,
     SOCIALS_GITHUB_SECRET,
@@ -15,8 +12,6 @@ import {
     SOCIALS_TWITTER_APP_KEY_SECRET,
     SOCIALS_VK_ID,
     SOCIALS_VK_SECRET,
-    // SOCIALS_TWITTER_ID,
-    // SOCIALS_TWITTER_SECRET,
 } from '../utils/constants';
 
 passport.use(
@@ -27,7 +22,7 @@ passport.use(
             clientSecret: SOCIALS_GITHUB_SECRET,
             callbackURL: `${SERVER_URL}/auth/github/callback/`,
         },
-        function (_accessToken, _refreshToken, profile, done) {
+        (_accessToken, _refreshToken, profile, done) => {
             handleUserData('githubId', profile, done);
         }
     )
@@ -40,32 +35,21 @@ passport.use(
             clientSecret: SOCIALS_VK_SECRET,
             callbackURL: `${SERVER_URL}/auth/vkontakte/callback/`,
         },
-        (_accessToken: any, _refreshToken: any, profile: any, done: any) => {
+        (
+            _accessToken: string,
+            _refreshToken: string,
+            profile: any,
+            done: any
+        ) => {
             handleUserData('vkId', profile, done);
         }
     )
 );
 
-// passport.use(
-//     'twitter',
-//     new TwitterStrategy.Strategy(
-//         {
-//             clientType: 'public',
-//             clientID: SOCIALS_TWITTER_ID,
-//             clientSecret: SOCIALS_TWITTER_SECRET,
-//             // callbackURL: encodeURI(
-//             //     `http://${BASE_URL}:${PORT}/auth/twitter/callback/`
-//             // ),
-//             callbackURL: encodeURI(
-//                 `http://127.0.0.1:${PORT}/auth/twitter/callback/`
-//             ),
-//         },
-//         function (_accessToken, _refreshToken, profile, done) {
-//             console.log(profile);
-//             handleUserData('twitterId', profile, done);
-//         }
-//     )
-// );
+{
+    /* Twitter login works only in develop mode because VDS with deployed production is located in russia where twitter is banned :/ */
+}
+
 passport.use(
     'twitter',
     new TwitterStrategy.Strategy(
@@ -74,14 +58,13 @@ passport.use(
             consumerSecret: SOCIALS_TWITTER_APP_KEY_SECRET,
             callbackURL: `${SERVER_URL}/auth/twitter/callback/`,
         },
-        function (_accessToken, _refreshToken, profile, done) {
+        (_accessToken, _refreshToken, profile, done) => {
             handleUserData('twitterId', profile, done);
         }
     )
 );
 
 passport.serializeUser((user: any, done) => {
-    console.log(user);
     done(null, user);
 });
 
@@ -91,7 +74,6 @@ passport.deserializeUser(function (user: any, done: any) {
 
 function handleUserData(
     profileId: 'githubId' | 'twitterId' | 'vkId',
-    // profile: TwitterStrategy.ProfileWithMetaData | GitHubStrategy.Profile | TwitterStrategy.Profile,
     profile: GitHubStrategy.Profile | TwitterStrategy.Profile,
     done: any
 ) {
@@ -119,7 +101,6 @@ function handleUserData(
         { new: true, upsert: true, useFindAndModify: false }
     )
         .then((user) => {
-            console.log(user);
             if (!user) {
                 return done(new DocumentNotFoundError(), user);
             }

@@ -10,7 +10,7 @@ const IconHeart: React.FC<IconHeartProps> = ({ classes }) => {
             viewBox='0 0 24 24'
             strokeWidth={1.5}
             stroke='currentColor'
-            className={'w-6 h-6 ' + `${classes ? classes : ''}`}
+            className={`w-6 h-6 ${classes ? classes : ''}`}
         >
             <path
                 strokeLinecap='round'

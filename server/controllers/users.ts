@@ -166,7 +166,6 @@ const updateUserField = (
 ) => {
     User.updateMany({ _id: { $in: ids } }, { [field]: value }, { new: true })
         .then((data) => {
-            console.log(data);
             resolveHandler(data);
         })
         .catch((err) => {

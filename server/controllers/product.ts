@@ -1,5 +1,5 @@
-import { Error } from 'mongoose';
-import { Product } from '../models/product';
+import { Error, Types } from 'mongoose';
+import { IProduct, Product } from '../models/product';
 import { NextFunction, Request, Response } from 'express';
 import { handleIfDocumentNotFound } from '../utils/utils';
 
@@ -41,31 +41,47 @@ export const updateRating = async (
 ) => {
     try {
         const id = req.params.id;
-        const { user } = req.body.data;
         const product = await Product.findById(id);
         handleIfDocumentNotFound(product);
-        const updatedRatings = [
-            ...product!.rating.filter((rate) => {
-                return rate.user?._id.toString() !== user;
-            }),
+        const updatedProduct = await getUpdatedProduct(
             req.body.data,
-        ];
-        const currentRating =
-            updatedRatings.reduce((prev, curr) => {
-                return prev + curr.rating;
-            }, 0) / updatedRatings.length;
-        await Product.findByIdAndUpdate(id, {
-            rating: updatedRatings,
-            current_rating: currentRating,
-        });
-        product!.rating = updatedRatings;
-        product!.current_rating = currentRating;
+            product!,
+            id
+        );
         res.send({
-            product: product,
+            product: updatedProduct,
         });
     } catch (err) {
         next(err);
     }
+};
+
+const getUpdatedProduct = async (
+    rating: { user: string; rating: number },
+    product: IProduct,
+    id: string
+) => {
+    const updatedRatings = [
+        ...product!.rating.filter(
+            (rate: { user: Types.ObjectId; rating: number }) => {
+                return rate.user?._id.toString() !== rating.user;
+            }
+        ),
+        rating,
+    ];
+    const currentRating =
+        updatedRatings.reduce((prev, curr) => {
+            return prev + curr.rating;
+        }, 0) / updatedRatings.length;
+    const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        {
+            rating: updatedRatings,
+            current_rating: currentRating,
+        },
+        { new: true }
+    );
+    return updatedProduct;
 };
 
 export const getAllProducts = async (

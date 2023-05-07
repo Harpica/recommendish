@@ -1,15 +1,14 @@
 import { useParams } from 'react-router';
 import Card from '../partials/Card';
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { SearchResultsVM } from '../../viewModels/pages/SearchResults.VM';
 import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
-// import { setRecommendationProp } from '../../utils/types';
 
 interface SearchResultsProps {}
 
-const SearchResults: React.FC<SearchResultsProps> = observer(({}) => {
+const SearchResults: React.FC<SearchResultsProps> = observer(() => {
     const params = useParams();
     const { t } = useTranslation();
     const vm = useMemo(

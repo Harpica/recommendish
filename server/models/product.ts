@@ -1,4 +1,12 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+
+export interface IProduct {
+    _id: Types.ObjectId;
+    name: string;
+    group: 'movie' | 'book' | 'game';
+    current_rating: number;
+    rating: Array<{ user: Types.ObjectId; rating: number }>;
+}
 
 const ProductSchema = new Schema({
     name: {
@@ -22,11 +30,13 @@ const ProductSchema = new Schema({
                 user: {
                     type: Schema.Types.ObjectId,
                     ref: 'User',
+                    required: true,
                 },
                 rating: {
                     type: Number,
                     max: 5,
                     min: 1,
+                    required: true,
                 },
             },
         ],

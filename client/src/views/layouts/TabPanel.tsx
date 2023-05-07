@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite';
 import { ReactNode, memo } from 'react';
 
 interface TabPanelProps {

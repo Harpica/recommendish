@@ -42,7 +42,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
         }) => {
             const vm = useMemo(
                 () => new RecommendationFieldsetVM(groupInputValue),
-                []
+                [groupInputValue]
             );
             const { t } = useTranslation();
 

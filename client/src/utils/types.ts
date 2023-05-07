@@ -86,7 +86,7 @@ export interface Product {
     name: string;
     group: ProductGroup | '';
     current_rating: number;
-    rating: Array<string>;
+    rating: Array<{ user: string; rating: number }>;
 }
 
 export interface setRecommendationProp {
@@ -98,31 +98,3 @@ export interface CreateCommentData {
     recommendation: string;
     body: string;
 }
-
-// export type MessageHandler = { [key: string]: (data: any) => void };
-
-// export type MessageRequest = InitRequest | CommentRequest;
-
-// export interface InitRequest {
-//     type: 'init';
-//     data: {
-//         id: string;
-//     };
-// }
-
-// export interface CommentRequest {
-//     type: 'comment';
-//     data: { owner: string; recommendation: string; body: string };
-// }
-
-// export type MessageResponse = ErrorResponse | CommentResponse;
-
-// export interface ErrorResponse {
-//     type: 'error';
-//     data: string;
-// }
-
-// export interface CommentResponse {
-//     type: 'comment';
-//     data: Comment;
-// }

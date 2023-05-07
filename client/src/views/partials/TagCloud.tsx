@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 
 const TagCloud = observer(() => {
     const navigate = useNavigate();
-    const vm = useMemo(() => new TagCloudVM(navigate, api), []);
+    const vm = useMemo(() => new TagCloudVM(navigate, api), [navigate]);
     return (
         <Tags
             minSize={12}
