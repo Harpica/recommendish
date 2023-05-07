@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import cloudinary from 'cloudinary';
 
 import { SessionOptions } from 'express-session';
 
@@ -43,8 +44,9 @@ export const sessionOptions: SessionOptions = {
     resave: false,
     saveUninitialized: false,
 };
-export const cloudConfig = {
+export const cloudConfig: cloudinary.ConfigOptions = {
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_KEY,
     api_secret: process.env.CLOUD_SECRET,
+    secure: true,
 };
