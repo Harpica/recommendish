@@ -34,12 +34,10 @@ export const validator = {
             },
         },
         pagination: {
-            params: Joi.object().keys({
-                query: Joi.object().required().keys({
-                    page: Joi.string().required(),
-                    limit: Joi.string().required(),
-                    value: Joi.string().required(),
-                }),
+            query: Joi.object().required().keys({
+                page: Joi.string().required(),
+                limit: Joi.string().required(),
+                value: Joi.string().required(),
             }),
         },
     },
