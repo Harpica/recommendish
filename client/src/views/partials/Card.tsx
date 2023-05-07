@@ -1,12 +1,12 @@
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
 import { Rating } from '@mui/material';
+import { CardVM } from '../../viewModels/partials/Card.VM';
 import { Recommendation } from '../../utils/types';
 import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
+import { getGroupColor } from '../../utils/utils';
 import IconHeart from '../svgWrappers/IconHeart';
 import IconComments from '../svgWrappers/IconComments';
-import { useMemo } from 'react';
-import { CardVM } from '../../viewModels/partials/Card.VM';
-import { useNavigate } from 'react-router';
-import { getGroupColor } from '../../utils/utils';
 
 interface CardProps {
     recommendation: Recommendation;

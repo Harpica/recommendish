@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import FontDownloadOffIcon from '@mui/icons-material/FontDownloadOff';
 import { DataGridClasses } from '../../styles/mui';
-import { CurrentUser } from '../../utils/types';
+import { CurrentUser, Language, UserRole } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import { UserTableVM } from '../../viewModels/partials/UserTable.VM';
 import { useMemo } from 'react';
@@ -22,18 +22,25 @@ import { useTranslation } from 'react-i18next';
 import { setLocalTextInDataGrid } from '../../utils/utils';
 
 interface UserTableProps {
-    user: CurrentUser;
+    userRole: UserRole;
+    userLanguage: Language;
     setCurrentUser: (value: CurrentUser) => void;
-    setAdminUser: (value: CurrentUser) => void;
+    setAdminUser: () => void;
 }
 
 const UserTable: React.FC<UserTableProps> = observer(
-    ({ user, setCurrentUser, setAdminUser }) => {
+    ({ userRole, userLanguage, setCurrentUser, setAdminUser }) => {
         const navigate = useNavigate();
 
         const vm = useMemo(
-            () => new UserTableVM(user, setCurrentUser, setAdminUser, navigate),
-            [user, setCurrentUser, setAdminUser, navigate]
+            () =>
+                new UserTableVM(
+                    userRole,
+                    setCurrentUser,
+                    setAdminUser,
+                    navigate
+                ),
+            [setCurrentUser, setAdminUser, navigate]
         );
         const { t } = useTranslation();
 
@@ -144,7 +151,7 @@ const UserTable: React.FC<UserTableProps> = observer(
                                 );
                             },
                         }}
-                        localeText={setLocalTextInDataGrid(user.language)}
+                        localeText={setLocalTextInDataGrid(userLanguage)}
                         rows={vm.users}
                         columns={columns}
                         getRowId={(row) => row._id}

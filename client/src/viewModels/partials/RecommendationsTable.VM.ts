@@ -1,29 +1,31 @@
 import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
-import { CurrentUser, Recommendation } from '../../utils/types';
+import { Recommendation, UserRole } from '../../utils/types';
 
 export class RecommendationsTableVM {
-    private currentUser: CurrentUser;
+    private userId: string;
+    private userRole: UserRole;
     private api: Api = api;
     public recommendations: Array<Recommendation> = [];
     public currentRecommendationId: string = '';
     public isSurePopupOpen: boolean = false;
     public closePopup: () => void;
-    constructor(user: CurrentUser) {
-        this.currentUser = user;
+    constructor(userId: string, userRole: UserRole) {
+        this.userId = userId;
+        this.userRole = userRole;
         this.handleDeleteRecommendation =
             this.handleDeleteRecommendation.bind(this);
-        this.closePopup = (() => {
+        this.closePopup = () => {
             this.isSurePopupOpen = false;
-        });
+        };
         this.getUserRecommendation();
         makeAutoObservable(this);
     }
 
     private getUserRecommendation() {
-        if (this.currentUser.role !== 'unauthorized') {
+        if (this.userRole !== 'unauthorized') {
             this.api.users
-                .getUserRecommendations(this.currentUser._id)
+                .getUserRecommendations(this.userId)
                 .then(
                     action(
                         (response) =>

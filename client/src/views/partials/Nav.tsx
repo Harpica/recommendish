@@ -1,10 +1,13 @@
 import { useEffect, useMemo } from 'react';
+import { NavLink } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import Search from './Search';
+import Login from './Login';
+import Avatar from './Avatar';
 import { NavVM } from '../../viewModels/partials/Nav.VM';
 import { ROUTES } from '../../utils/constants';
 import { CurrentUser, Language, Theme } from '../../utils/types';
-import { observer } from 'mobx-react-lite';
-import Login from './Login';
 import { api } from '../../utils/HTTP/Api';
 import IconDark from '../svgWrappers/IconDark';
 import IconLight from '../svgWrappers/IconLight';
@@ -13,9 +16,6 @@ import IconNew from '../svgWrappers/IconNew';
 import IconLogo from '../svgWrappers/IconLogo';
 import IconBurger from '../svgWrappers/IconBurger';
 import IconClose from '../svgWrappers/IconClose';
-import { NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import Avatar from './Avatar';
 import IconReturn from '../svgWrappers/IconReturn';
 
 interface NavProps {
@@ -24,7 +24,7 @@ interface NavProps {
     currentUser: CurrentUser;
     setCurrentUser: (value: CurrentUser) => void;
     adminUser: CurrentUser;
-    setAdminUser: (value: CurrentUser) => void;
+    setAdminUser: () => void;
 }
 
 const Nav: React.FC<NavProps> = observer(
@@ -151,7 +151,7 @@ const Nav: React.FC<NavProps> = observer(
                                         />
                                     </NavLink>
                                 </li>
-                                {vm.isAdminActsAsOtherUser() && (
+                                {vm.isAdminActsAsOtherUser && (
                                     <li>
                                         <button
                                             className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'

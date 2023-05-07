@@ -76,7 +76,8 @@
           "group": "Group",
           "tags": "Tags",
           "likes": "Likes",
-          "comments": "Comments"
+          "comments": "Comments",
+          "noRecommendations": "You have no recommendations"
 
         },
         "recommendationFieldset": {

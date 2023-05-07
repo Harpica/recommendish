@@ -21,9 +21,15 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
     ({ currentUser }) => {
         const params = useParams();
         const { t } = useTranslation();
+
         const vm = useMemo(
-            () => new RecommendationVM(params.id!, currentUser),
-            [params, currentUser]
+            () =>
+                new RecommendationVM(
+                    params.id!,
+                    currentUser._id,
+                    currentUser.role
+                ),
+            [params.id, currentUser._id, currentUser.role]
         );
 
         useEffect(() => {

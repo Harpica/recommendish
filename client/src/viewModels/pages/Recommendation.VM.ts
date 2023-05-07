@@ -5,6 +5,7 @@ import {
     CreateCommentData,
     CurrentUser,
     Recommendation,
+    UserRole,
 } from '../../utils/types';
 import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { AxiosResponse } from 'axios';
@@ -16,12 +17,14 @@ export class RecommendationVM {
     public comments: Array<Comment> = [];
     private latestUpdate: string = Date.now().toString();
     public isLoading: boolean = false;
-    private currentUser: CurrentUser;
+    private userId: string;
+    private userRole: UserRole;
     public notificationIsOpen: boolean = false;
     public notificationMessage: string = '';
-    constructor(id: string, currentUser: CurrentUser) {
+    constructor(id: string, userId: string, userRole: UserRole) {
         this.recommendationId = id;
-        this.currentUser = currentUser;
+        this.userId = userId;
+        this.userRole = userRole;
         this.setRecommendation = this.setRecommendation.bind(this);
         this.closeNotification = this.closeNotification.bind(this);
         this.getinitialData();
@@ -84,9 +87,7 @@ export class RecommendationVM {
             return;
         }
         if (
-            this.recommendation.likes.find(
-                (element) => this.currentUser._id === element
-            )
+            this.recommendation.likes.find((element) => this.userId === element)
         ) {
             this.dislike();
         } else {
@@ -95,7 +96,7 @@ export class RecommendationVM {
     }
 
     public checkIsAuth() {
-        if (this.currentUser.role === 'unauthorized') {
+        if (this.userRole === 'unauthorized') {
             return false;
         }
         return true;
@@ -103,15 +104,13 @@ export class RecommendationVM {
 
     private like() {
         this.api.recommendations
-            .likeRecommendation(this.currentUser._id, this.recommendationId)
+            .likeRecommendation(this.userId, this.recommendationId)
             .then(action(this.setRecommendation))
             .catch(action((err) => console.log(err)));
     }
 
     public checkIfLiked() {
-        if (
-            this.recommendation.likes.find((id) => this.currentUser._id === id)
-        ) {
+        if (this.recommendation.likes.find((id) => this.userId === id)) {
             return true;
         }
         return false;
@@ -119,7 +118,7 @@ export class RecommendationVM {
 
     private dislike() {
         this.api.recommendations
-            .dislikeRecommendation(this.currentUser._id, this.recommendationId)
+            .dislikeRecommendation(this.userId, this.recommendationId)
             .then(action(this.setRecommendation))
             .catch(action((err) => console.log(err)));
     }
@@ -130,11 +129,7 @@ export class RecommendationVM {
             return;
         }
         this.api.products
-            .updateRating(
-                this.recommendation.product._id,
-                this.currentUser._id,
-                value
-            )
+            .updateRating(this.recommendation.product._id, this.userId, value)
             .then(
                 action((response) => {
                     this.recommendation.product = response.data.product;
@@ -155,7 +150,7 @@ export class RecommendationVM {
     public createCommentFormHandler(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const commentData: CreateCommentData = {
-            owner: this.currentUser._id,
+            owner: this.userId,
             recommendation: this.recommendationId,
             body: (
                 e.currentTarget.elements.namedItem(
@@ -182,8 +177,8 @@ export class RecommendationVM {
 
     public isUserOwner() {
         return (
-            this.recommendation.owner._id === this.currentUser._id ||
-            this.currentUser.role === 'admin'
+            this.recommendation.owner._id === this.userId ||
+            this.userRole === 'admin'
         );
     }
 }

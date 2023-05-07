@@ -19,9 +19,10 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
         const navigate = useNavigate();
         const { t } = useTranslation();
 
-        const vm = useMemo(() => {
-            return new RecommendationFormVM(navigate, user, type, params.id);
-        }, [params, navigate, user, type]);
+        const vm = useMemo(
+            () => new RecommendationFormVM(navigate, user._id, type, params.id),
+            [navigate, user._id, type, params.id]
+        );
 
         const {
             watch,

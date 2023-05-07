@@ -50,7 +50,6 @@ export const setUserLikes = async (id: Types.ObjectId, next: NextFunction) => {
             const totalCount = recommendations.reduce((prev, curr) => {
                 return prev + curr.likes.length;
             }, 0);
-            console.log(totalCount);
             await User.findByIdAndUpdate(id, { likes: totalCount });
         },
         next

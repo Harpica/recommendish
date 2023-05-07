@@ -1,3 +1,7 @@
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
+import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import {
     DataGrid,
     GridActionsCellItem,
@@ -9,16 +13,12 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { DataGridClasses } from '../../styles/mui';
-import { observer } from 'mobx-react-lite';
-import { CurrentUser, Product, Recommendation, Tag } from '../../utils/types';
-import { useNavigate } from 'react-router';
-import { ROUTES } from '../../utils/constants';
-import { useMemo } from 'react';
-import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
 import SurePopup from './SurePopup';
+import { RecommendationsTableVM } from '../../viewModels/partials/RecommendationsTable.VM';
+import { CurrentUser, Product, Recommendation, Tag } from '../../utils/types';
+import { ROUTES } from '../../utils/constants';
 import { getLocalDate, setLocalTextInDataGrid } from '../../utils/utils';
-import { useTranslation } from 'react-i18next';
+import { DataGridClasses } from '../../styles/mui';
 
 interface RecommendationTableProps {
     user: CurrentUser;
@@ -27,7 +27,10 @@ interface RecommendationTableProps {
 const RecommendationTable: React.FC<RecommendationTableProps> = observer(
     ({ user }) => {
         const navigate = useNavigate();
-        const vm = useMemo(() => new RecommendationsTableVM(user), [user]);
+        const vm = useMemo(
+            () => new RecommendationsTableVM(user._id, user.role),
+            [user._id, user.role]
+        );
         const { t } = useTranslation();
 
         const columns: GridColDef[] = [
@@ -147,6 +150,19 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                         localeText={setLocalTextInDataGrid(user.language)}
                         rows={vm.recommendations}
                         columns={columns}
+                        slots={{
+                            noRowsOverlay: () => {
+                                return (
+                                    <div className='w-full h-full flex justify-center items-center'>
+                                        <p>
+                                            {t(
+                                                'partials.recommendationTable.noRecommendations'
+                                            )}
+                                        </p>
+                                    </div>
+                                );
+                            },
+                        }}
                         getRowId={(row) => row._id}
                         hideFooter
                         disableRowSelectionOnClick

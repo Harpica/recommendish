@@ -12,10 +12,11 @@ export class NavVM {
     private currentUser: CurrentUser;
     private adminUser: CurrentUser;
     private setCurrentUser: (value: CurrentUser) => void;
-    private setAdminUser: (value: CurrentUser) => void;
+    private setAdminUser: () => void;
     public theme: Theme;
     public language: Language = 'en';
     public menuIsOpen: boolean = window.innerWidth >= 768 ? true : false;
+    public isAdminActsAsOtherUser: boolean;
     constructor(
         api: Api,
         isAuth: boolean,
@@ -23,7 +24,7 @@ export class NavVM {
         currentUser: CurrentUser,
         setCurrentUser: (value: CurrentUser) => void,
         adminUser: CurrentUser,
-        setAdminUser: (value: CurrentUser) => void
+        setAdminUser: () => void
     ) {
         this.api = api;
         this.isAuth = isAuth;
@@ -34,6 +35,7 @@ export class NavVM {
         this.setAdminUser = setAdminUser;
         this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
         this.theme = this.currentUser.theme;
+        this.isAdminActsAsOtherUser = this.checkIfAdminActsAsOtherUser();
         this.setRootTheme();
         makeAutoObservable(this);
     }
@@ -107,11 +109,15 @@ export class NavVM {
     }
 
     public returnToAdminUser() {
+        this.isAdminActsAsOtherUser = false;
         this.setCurrentUser(this.adminUser!);
-        this.setAdminUser(DEFAULT_USER);
+        this.setAdminUser();
     }
 
-    public isAdminActsAsOtherUser() {
-        return this.adminUser.role === 'admin' ? true : false;
+    private checkIfAdminActsAsOtherUser() {
+        return this.adminUser._id !== this.currentUser._id &&
+            this.adminUser.role === 'admin'
+            ? true
+            : false;
     }
 }

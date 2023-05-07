@@ -20,11 +20,11 @@ export class AppVM {
     }
 
     public setCurrentUser(user: CurrentUser) {
-        this.currentUser = { ...user };
+        this.currentUser = user;
     }
 
-    public setAdminUser(user: CurrentUser) {
-        this.adminUser = { ...user };
+    public setAdminUser() {
+        this.adminUser = this.currentUser;
     }
 
     public setIsAuth(value: boolean) {

@@ -1,7 +1,6 @@
 import { action, makeAutoObservable } from 'mobx';
 import { Api, api } from '../../utils/HTTP/Api';
 import {
-    CurrentUser,
     Recommendation,
     RecommendationCreateOrEditData,
 } from '../../utils/types';
@@ -11,7 +10,7 @@ import { NavigateFunction } from 'react-router';
 import i18n from '../../localization/i18n';
 
 export class RecommendationFormVM {
-    private currentUser: CurrentUser;
+    private userId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
     private api: Api = api;
     private navigate: NavigateFunction;
@@ -20,12 +19,13 @@ export class RecommendationFormVM {
     public images: Array<{ url: string; publicId: string }> = [];
     constructor(
         navigate: NavigateFunction,
-        currentUser: CurrentUser,
+        userId: string,
         type: 'new' | 'edit',
         recommendationId?: string
     ) {
+        console.log('I created');
         this.navigate = navigate;
-        this.currentUser = currentUser;
+        this.userId = userId;
         this.setRecommendationSchema();
         this.hookFormDefaultValues = {
             title: this.recommendation.name,
@@ -176,7 +176,7 @@ export class RecommendationFormVM {
         [x: string]: any;
     }): RecommendationCreateOrEditData {
         return {
-            owner: this.currentUser._id,
+            owner: this.userId,
             name: data.title,
             group: data.group,
             product: {

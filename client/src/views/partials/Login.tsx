@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react-lite';
-import Popup from '../layouts/Popup';
-import { useTranslation } from 'react-i18next';
-// import TwitterIcon from '@mui/icons-material/Twitter';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import { SERVER_URL } from '../../utils/constants';
 import { useRef } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
+import Popup from '../layouts/Popup';
+import GitHubIcon from '@mui/icons-material/GitHub';
+// import TwitterIcon from '@mui/icons-material/Twitter';
+import { SERVER_URL } from '../../utils/constants';
 import IconVK from '../svgWrappers/IconVK';
 
 interface LoginProps {

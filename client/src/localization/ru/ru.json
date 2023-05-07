@@ -76,7 +76,8 @@
       "group": "Группа",
       "tags": "Тэги",
       "likes": "Лайки",
-      "comments": "Комментарии"
+      "comments": "Комментарии",
+      "noRecommendations": "У Вас пока нет рекомендаций"
 
     },
     "recommendationFieldset": {

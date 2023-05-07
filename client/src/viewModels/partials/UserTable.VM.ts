@@ -6,9 +6,9 @@ import { ROUTES } from '../../utils/constants';
 import { GridRowId } from '@mui/x-data-grid';
 
 export class UserTableVM {
-    private currentUser: CurrentUser;
+    private userRole: UserRole;
     private setCurrentUser: (value: CurrentUser) => void;
-    private setAdminUser: (value: CurrentUser) => void;
+    private setAdminUser: () => void;
     private api: Api = api;
     public users: Array<CurrentUser> = [];
     public currentUserId: string = '';
@@ -17,18 +17,18 @@ export class UserTableVM {
     private navigate: NavigateFunction;
     public selectedRows: Array<GridRowId> = [];
     constructor(
-        user: CurrentUser,
+        userRole: UserRole,
         setCurrentUser: (value: CurrentUser) => void,
-        setAdminUser: (value: CurrentUser) => void,
+        setAdminUser: () => void,
         navigate: NavigateFunction
     ) {
-        this.currentUser = user;
+        this.userRole = userRole;
         this.setCurrentUser = setCurrentUser;
         this.setAdminUser = setAdminUser;
         this.navigate = navigate;
-        this.closePopup = (() => {
+        this.closePopup = () => {
             this.isSurePopupOpen = false;
-        });
+        };
         this.getUserRecommendation();
         makeAutoObservable(this);
     }
@@ -38,7 +38,7 @@ export class UserTableVM {
     }
 
     private getUserRecommendation() {
-        if (this.currentUser.role === 'admin') {
+        if (this.userRole === 'admin') {
             this.api.users
                 .getUsers()
                 .then(action((response) => (this.users = response.data.users)))
@@ -86,11 +86,14 @@ export class UserTableVM {
     }
 
     public actAsAnotherUser(id: string) {
-        this.setAdminUser(this.currentUser);
-        this.setCurrentUser(
-            this.users.find((user) => user._id === id) || this.currentUser
-        );
-        this.navigate(ROUTES(id).profile);
+        this.setAdminUser();
+        const user = this.users.find((user) => user._id === id);
+        if (user) {
+            this.setCurrentUser(user);
+            this.navigate(ROUTES(id).profile);
+        } else {
+            console.log('User not found');
+        }
     }
 
     public handleDeleteUser() {}
