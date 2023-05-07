@@ -275,7 +275,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 ) ?? 'Upload or drop a file right here'
                             }
                             classes={
-                                'rounded p-2 border-amber-600 border-[1px] border-solid h-[56px] w-[500px] path-color span-color hover:border-amber-500'
+                                'rounded p-2 border-amber-600 border-[1px] border-solid h-[56px] max-w-[500px] path-color span-color hover:border-amber-500'
                             }
                         />
                     </div>
