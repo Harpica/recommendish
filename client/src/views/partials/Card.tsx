@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({
             }}
         >
             <div
-                className={` w-12 h-12 md:w-48 md:h-48 rounded bg-rose-500 bg-${getGroupColor(
+                className={` w-12 h-12 md:w-48 md:h-48 rounded bg-rose bg-${getGroupColor(
                     recommendation.group
                 )} `}
             >

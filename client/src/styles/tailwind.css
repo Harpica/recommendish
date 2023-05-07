@@ -58,10 +58,6 @@
     color: inherit !important;
 }
 
-/* .toolbar-visible-onhover:hover #toolbar {
-    @apply visible;
+.bg-rose {
+    @apply bg-rose-500;
 }
-
-.toolbar-visible #toolbar {
-    @apply visible;
-} */
