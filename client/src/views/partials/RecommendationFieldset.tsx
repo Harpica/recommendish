@@ -131,7 +131,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                         groupInputValue
                                     )}
                                     value={field.field.value}
-                                    onChange={(event, item) => {
+                                    onChange={(_event, item) => {
                                         if (typeof item === 'string') {
                                             item = {
                                                 _id: '',
@@ -181,11 +181,11 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 <Autocomplete
                                     {...field.field}
                                     value={field.field.value}
-                                    onChange={(event, item) => {
+                                    onChange={(_event, item) => {
                                         let recentItem = item[item.length - 1];
                                         if (typeof recentItem === 'string') {
                                             item[item.length - 1] = {
-                                                name: recentItem,
+                                                name: recentItem.toLowerCase(),
                                             };
                                         }
                                         field.field.onChange(item);
