@@ -19,7 +19,7 @@ export const uploadImage = async (
             upload_preset: 'recommendish',
         });
         res.send({
-            image: { url: result.url, publicId: result.public_id },
+            image: { url: result.secure_url, publicId: result.public_id },
         });
     } catch (err) {
         next(err);
