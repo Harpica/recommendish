@@ -13,7 +13,6 @@ import { FieldValues } from 'react-hook-form/dist/types/fields';
 import { Control } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form/dist/types/errors';
 import { Controller } from 'react-hook-form';
-
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useTranslation } from 'react-i18next';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
@@ -269,6 +268,8 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                             handleChange={handleFileUpload}
                             name='file'
                             types={fileTypes}
+                            maxSize={10}
+                            onSizeError={() => vm.onImageUploadSizeError()}
                             label={
                                 t(
                                     'partials.recommendationFieldset.fileUploader.label'
@@ -278,6 +279,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                 'rounded p-2 border-amber-600 border-[1px] border-solid h-[56px] max-w-[500px] path-color span-color hover:border-amber-500'
                             }
                         />
+                        <p className='text-amber-600'>{vm.fileLoaderMessage}</p>
                     </div>
                     <div className='flex flex-row gap-3 flex-wrap'>
                         {images.map((image, i) => (

@@ -6,6 +6,7 @@ export class RecommendationFieldsetVM {
     private api: Api = api;
     public tags: Array<Tag> = [];
     public products: Array<Product> = [];
+    public fileLoaderMessage = '';
     public isLoading: boolean = false;
 
     constructor() {
@@ -55,5 +56,8 @@ export class RecommendationFieldsetVM {
         return this.products.filter((product) => {
             return product.group === groupInputValue;
         });
+    }
+    public onImageUploadSizeError() {
+        this.fileLoaderMessage = 'File size is too big. Max size is 10MB';
     }
 }
