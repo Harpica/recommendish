@@ -58,6 +58,12 @@
     color: inherit !important;
 }
 
+/* upload bg-rose-500 on tw compiling */
 .bg-rose {
     @apply bg-rose-500;
+}
+
+/* style for <p> inside markdown viewer */
+.add-ellipsis-to-p p {
+    @apply text-ellipsis w-full overflow-hidden whitespace-nowrap;
 }

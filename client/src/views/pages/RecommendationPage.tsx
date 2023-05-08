@@ -5,13 +5,15 @@ import { observer } from 'mobx-react-lite';
 import IconHeart from '../svgWrappers/IconHeart';
 import { useParams } from 'react-router';
 import { RecommendationVM } from '../../viewModels/pages/Recommendation.VM';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import Notification from '../layouts/Notification';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import IconEdit from '../svgWrappers/IconEdit';
 import { getGroupColor, getLocalDate } from '../../utils/utils';
 import { useTranslation } from 'react-i18next';
+import MDEditor from '@uiw/react-md-editor';
+import IconDownload from '../svgWrappers/IconDownload';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -21,6 +23,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
     ({ currentUser }) => {
         const params = useParams();
         const { t } = useTranslation();
+        const pdfRef = useRef(null);
 
         const vm = useMemo(
             () =>
@@ -45,7 +48,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                     <div>{t('loading')}</div>
                 ) : (
                     <>
-                        <section className='flex flex-col gap-3'>
+                        <section className='flex flex-col gap-3' ref={pdfRef}>
                             <div className='flex flex-col-reverse gap-3 md:flex-row md:justify-between'>
                                 <div className='flex flex-row gap-3 items-center'>
                                     <h1 className='text-2xl font-bold w-fit'>
@@ -78,6 +81,13 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                             <IconEdit />
                                         </NavLink>
                                     )}
+                                    <button
+                                        aria-label='download as pdf'
+                                        className={'hover:opacity-50 pt-1'}
+                                        onClick={() => vm.handleLoadPdf(pdfRef)}
+                                    >
+                                        <IconDownload />
+                                    </button>
                                 </div>
                                 <UserInfo user={vm.recommendation.owner} />
                             </div>
@@ -122,9 +132,11 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 ))}
                             </ul>
                             <div className='flex flex-row flex-wrap justify-center gap-7 mt-5'>
-                                <p className='max-w-3xl whitespace-pre-line'>
-                                    {vm.recommendation.body}
-                                </p>
+                                <MDEditor.Markdown
+                                    source={vm.recommendation.body}
+                                    style={{ whiteSpace: 'pre-wrap' }}
+                                    className='bg-inherit text-inherit  max-w-3xl w-full'
+                                />
                                 {vm.recommendation.images.length > 0 ? (
                                     vm.recommendation.images.map((image, i) => (
                                         <div

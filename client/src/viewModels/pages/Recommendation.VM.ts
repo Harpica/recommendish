@@ -8,6 +8,11 @@ import {
 } from '../../utils/types';
 import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { AxiosResponse } from 'axios';
+import jsPDF from 'jspdf';
+import { MutableRefObject } from 'react';
+import html2canvas from 'html2canvas';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { toPng } from 'html-to-image';
 
 export class RecommendationVM {
     private api: Api = api;
@@ -179,5 +184,41 @@ export class RecommendationVM {
             this.recommendation.owner._id === this.userId ||
             this.userRole === 'admin'
         );
+    }
+
+    public async handleLoadPdf(ref: MutableRefObject<null>) {
+        if (ref) {
+            const isDark = document
+                .getElementById('root')
+                ?.classList.contains('dark')
+                ? true
+                : false;
+            toPng(ref.current!, {
+                cacheBust: true,
+                backgroundColor: isDark ? 'rgb(39 39 42)' : 'rgb(248 250 252)',
+            })
+                .then((dataUrl) => {
+                    const pdfDoc = new jsPDF({
+                        format: 'a4',
+                        unit: 'px',
+                    });
+                    const imgProperties = pdfDoc.getImageProperties(dataUrl);
+                    const pdfWidth = pdfDoc.internal.pageSize.getWidth();
+                    const pdfHeight =
+                        (imgProperties.height * pdfWidth) / imgProperties.width;
+                    pdfDoc.addImage(
+                        dataUrl,
+                        'PNG',
+                        15,
+                        15,
+                        pdfWidth - 30,
+                        pdfHeight
+                    );
+                    pdfDoc.save('recommendation.pdf');
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     }
 }

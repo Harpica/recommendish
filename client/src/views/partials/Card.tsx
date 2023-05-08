@@ -7,6 +7,9 @@ import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { getGroupColor } from '../../utils/utils';
 import IconHeart from '../svgWrappers/IconHeart';
 import IconComments from '../svgWrappers/IconComments';
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import remarkGfm from 'remark-gfm';
+import MDEditor from '@uiw/react-md-editor';
 
 interface CardProps {
     recommendation: Recommendation;
@@ -61,9 +64,12 @@ const Card: React.FC<CardProps> = ({
                         readOnly
                     />
                 </div>
-                <span className=' text-ellipsis overflow-hidden whitespace-nowrap'>
-                    {recommendation.body}
-                </span>
+                <MDEditor.Markdown
+                    source={recommendation.body}
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    className='bg-inherit text-inherit h-6 w-full overflow-hidden add-ellipsis-to-p'
+                    disallowedElements={['img']}
+                />
                 <ul className='flex flex-row gap-2 flex-wrap h-7 overflow-hidden'>
                     {recommendation.tags.map((tag, i) => (
                         <li
