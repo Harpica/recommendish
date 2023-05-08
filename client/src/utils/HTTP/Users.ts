@@ -33,13 +33,13 @@ export class Users {
         return axios.get(`${this.url}/${id}/recommendations`);
     }
 
-    // deleteUsers(ids: Array<number>) {
-    //     return axios.delete(`http://${BASE_URL}:5000/users`, {
-    //         data: {
-    //             ids: ids,
-    //         },
-    //     });
-    // }
+    deleteUsers(ids: Array<unknown>) {
+        return axios.delete(`${this.url}/delete`, {
+            data: {
+                ids: ids,
+            },
+        });
+    }
 
     changeUsersStatus(ids: Array<unknown>, status: UserStatus) {
         return axios.patch(`${this.url}/status`, {
@@ -49,6 +49,7 @@ export class Users {
             },
         });
     }
+
     changeUsersRole(ids: Array<unknown>, role: UserRole) {
         return axios.patch(`${this.url}/role`, {
             data: {

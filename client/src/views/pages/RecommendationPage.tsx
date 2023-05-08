@@ -14,6 +14,8 @@ import { getGroupColor, getLocalDate } from '../../utils/utils';
 import { useTranslation } from 'react-i18next';
 import MDEditor from '@uiw/react-md-editor';
 import IconDownload from '../svgWrappers/IconDownload';
+import Comments from '../partials/Comments';
+import ImagePopup from '../partials/ImagePopup';
 
 interface RecommendationProps {
     currentUser: CurrentUser;
@@ -93,9 +95,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                             </div>
                             <p>
                                 {vm.recommendation.createdAt &&
-                                    new Date(
-                                        vm.recommendation.createdAt
-                                    ).toLocaleString()}
+                                    getLocalDate(vm.recommendation.createdAt)}
                             </p>
                             <div className='flex flex-row gap-1 flex-wrap'>
                                 <h4
@@ -131,7 +131,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     </li>
                                 ))}
                             </ul>
-                            <div className='flex flex-row flex-wrap justify-center gap-7 mt-5'>
+                            <div className='flex flex-col justify-center items-center gap-7 mt-5'>
                                 <MDEditor.Markdown
                                     source={vm.recommendation.body}
                                     style={{ whiteSpace: 'pre-wrap' }}
@@ -139,76 +139,37 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 />
                                 {vm.recommendation.images.length > 0 ? (
                                     vm.recommendation.images.map((image, i) => (
-                                        <div
-                                            className='w-52 max-h-52 h-52 bg-amber-500 rounded'
+                                        <img
                                             key={'image' + i}
-                                        >
-                                            <img
-                                                src={image.url}
-                                                alt='recommendation illustration'
-                                                className='w-52 h-52 rounded object-cover'
-                                            />
-                                        </div>
+                                            src={image.url}
+                                            alt='recommendation illustration'
+                                            className='w-52 h-52 rounded object-cover cursor-pointer'
+                                            onClick={() =>
+                                                vm.openImagePopup(image.url)
+                                            }
+                                        />
                                     ))
                                 ) : (
                                     <></>
                                 )}
                             </div>
                         </section>
-                        <section>
-                            <h2 className='font-bold text-xl mb-5 uppercase'>
-                                {t('pages.recommendation.comments')}
-                            </h2>
-                            <ul className='flex flex-col gap-5 mb-10'>
-                                {vm.comments.map((comment, i) => (
-                                    <li
-                                        key={'comment' + i}
-                                        className='flex flex-col gap-3'
-                                    >
-                                        <div className='flex flex-row gap-3 items-center'>
-                                            <UserInfo user={comment.owner} />
-                                            <p>
-                                                {getLocalDate(
-                                                    comment.createdAt
-                                                )}
-                                            </p>
-                                        </div>
-                                        <p className='pl-11 pr-11'>
-                                            {comment.body}
-                                        </p>
-                                    </li>
-                                ))}
-                            </ul>
-                            {vm.checkIsAuth() && (
-                                <form
-                                    className='flex flex-row gap-3 justify-center items-start'
-                                    onSubmit={(e) => {
-                                        vm.createCommentFormHandler(e);
-                                    }}
-                                >
-                                    <div className='w-full max-w-3xl rounded border-amber-600 border-[1px] '>
-                                        <textarea
-                                            name='comment-body'
-                                            className='w-full outline-none rounded text-current p-5  h-[180px]  bg-inherit resize-none hover:bg-opacity-80 scrollbar'
-                                            placeholder='Enter new comment...'
-                                        />
-                                    </div>
-                                    <button
-                                        type='submit'
-                                        className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
-                                        aria-label='send comment'
-                                    >
-                                        {t('pages.recommendation.send')}
-                                    </button>
-                                </form>
-                            )}
-                        </section>
+                        <Comments
+                            comments={vm.comments}
+                            sendComment={vm.createCommentFormHandler}
+                            isAuth={vm.checkIsAuth()}
+                        />
                     </>
                 )}
                 <Notification
                     isOpen={vm.notificationIsOpen}
                     close={vm.closeNotification}
                     message={vm.notificationMessage}
+                />
+                <ImagePopup
+                    isOpen={vm.isImageOpen}
+                    closePopup={vm.closeImagePopup}
+                    imageUrl={vm.currentImage}
                 />
             </main>
         );

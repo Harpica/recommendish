@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { IUser, User } from '../models/user';
-import { IRecommendation } from '../models/recommendation';
+import { IRecommendation, Recommendation } from '../models/recommendation';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
     handleIfDocumentNotFound,
@@ -9,6 +9,9 @@ import {
     sendDocumentIfFound,
 } from '../utils/utils';
 import { ObjectId, Types } from 'mongoose';
+import { Comment } from '../models/comment';
+import { Product } from '../models/product';
+import { Tag } from '../models/tag';
 
 export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
     User.find({})
@@ -170,4 +173,55 @@ const updateUserField = (
         .catch((err) => {
             rejectHandler(err);
         });
+};
+
+export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+    const ids = req.body.ids;
+    User.deleteMany({ _id: { $in: ids } })
+        .then(async (response) => {
+            const usersRecommendationIds = await Recommendation.find({
+                owner: { $in: ids },
+            }).select('_id');
+            await Recommendation.deleteMany({
+                _id: { $in: ids },
+            });
+            await Comment.deleteMany({
+                owner: { $in: ids },
+            });
+            await Product.updateMany(
+                {
+                    rating: {
+                        $elemMatch: { user: { $in: ids } },
+                    },
+                },
+                {
+                    $pull: {
+                        rating: {
+                            user: { $in: ids },
+                        },
+                    },
+                }
+            );
+            await Recommendation.updateMany(
+                {
+                    likes: { $elemMatch: { $in: ids } },
+                },
+                {
+                    $pull: { likes: { $in: ids } },
+                }
+            );
+            await Tag.updateMany(
+                { isUsed: { $in: usersRecommendationIds } },
+                {
+                    $pull: { isUsed: usersRecommendationIds },
+                }
+            );
+            await Tag.deleteMany({
+                isUsed: {
+                    $size: 0,
+                },
+            });
+            res.send({ response: response });
+        })
+        .catch(next);
 };

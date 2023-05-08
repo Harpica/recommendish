@@ -21,3 +21,10 @@ export const auth = (req: Request, _res: Response, next: NextFunction) => {
             .catch(next);
     }
 };
+export const authAdmin = (req: Request, _res: Response, next: NextFunction) => {
+    const user = req.user as IUser;
+    if (user.role !== 'admin') {
+        throw new ForbiddenError('User is not admin');
+    }
+    next();
+};

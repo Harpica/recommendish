@@ -165,7 +165,7 @@ const UserTable: React.FC<UserTableProps> = observer(
                 <SurePopup
                     isOpen={vm.isSurePopupOpen}
                     closePopup={vm.closePopup}
-                    handleAction={vm.handleDeleteUser}
+                    handleAction={vm.handleDeleteUsers}
                 />
             </>
         );

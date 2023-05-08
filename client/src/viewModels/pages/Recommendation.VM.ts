@@ -10,8 +10,6 @@ import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { AxiosResponse } from 'axios';
 import jsPDF from 'jspdf';
 import { MutableRefObject } from 'react';
-import html2canvas from 'html2canvas';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { toPng } from 'html-to-image';
 
 export class RecommendationVM {
@@ -25,12 +23,17 @@ export class RecommendationVM {
     private userRole: UserRole;
     public notificationIsOpen: boolean = false;
     public notificationMessage: string = '';
+    public isImageOpen: boolean = false;
+    public currentImage: string = '';
     constructor(id: string, userId: string, userRole: UserRole) {
         this.recommendationId = id;
         this.userId = userId;
         this.userRole = userRole;
         this.setRecommendation = this.setRecommendation.bind(this);
         this.closeNotification = this.closeNotification.bind(this);
+        this.closeImagePopup = this.closeImagePopup.bind(this);
+        this.createCommentFormHandler =
+            this.createCommentFormHandler.bind(this);
         this.getinitialData();
         makeAutoObservable(this);
     }
@@ -140,6 +143,16 @@ export class RecommendationVM {
                 })
             )
             .catch(action((err) => console.log(err)));
+    }
+
+    public openImagePopup(imageUrl: string) {
+        this.isImageOpen = true;
+        this.currentImage = imageUrl;
+    }
+
+    public closeImagePopup() {
+        this.isImageOpen = false;
+        this.currentImage = '';
     }
 
     public openNotification(message: string) {

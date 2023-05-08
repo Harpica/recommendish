@@ -26,6 +26,7 @@ export class UserTableVM {
         this.setCurrentUser = setCurrentUser;
         this.setAdminUser = setAdminUser;
         this.navigate = navigate;
+        this.handleDeleteUsers = this.handleDeleteUsers.bind(this);
         this.closePopup = () => {
             this.isSurePopupOpen = false;
         };
@@ -96,5 +97,22 @@ export class UserTableVM {
         }
     }
 
-    public handleDeleteUser() {}
+    public handleDeleteUsers() {
+        if (this.selectedRows.length !== 0) {
+            this.api.users
+                .deleteUsers(this.selectedRows)
+                .then(
+                    action(() => {
+                        this.users = this.users.filter((user) => {
+                            if (this.selectedRows.indexOf(user._id) !== -1) {
+                                return;
+                            }
+                            return user;
+                        });
+                    })
+                )
+                .catch((err) => console.log(err))
+                .finally(() => this.closePopup());
+        }
+    }
 }
