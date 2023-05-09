@@ -107,13 +107,14 @@ const UserTable: React.FC<UserTableProps> = observer(
                         slots={{
                             toolbar: () => {
                                 return (
-                                    <>
+                                    <div className='flex flex-row gap-2'>
                                         <GridActionsCellItem
                                             icon={<FontDownloadIcon />}
                                             onClick={() => {
                                                 vm.changeUsersRole('admin');
                                             }}
                                             label='Promote to admin'
+                                            aria-label='Promote to admin'
                                         />
 
                                         <GridActionsCellItem
@@ -122,6 +123,7 @@ const UserTable: React.FC<UserTableProps> = observer(
                                                 vm.changeUsersRole('user');
                                             }}
                                             label='Downgrade to user'
+                                            aria-label='Downgrade to user'
                                         />
 
                                         <GridActionsCellItem
@@ -129,7 +131,8 @@ const UserTable: React.FC<UserTableProps> = observer(
                                             onClick={() => {
                                                 vm.changeUsersStatus('blocked');
                                             }}
-                                            label='block'
+                                            label='Block'
+                                            aria-label='Block user'
                                         />
 
                                         <GridActionsCellItem
@@ -137,7 +140,8 @@ const UserTable: React.FC<UserTableProps> = observer(
                                             onClick={() => {
                                                 vm.changeUsersStatus('active');
                                             }}
-                                            label='unblock'
+                                            label='Unblock'
+                                            aria-label='Unblock user'
                                         />
 
                                         <GridActionsCellItem
@@ -146,8 +150,9 @@ const UserTable: React.FC<UserTableProps> = observer(
                                                 vm.handleDeleteButtonClick();
                                             }}
                                             label='Delete'
+                                            aria-label='Delete user'
                                         />
-                                    </>
+                                    </div>
                                 );
                             },
                         }}
