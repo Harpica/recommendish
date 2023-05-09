@@ -133,4 +133,7 @@ export const DataGridClasses = {
     '.MuiDataGrid-row.Mui-selected .MuiSvgIcon-root ': {
         fill: 'black',
     },
+    '.Mui-disabled .MuiSvgIcon-root ': {
+        fill: 'gray',
+    },
 };

@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
 import Card from '../partials/Card';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useMemo } from 'react';
 import { SearchResultsVM } from '../../viewModels/pages/SearchResults.VM';
 import { api } from '../../utils/HTTP/Api';
@@ -23,7 +24,7 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
                     {`${t('pages.searchResults.title')} "${vm.searchValue}"`}
                 </h2>
                 {vm.isLoading ? (
-                    <div>{t('loading')}</div>
+                    <CircularProgress />
                 ) : vm.recommendations.length !== 0 ? (
                     <ul className='flex flex-col gap-4'>
                         {vm.recommendations.map((recommendation, i) => (

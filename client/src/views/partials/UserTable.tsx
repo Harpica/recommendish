@@ -15,7 +15,7 @@ import { DataGridClasses } from '../../styles/mui';
 import { CurrentUser, Language, UserRole } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
 import { UserTableVM } from '../../viewModels/partials/UserTable.VM';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import SurePopup from './SurePopup';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +31,7 @@ interface UserTableProps {
 const UserTable: React.FC<UserTableProps> = observer(
     ({ userRole, userLanguage, setCurrentUser, setAdminUser }) => {
         const navigate = useNavigate();
+        const { t } = useTranslation();
 
         const vm = useMemo(
             () =>
@@ -42,7 +43,6 @@ const UserTable: React.FC<UserTableProps> = observer(
                 ),
             [userRole, setCurrentUser, setAdminUser, navigate]
         );
-        const { t } = useTranslation();
 
         const columns: GridColDef[] = [
             {
@@ -89,6 +89,62 @@ const UserTable: React.FC<UserTableProps> = observer(
             },
         ];
 
+        const toolbar = useCallback(() => {
+            return (
+                <div className='flex flex-row gap-2'>
+                    <GridActionsCellItem
+                        icon={<FontDownloadIcon />}
+                        onClick={() => {
+                            vm.changeUsersRole('admin');
+                        }}
+                        label='Promote to admin'
+                        aria-label='Promote to admin'
+                        disabled={vm.selectedRows.length === 0}
+                    />
+
+                    <GridActionsCellItem
+                        icon={<FontDownloadOffIcon />}
+                        onClick={() => {
+                            vm.changeUsersRole('user');
+                        }}
+                        label='Downgrade to user'
+                        aria-label='Downgrade to user'
+                        disabled={vm.selectedRows.length === 0}
+                    />
+
+                    <GridActionsCellItem
+                        icon={<BlockIcon />}
+                        onClick={() => {
+                            vm.changeUsersStatus('blocked');
+                        }}
+                        label='Block'
+                        aria-label='Block user'
+                        disabled={vm.selectedRows.length === 0}
+                    />
+
+                    <GridActionsCellItem
+                        icon={<LockOpenIcon />}
+                        onClick={() => {
+                            vm.changeUsersStatus('active');
+                        }}
+                        label='Unblock'
+                        aria-label='Unblock user'
+                        disabled={vm.selectedRows.length === 0}
+                    />
+
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        onClick={() => {
+                            vm.handleDeleteButtonClick();
+                        }}
+                        label='Delete'
+                        aria-label='Delete user'
+                        disabled={vm.selectedRows.length === 0}
+                    />
+                </div>
+            );
+        }, []);
+
         return (
             <>
                 <div
@@ -105,56 +161,7 @@ const UserTable: React.FC<UserTableProps> = observer(
                         }}
                         rowSelectionModel={vm.selectedRows}
                         slots={{
-                            toolbar: () => {
-                                return (
-                                    <div className='flex flex-row gap-2'>
-                                        <GridActionsCellItem
-                                            icon={<FontDownloadIcon />}
-                                            onClick={() => {
-                                                vm.changeUsersRole('admin');
-                                            }}
-                                            label='Promote to admin'
-                                            aria-label='Promote to admin'
-                                        />
-
-                                        <GridActionsCellItem
-                                            icon={<FontDownloadOffIcon />}
-                                            onClick={() => {
-                                                vm.changeUsersRole('user');
-                                            }}
-                                            label='Downgrade to user'
-                                            aria-label='Downgrade to user'
-                                        />
-
-                                        <GridActionsCellItem
-                                            icon={<BlockIcon />}
-                                            onClick={() => {
-                                                vm.changeUsersStatus('blocked');
-                                            }}
-                                            label='Block'
-                                            aria-label='Block user'
-                                        />
-
-                                        <GridActionsCellItem
-                                            icon={<LockOpenIcon />}
-                                            onClick={() => {
-                                                vm.changeUsersStatus('active');
-                                            }}
-                                            label='Unblock'
-                                            aria-label='Unblock user'
-                                        />
-
-                                        <GridActionsCellItem
-                                            icon={<DeleteIcon />}
-                                            onClick={() => {
-                                                vm.handleDeleteButtonClick();
-                                            }}
-                                            label='Delete'
-                                            aria-label='Delete user'
-                                        />
-                                    </div>
-                                );
-                            },
+                            toolbar: toolbar,
                         }}
                         localeText={setLocalTextInDataGrid(userLanguage)}
                         rows={vm.users}

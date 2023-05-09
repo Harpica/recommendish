@@ -33,16 +33,22 @@ export class NavVM {
         this.adminUser = adminUser;
         this.setCurrentUser = setCurrentUser;
         this.setAdminUser = setAdminUser;
-        this.toggleLoginIsOpen = this.toggleLoginIsOpen.bind(this);
+        this.openLoginPopup = this.openLoginPopup.bind(this);
+        this.closeLoginPopup = this.closeLoginPopup.bind(this);
         this.theme = this.currentUser.theme;
         this.isAdminActsAsOtherUser = this.checkIfAdminActsAsOtherUser();
         this.setRootTheme();
         makeAutoObservable(this);
     }
 
-    public toggleLoginIsOpen() {
-        this.loginIsOpen = !this.loginIsOpen;
+    public openLoginPopup() {
+        this.loginIsOpen = true;
     }
+
+    public closeLoginPopup() {
+        this.loginIsOpen = false;
+    }
+
     public changeTheme(theme: Theme) {
         this.setTheme(theme);
         if (this.isAuth) {

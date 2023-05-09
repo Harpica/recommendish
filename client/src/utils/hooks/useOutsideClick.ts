@@ -21,6 +21,8 @@ export default function useOutsideClick(
         if (isOpen) {
             document.addEventListener(MOUSE_UP, handleOutsideClick, false);
             return;
+        } else {
+            document.removeEventListener(MOUSE_UP, handleOutsideClick, false);
         }
     }, [handleClose, isOpen]);
     return ref;

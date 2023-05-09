@@ -13,8 +13,8 @@ const TabPanel: React.FC<TabPanelProps> = memo((props) => {
     return (
         <div
             role='tabpanel'
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            id={`admin-tabpanel-${index}`}
+            aria-labelledby={`admin-tab-${index}`}
             className={`${value !== index ? 'invisible' : 'visible'} relative`}
             {...other}
         >

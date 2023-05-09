@@ -5,7 +5,7 @@ const IconClose = () => {
             fill='none'
             viewBox='1 1 24 24'
             strokeWidth={2}
-            stroke='inherit'
+            stroke='currentColor'
             className='w-6 h-6'
         >
             <path

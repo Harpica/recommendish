@@ -4,6 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
 import { useMemo } from 'react';
@@ -43,7 +44,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
             const { t } = useTranslation();
 
             return vm.isLoading ? (
-                <p>{t('loading')}</p>
+                <CircularProgress />
             ) : (
                 <fieldset className='flex flex-col items-start gap-3'>
                     <Controller

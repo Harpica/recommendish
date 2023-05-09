@@ -118,6 +118,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                             navigate(ROUTES(params.row._id).recommendationById);
                         }}
                         label='Open'
+                        aria-label='Open recommendation'
                     />,
                     <GridActionsCellItem
                         icon={<EditIcon />}
@@ -125,6 +126,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                             navigate(ROUTES(params.row._id).edit);
                         }}
                         label='Edit'
+                        arial-label='Edit recommendation'
                     />,
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
@@ -132,6 +134,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                             vm.handleDeleteButtonClick(params.row._id);
                         }}
                         label='Delete'
+                        aria-label='Delete recommendation'
                     />,
                 ],
             },

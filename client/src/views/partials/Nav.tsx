@@ -182,7 +182,10 @@ const Nav: React.FC<NavProps> = observer(
                                     className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
                                     type='button'
                                     aria-label='log in'
-                                    onClick={() => vm.toggleLoginIsOpen()}
+                                    onClick={(e) => {
+                                        vm.openLoginPopup();
+                                        e.currentTarget.blur();
+                                    }}
                                 >
                                     {t('partials.nav.logIn')}
                                 </button>
@@ -191,7 +194,7 @@ const Nav: React.FC<NavProps> = observer(
                     </ul>
                 </nav>
                 <Login
-                    closePopup={vm.toggleLoginIsOpen}
+                    closePopup={vm.closeLoginPopup}
                     loginIsOpen={vm.loginIsOpen}
                 />
             </>
