@@ -8,6 +8,22 @@
 
         }
       },
+      "tooltip": {
+        "edit": "Edit",
+        "open": "Open",
+        "delete": "Delete",
+        "download": "Download as PDF",
+        "new": "Create new recommendation",
+        "like": "Like",
+        "dislike": "Dislike",
+        "actAsOther": "Act as other user",
+        "toAdmin": "Promote to admin",
+        "toUser": "Downgrade to user",
+        "block": "Block",
+        "unblock": "Unblock",
+        "returnToAdmin": "Return to your user",
+        "logOut": "Log out"
+      },
       "loading": "Loading...",
       "defaultRecommendationBody": "Start writting...",
       "pages": {

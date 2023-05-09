@@ -5,6 +5,7 @@ import IconNew from '../svgWrappers/IconNew';
 import { NavLink } from 'react-router-dom';
 import { CurrentUser } from '../../utils/types';
 import { useTranslation } from 'react-i18next';
+import ButtonNewRecommendation from '../UI/ButtonNewRecommendation';
 
 interface ProfileProps {
     user: CurrentUser;
@@ -21,17 +22,11 @@ const Profile: React.FC<ProfileProps> = observer(({ user }) => {
                 <UserInfo user={user} />
             </section>
             <section className='flex flex-col gap-3'>
-                <div className='flex flex-row gap-3 items-center mb-5'>
+                <div className='flex flex-row gap-3 items-end mb-5'>
                     <h2 className='text-xl font-bold w-fit  '>
                         {t('pages.profile.subtitle')}
                     </h2>
-                    <NavLink
-                        to={'/new'}
-                        aria-label='new recommendation'
-                        className='flex justify-center items-center hover:cursor-pointer hover:opacity-40 pt-1'
-                    >
-                        <IconNew />
-                    </NavLink>
+                    <ButtonNewRecommendation />
                 </div>
 
                 <RecommendationTable user={user} />

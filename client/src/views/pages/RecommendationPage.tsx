@@ -1,4 +1,5 @@
 import { Rating } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import UserInfo from '../partials/UserInfo';
 import { CurrentUser } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
@@ -57,39 +58,61 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         {vm.recommendation.name}
                                     </h1>
                                     <div className='flex flex-row gap-1 pt-1  '>
-                                        <div
-                                            onClick={() =>
-                                                vm.handleToggleLike()
+                                        <Tooltip
+                                            title={
+                                                vm.checkIfLiked()
+                                                    ? t('tooltip.dislike')
+                                                    : t('tooltip.like')
                                             }
+                                            describeChild
                                         >
-                                            <IconHeart
-                                                classes={`hover:fill-amber-500 hover:cursor-pointer ${
-                                                    vm.checkIfLiked() &&
-                                                    'fill-amber-500 hover:opacity-50'
-                                                }`}
-                                            />
-                                        </div>
+                                            <div
+                                                onClick={() =>
+                                                    vm.handleToggleLike()
+                                                }
+                                            >
+                                                <IconHeart
+                                                    classes={`hover:fill-amber-500 hover:cursor-pointer ${
+                                                        vm.checkIfLiked() &&
+                                                        'fill-amber-500 hover:opacity-50'
+                                                    }`}
+                                                />
+                                            </div>
+                                        </Tooltip>
                                         <p>{vm.recommendation.likes.length}</p>
                                     </div>
                                     {vm.isUserOwner() && (
-                                        <NavLink
-                                            to={
-                                                ROUTES(vm.recommendation._id)
-                                                    .edit
-                                            }
-                                            aria-label='edit'
-                                            className={'hover:opacity-50 pt-1'}
+                                        <Tooltip
+                                            title={t('tooltip.edit')}
+                                            describeChild
                                         >
-                                            <IconEdit />
-                                        </NavLink>
+                                            <NavLink
+                                                to={
+                                                    ROUTES(
+                                                        vm.recommendation._id
+                                                    ).edit
+                                                }
+                                                className={
+                                                    'hover:opacity-50 pt-1'
+                                                }
+                                            >
+                                                <IconEdit />
+                                            </NavLink>
+                                        </Tooltip>
                                     )}
-                                    <button
-                                        aria-label='download as pdf'
-                                        className={'hover:opacity-50 pt-1'}
-                                        onClick={() => vm.handleLoadPdf(pdfRef)}
+                                    <Tooltip
+                                        describeChild
+                                        title={t('tooltip.download')}
                                     >
-                                        <IconDownload />
-                                    </button>
+                                        <button
+                                            className={'hover:opacity-50 pt-1'}
+                                            onClick={() =>
+                                                vm.handleLoadPdf(pdfRef)
+                                            }
+                                        >
+                                            <IconDownload />
+                                        </button>
+                                    </Tooltip>
                                 </div>
                                 <UserInfo user={vm.recommendation.owner} />
                             </div>

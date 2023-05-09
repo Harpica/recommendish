@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({
 
     return (
         <div
-            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded colored-corner-on-hover hover:shadow-md`}
+            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded colored-corner-on-hover hover:shadow-md pb-2 md:pb-0`}
             onClick={() => {
                 vm.navigateToRecommendationPage(recommendation._id);
             }}

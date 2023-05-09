@@ -11,6 +11,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import FontDownloadOffIcon from '@mui/icons-material/FontDownloadOff';
+import { Tooltip } from '@mui/material';
 import { DataGridClasses } from '../../styles/mui';
 import { CurrentUser, Language, UserRole } from '../../utils/types';
 import { observer } from 'mobx-react-lite';
@@ -78,13 +79,15 @@ const UserTable: React.FC<UserTableProps> = observer(
                 type: 'actions',
                 width: 35,
                 getActions: (params: GridRowParams) => [
-                    <GridActionsCellItem
-                        icon={<OpenInNewIcon />}
-                        onClick={() => {
-                            vm.actAsAnotherUser(params.row._id);
-                        }}
-                        label='Open'
-                    />,
+                    <Tooltip title={t('tooltip.actAsOther')} describeChild>
+                        <GridActionsCellItem
+                            icon={<OpenInNewIcon />}
+                            onClick={() => {
+                                vm.actAsAnotherUser(params.row._id);
+                            }}
+                            label='Act as other user'
+                        />
+                    </Tooltip>,
                 ],
             },
         ];
@@ -92,55 +95,60 @@ const UserTable: React.FC<UserTableProps> = observer(
         const toolbar = useCallback(() => {
             return (
                 <div className='flex flex-row gap-2'>
-                    <GridActionsCellItem
-                        icon={<FontDownloadIcon />}
-                        onClick={() => {
-                            vm.changeUsersRole('admin');
-                        }}
-                        label='Promote to admin'
-                        aria-label='Promote to admin'
-                        disabled={vm.selectedRows.length === 0}
-                    />
+                    <Tooltip title={t('tooltip.toAdmin')} describeChild>
+                        <GridActionsCellItem
+                            icon={<FontDownloadIcon />}
+                            onClick={() => {
+                                vm.changeUsersRole('admin');
+                            }}
+                            label='Promote to admin'
+                            disabled={vm.selectedRows.length === 0}
+                        />
+                    </Tooltip>
 
-                    <GridActionsCellItem
-                        icon={<FontDownloadOffIcon />}
-                        onClick={() => {
-                            vm.changeUsersRole('user');
-                        }}
-                        label='Downgrade to user'
-                        aria-label='Downgrade to user'
-                        disabled={vm.selectedRows.length === 0}
-                    />
+                    <Tooltip title={t('tooltip.toUser')} describeChild>
+                        <GridActionsCellItem
+                            icon={<FontDownloadOffIcon />}
+                            onClick={() => {
+                                vm.changeUsersRole('user');
+                            }}
+                            label='Downgrade to user'
+                            disabled={vm.selectedRows.length === 0}
+                        />
+                    </Tooltip>
 
-                    <GridActionsCellItem
-                        icon={<BlockIcon />}
-                        onClick={() => {
-                            vm.changeUsersStatus('blocked');
-                        }}
-                        label='Block'
-                        aria-label='Block user'
-                        disabled={vm.selectedRows.length === 0}
-                    />
+                    <Tooltip title={t('tooltip.block')} describeChild>
+                        <GridActionsCellItem
+                            icon={<BlockIcon />}
+                            onClick={() => {
+                                vm.changeUsersStatus('blocked');
+                            }}
+                            label='Block'
+                            disabled={vm.selectedRows.length === 0}
+                        />
+                    </Tooltip>
 
-                    <GridActionsCellItem
-                        icon={<LockOpenIcon />}
-                        onClick={() => {
-                            vm.changeUsersStatus('active');
-                        }}
-                        label='Unblock'
-                        aria-label='Unblock user'
-                        disabled={vm.selectedRows.length === 0}
-                    />
+                    <Tooltip title={t('tooltip.unblock')} describeChild>
+                        <GridActionsCellItem
+                            icon={<LockOpenIcon />}
+                            onClick={() => {
+                                vm.changeUsersStatus('active');
+                            }}
+                            label='Unblock'
+                            disabled={vm.selectedRows.length === 0}
+                        />
+                    </Tooltip>
 
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        onClick={() => {
-                            vm.handleDeleteButtonClick();
-                        }}
-                        label='Delete'
-                        aria-label='Delete user'
-                        disabled={vm.selectedRows.length === 0}
-                    />
+                    <Tooltip title={t('tooltip.delete')} describeChild>
+                        <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            onClick={() => {
+                                vm.handleDeleteButtonClick();
+                            }}
+                            label='Delete'
+                            disabled={vm.selectedRows.length === 0}
+                        />
+                    </Tooltip>
                 </div>
             );
         }, []);

@@ -19,6 +19,7 @@ import { CurrentUser, Product, Recommendation, Tag } from '../../utils/types';
 import { ROUTES } from '../../utils/constants';
 import { getLocalDate, setLocalTextInDataGrid } from '../../utils/utils';
 import { DataGridClasses } from '../../styles/mui';
+import { Tooltip } from '@mui/material';
 
 interface RecommendationTableProps {
     user: CurrentUser;
@@ -112,30 +113,35 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                 minWidth: 125,
                 type: 'actions',
                 getActions: (params: GridRowParams<Recommendation>) => [
-                    <GridActionsCellItem
-                        icon={<OpenInNewIcon />}
-                        onClick={() => {
-                            navigate(ROUTES(params.row._id).recommendationById);
-                        }}
-                        label='Open'
-                        aria-label='Open recommendation'
-                    />,
-                    <GridActionsCellItem
-                        icon={<EditIcon />}
-                        onClick={() => {
-                            navigate(ROUTES(params.row._id).edit);
-                        }}
-                        label='Edit'
-                        arial-label='Edit recommendation'
-                    />,
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        onClick={() => {
-                            vm.handleDeleteButtonClick(params.row._id);
-                        }}
-                        label='Delete'
-                        aria-label='Delete recommendation'
-                    />,
+                    <Tooltip title={t('tooltip.open')} describeChild>
+                        <GridActionsCellItem
+                            icon={<OpenInNewIcon />}
+                            onClick={() => {
+                                navigate(
+                                    ROUTES(params.row._id).recommendationById
+                                );
+                            }}
+                            label='Open'
+                        />
+                    </Tooltip>,
+                    <Tooltip title={t('tooltip.edit')} describeChild>
+                        <GridActionsCellItem
+                            icon={<EditIcon />}
+                            onClick={() => {
+                                navigate(ROUTES(params.row._id).edit);
+                            }}
+                            label='Edit'
+                        />
+                    </Tooltip>,
+                    <Tooltip title={t('tooltip.delete')} describeChild>
+                        <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            onClick={() => {
+                                vm.handleDeleteButtonClick(params.row._id);
+                            }}
+                            label='Delete'
+                        />
+                    </Tooltip>,
                 ],
             },
         ];

@@ -12,11 +12,12 @@ import { api } from '../../utils/HTTP/Api';
 import IconDark from '../svgWrappers/IconDark';
 import IconLight from '../svgWrappers/IconLight';
 import IconLogOut from '../svgWrappers/IconLogOut';
-import IconNew from '../svgWrappers/IconNew';
 import IconLogo from '../svgWrappers/IconLogo';
 import IconBurger from '../svgWrappers/IconBurger';
 import IconClose from '../svgWrappers/IconClose';
 import IconReturn from '../svgWrappers/IconReturn';
+import { Tooltip } from '@mui/material';
+import ButtonNewRecommendation from '../UI/ButtonNewRecommendation';
 
 interface NavProps {
     isAuth: boolean;
@@ -90,13 +91,7 @@ const Nav: React.FC<NavProps> = observer(
                     >
                         {isAuth && (
                             <li>
-                                <NavLink
-                                    to={ROUTES().new}
-                                    aria-label='create new recommendation'
-                                    className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
-                                >
-                                    <IconNew />
-                                </NavLink>
+                                <ButtonNewRecommendation />
                             </li>
                         )}
                         <li>
@@ -153,27 +148,35 @@ const Nav: React.FC<NavProps> = observer(
                                 </li>
                                 {vm.isAdminActsAsOtherUser && (
                                     <li>
-                                        <button
-                                            className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
-                                            type='button'
-                                            aria-label='return to admin user'
-                                            onClick={() =>
-                                                vm.returnToAdminUser()
-                                            }
+                                        <Tooltip
+                                            title={t('tooltip.returnToAdmin')}
+                                            describeChild
                                         >
-                                            <IconReturn />
-                                        </button>
+                                            <button
+                                                className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                                type='button'
+                                                onClick={() =>
+                                                    vm.returnToAdminUser()
+                                                }
+                                            >
+                                                <IconReturn />
+                                            </button>
+                                        </Tooltip>
                                     </li>
                                 )}
                                 <li>
-                                    <button
-                                        className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
-                                        type='button'
-                                        aria-label='log out'
-                                        onClick={() => vm.logOut()}
+                                    <Tooltip
+                                        title={t('tooltip.logOut')}
+                                        describeChild
                                     >
-                                        <IconLogOut />
-                                    </button>
+                                        <button
+                                            className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                            type='button'
+                                            onClick={() => vm.logOut()}
+                                        >
+                                            <IconLogOut />
+                                        </button>
+                                    </Tooltip>
                                 </li>
                             </>
                         ) : (
