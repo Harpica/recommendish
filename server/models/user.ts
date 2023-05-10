@@ -1,5 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 import { IRecommendation } from './recommendation';
+import bcrypt from 'bcrypt';
 
 export interface IUser {
     _id: Types.ObjectId;
@@ -15,9 +16,12 @@ export interface IUser {
     language: string;
     avatar?: string | undefined;
     login?: string | undefined;
+    password?: string;
+    generateHash: (password: string) => string;
+    validPassword: (id: Types.ObjectId, password: string) => boolean;
 }
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<IUser>({
     githubId: {
         type: Number,
     },
@@ -26,6 +30,14 @@ const UserSchema = new Schema({
     },
     vkId: {
         type: Number,
+    },
+    login: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        select: false,
     },
     name: {
         type: String,
@@ -45,10 +57,6 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-    },
-    login: {
-        type: String,
-        required: true,
     },
     likes: {
         type: Number,
@@ -74,5 +82,21 @@ const UserSchema = new Schema({
         required: true,
     },
 });
+
+UserSchema.methods.generateHash = function (password: string) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync());
+};
+
+UserSchema.methods.validPassword = async function (
+    id: string,
+    password: string
+) {
+    const user = await User.findById(id).select('+password');
+    console.log(user);
+    if (user && user.password) {
+        return bcrypt.compareSync(password, user.password);
+    }
+    return false;
+};
 
 export const User = model('User', UserSchema);

@@ -1,11 +1,28 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import passport from '../middlewares/passport';
 import { BASE_URL } from '../utils/constants';
 import UnauthorizedError from '../utils/errors/UnautorizedError';
+import { localRegisterUser } from '../controllers/users';
 
 const auth = Router();
 
 const redirect = `${BASE_URL}`;
+
+auth.post(
+    '/register',
+    localRegisterUser,
+    passport.authenticate('local', {
+        failureRedirect: redirect,
+        successRedirect: redirect,
+    })
+);
+
+auth.post(
+    '/local',
+    passport.authenticate('local', {
+        successRedirect: redirect,
+    })
+);
 
 auth.get('/github', passport.authenticate('github'));
 

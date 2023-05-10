@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import { IUser, User } from '../models/user';
 import { IRecommendation, Recommendation } from '../models/recommendation';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
@@ -12,6 +11,30 @@ import { ObjectId, Types } from 'mongoose';
 import { Comment } from '../models/comment';
 import { Product } from '../models/product';
 import { Tag } from '../models/tag';
+
+export const localRegisterUser = (
+    req: Request,
+    _res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { login, name, password } = req.query;
+        console.log(req.query);
+        const newUser = new User({
+            login: login,
+            name: name,
+        });
+
+        console.log(newUser, password);
+        newUser.password = newUser.generateHash(password as string);
+        newUser.save();
+        next();
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            incorrectDataHandler(err, next, 'Incorrect data for user creation');
+        }
+    }
+};
 
 export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
     User.find({})

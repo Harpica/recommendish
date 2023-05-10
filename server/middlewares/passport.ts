@@ -2,7 +2,8 @@ import passport from 'passport';
 import GitHubStrategy from 'passport-github';
 import TwitterStrategy from 'passport-twitter';
 import VkontakteStrategy from 'passport-vkontakte';
-import { User } from '../models/user';
+import LocalStrategy from 'passport-local';
+import { IUser, User } from '../models/user';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
     SERVER_URL,
@@ -13,6 +14,35 @@ import {
     SOCIALS_VK_ID,
     SOCIALS_VK_SECRET,
 } from '../utils/constants';
+import { Error } from 'mongoose';
+import UnauthorizedError from '../utils/errors/UnautorizedError';
+
+passport.use(
+    'local',
+    new LocalStrategy.Strategy(
+        {
+            usernameField: 'login',
+            passwordField: 'password',
+        },
+        function (login, password, done) {
+            console.log(login, password);
+            User.findOne({ login: login })
+                .then(async (user) => {
+                    const passwordIsValid = await user?.validPassword(
+                        user._id,
+                        password
+                    );
+                    if (!user || !passwordIsValid) {
+                        return done(new UnauthorizedError(), false);
+                    }
+                    return done(null, user);
+                })
+                .catch((err) => {
+                    done(err);
+                });
+        }
+    )
+);
 
 passport.use(
     'github',
@@ -27,6 +57,7 @@ passport.use(
         }
     )
 );
+
 passport.use(
     'vkontakte',
     new VkontakteStrategy.Strategy(
