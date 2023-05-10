@@ -111,7 +111,7 @@ export const findRecommendations = async (
             return comment.recommendation;
         });
 
-        const recommendations = await Recommendation.aggregate([
+        const sets = await Recommendation.aggregate([
             {
                 $match: {
                     $or: [
@@ -170,16 +170,22 @@ export const findRecommendations = async (
                     'owner.recommendations': 0,
                 },
             },
-        ])
-            .sort({ score: { $meta: 'textScore' } })
-            .limit(limit)
-            .skip((page - 1) * limit);
-
-        const count = recommendations.length;
+            {
+                $facet: {
+                    count: [{ $count: 'count' }],
+                    sample: [
+                        { $sort: { score: { $meta: 'textScore' } } },
+                        { $skip: (page - 1) * limit },
+                        { $limit: limit },
+                    ],
+                },
+            },
+        ]);
+        const count = sets[0].count[0].count;
 
         res.send({
             paginatedRecommendations: {
-                recommendations: recommendations,
+                recommendations: sets[0].sample,
                 totalPages: Math.ceil(count / limit),
                 currentPage: page,
             },
@@ -195,6 +201,7 @@ export const createRecommendation = async (
     next: NextFunction
 ) => {
     const recommendData = req.body.data.recommendation;
+    console.log(recommendData.product);
     try {
         if (recommendData.product._id === '') {
             const productId = await createProduct(

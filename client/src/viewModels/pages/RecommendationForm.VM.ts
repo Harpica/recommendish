@@ -181,10 +181,7 @@ export class RecommendationFormVM {
             group: data.group,
             product: {
                 _id: data.product._id ?? '',
-                name:
-                    typeof data.product === 'string'
-                        ? data.product
-                        : data.product.name,
+                name: data.product.name,
                 group: data.group,
             },
             tags: data.tags,

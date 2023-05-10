@@ -1,11 +1,12 @@
 import { useParams } from 'react-router';
 import Card from '../partials/Card';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { SearchResultsVM } from '../../viewModels/pages/SearchResults.VM';
 import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface SearchResultsProps {}
 
@@ -17,6 +18,12 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
         [params]
     );
 
+    useEffect(() => {
+        if (vm.recommendations.length === 0) {
+            vm.getInitialData();
+        }
+    }, []);
+
     return (
         <main className='flex flex-col gap-8'>
             <section>
@@ -25,7 +32,26 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
                 </h2>
                 {vm.isLoading ? (
                     <CircularProgress />
-                ) : vm.recommendations.length !== 0 ? (
+                ) : (
+                    vm.recommendations.length === 0 && (
+                        <p>{t('pages.searchResults.notFound')}</p>
+                    )
+                )}
+                <InfiniteScroll
+                    dataLength={vm.recommendations.length}
+                    next={() => {
+                        console.log('scroller next');
+                        vm.getNextData();
+                    }}
+                    hasMore={vm.hasMore}
+                    loader={<CircularProgress />}
+                    style={{ overflow: 'hidden' }}
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                            <b>No more search results</b>
+                        </p>
+                    }
+                >
                     <ul className='flex flex-col gap-4'>
                         {vm.recommendations.map((recommendation, i) => (
                             <li key={'searchResult' + i}>
@@ -33,9 +59,7 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
                             </li>
                         ))}
                     </ul>
-                ) : (
-                    <p>{t('pages.searchResults.notFound')}</p>
-                )}
+                </InfiniteScroll>
             </section>
         </main>
     );

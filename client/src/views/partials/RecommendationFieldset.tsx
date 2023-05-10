@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
@@ -17,8 +17,11 @@ import { Controller } from 'react-hook-form';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useTranslation } from 'react-i18next';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
+import { Product, ProductFormOption, ProductGroup } from '../../utils/types';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
+
+const filter = createFilterOptions<ProductFormOption>();
 
 interface RecommendationFieldsetProps {
     errors: FieldErrors<{
@@ -132,19 +135,34 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                     )}
                                     value={field.field.value}
                                     onChange={(_event, item) => {
-                                        if (typeof item === 'string') {
-                                            item = {
-                                                _id: '',
-                                                name: item,
-                                                group: groupInputValue,
-                                            };
+                                        if (typeof item !== 'string') {
+                                            field.field.onChange(item);
                                         }
-                                        field.field.onChange(item);
                                     }}
-                                    getOptionLabel={vm.getOptionLabel}
                                     isOptionEqualToValue={
                                         vm.isOptionEqualToValue
                                     }
+                                    filterOptions={(options, params) => {
+                                        const filtered = filter(
+                                            options,
+                                            params
+                                        );
+                                        const { inputValue } = params;
+                                        const isExisting = options.some(
+                                            (option) =>
+                                                inputValue === option.title
+                                        );
+                                        if (inputValue !== '' && !isExisting) {
+                                            filtered.push({
+                                                _id: '',
+                                                group: groupInputValue as ProductGroup,
+                                                name: inputValue,
+                                            });
+                                        }
+
+                                        return filtered;
+                                    }}
+                                    getOptionLabel={vm.getOptionLabel}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}

@@ -28,7 +28,11 @@ export class RecommendationFieldsetVM {
             .finally(action(() => (this.isLoading = false)));
     }
 
-    public getOptionLabel(option: any) {
+    public getOptionLabel(
+        option:
+            | string
+            | { name: string; inputValue?: string; [key: string]: any }
+    ) {
         if (typeof option === 'string') {
             return option;
         }

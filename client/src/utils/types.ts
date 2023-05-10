@@ -88,6 +88,14 @@ export interface Product {
     current_rating: number;
     rating: Array<{ user: string; rating: number }>;
 }
+export interface ProductFormOption {
+    _id: string;
+    name: string;
+    group: ProductGroup | '';
+    inputValue?: string;
+    current_rating?: number;
+    rating?: Array<{ user: string; rating: number }>;
+}
 
 export interface setRecommendationProp {
     setCurrentRecommendation: (recommendation: Recommendation) => void;
