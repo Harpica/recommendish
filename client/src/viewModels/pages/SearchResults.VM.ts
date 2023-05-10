@@ -1,20 +1,17 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api } from '../../utils/HTTP/Api';
 import { Recommendation } from '../../utils/types';
+import { api } from '../../utils/utils';
 
 export class SearchResultsVM {
     public searchValue: string;
     private page: number = 1;
     private totalPages: number = 1;
-    private api: Api;
+    private api = api;
     public recommendations: Array<Recommendation> = [];
     public isLoading: boolean = false;
     public hasMore = false;
-    constructor(searchValue: string, api: Api) {
+    constructor(searchValue: string) {
         this.searchValue = searchValue;
-        this.api = api;
-
-        // this.getSearchResults();
         this.getSearchResults = this.getSearchResults.bind(this);
         makeAutoObservable(this);
     }

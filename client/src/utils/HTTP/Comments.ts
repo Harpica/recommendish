@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { CreateCommentData } from '../types';
+import ServerInterface from './Api';
 
-export class Comments {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/comments`;
+export class Comments extends ServerInterface {
+    constructor() {
+        super('comments');
     }
 
     getLatest(id: string, lastUpdate: string) {

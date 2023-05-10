@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api, api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import {
     Comment,
     CreateCommentData,
@@ -13,7 +13,7 @@ import { MutableRefObject } from 'react';
 import { toPng } from 'html-to-image';
 
 export class RecommendationVM {
-    private api: Api = api;
+    private api = api;
     private recommendationId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
     public comments: Array<Comment> = [];

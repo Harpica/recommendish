@@ -1,9 +1,9 @@
 import axios from 'axios';
+import ServerInterface from './Api';
 
-export class Tags {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/tags`;
+export class Tags extends ServerInterface {
+    constructor() {
+        super('tags');
     }
 
     getPopularTags() {

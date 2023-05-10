@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api, api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import { CurrentUser, UserRole, UserStatus } from '../../utils/types';
 import { NavigateFunction } from 'react-router';
 import { ROUTES } from '../../utils/constants';
@@ -9,7 +9,7 @@ export class UserTableVM {
     private userRole: UserRole;
     private setCurrentUser: (value: CurrentUser) => void;
     private setAdminUser: () => void;
-    private api: Api = api;
+    private api = api;
     public users: Array<CurrentUser> = [];
     public currentUserId: string = '';
     public isSurePopupOpen: boolean = false;

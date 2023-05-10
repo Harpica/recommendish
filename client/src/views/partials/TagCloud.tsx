@@ -3,12 +3,11 @@ import { TagInTagCloud } from '../../utils/types';
 import { useNavigate } from 'react-router';
 import { useMemo } from 'react';
 import { TagCloudVM } from '../../viewModels/partials/TagCloud.VM';
-import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
 
 const TagCloud = observer(() => {
     const navigate = useNavigate();
-    const vm = useMemo(() => new TagCloudVM(navigate, api), [navigate]);
+    const vm = useMemo(() => new TagCloudVM(navigate), [navigate]);
     return (
         <Tags
             minSize={12}

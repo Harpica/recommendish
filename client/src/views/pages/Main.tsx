@@ -3,7 +3,6 @@ import Card from '../partials/Card';
 import TagCloud from '../partials/TagCloud';
 import { MainVM } from '../../viewModels/pages/Main.VM';
 import { useNavigate } from 'react-router';
-import { api } from '../../utils/HTTP/Api';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +11,7 @@ interface MainProps {}
 const Main: React.FC<MainProps> = observer(() => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const vm = useMemo(() => new MainVM(navigate, api), [navigate]);
+    const vm = useMemo(() => new MainVM(navigate), [navigate]);
     return (
         <>
             <header className='flex flex-col gap-3 w-full font-bold'>

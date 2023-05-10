@@ -1,9 +1,9 @@
 import axios from 'axios';
+import ServerInterface from './Api';
 
-export class Products {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/products`;
+export class Products extends ServerInterface {
+    constructor() {
+        super('products');
     }
 
     public updateRating(id: string, userId: string, rating: number) {

@@ -3,6 +3,7 @@ import passport from '../middlewares/passport';
 import { BASE_URL } from '../utils/constants';
 import UnauthorizedError from '../utils/errors/UnautorizedError';
 import { localRegisterUser } from '../controllers/users';
+import { User } from '../models/user';
 
 const auth = Router();
 
@@ -11,17 +12,22 @@ const redirect = `${BASE_URL}`;
 auth.post(
     '/register',
     localRegisterUser,
-    passport.authenticate('local', {
-        failureRedirect: redirect,
-        successRedirect: redirect,
-    })
+    passport.authenticate('local'),
+    (req: Request, res: Response) => {
+        res.send({
+            user: req.user,
+        });
+    }
 );
 
 auth.post(
     '/local',
-    passport.authenticate('local', {
-        successRedirect: redirect,
-    })
+    passport.authenticate('local', {}),
+    (req: Request, res: Response) => {
+        res.send({
+            user: req.user,
+        });
+    }
 );
 
 auth.get('/github', passport.authenticate('github'));

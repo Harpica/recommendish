@@ -1,34 +1,22 @@
 import axios from 'axios';
-import { Users } from './Users';
 import { SERVER_URL } from '../constants';
-import { Tags } from './Tags';
-import { Recommendations } from './Recommendations';
-import { Products } from './Products';
-import { Comments } from './Comments';
-import { Images } from './Images';
-import { Auth } from './Auth';
 
 axios.defaults.withCredentials = true;
 
-export class Api {
-    private url: string;
-    public users: Users;
-    public tags: Tags;
-    public recommendations: Recommendations;
-    public products: Products;
-    public comments: Comments;
-    public images: Images;
-    public auth: Auth;
-    constructor() {
-        this.url = `${SERVER_URL}`;
-        this.users = new Users(this.url);
-        this.tags = new Tags(this.url);
-        this.recommendations = new Recommendations(this.url);
-        this.products = new Products(this.url);
-        this.comments = new Comments(this.url);
-        this.images = new Images(this.url);
-        this.auth = new Auth(this.url);
+export default class ServerInterface {
+    protected url: string;
+    constructor(root: string) {
+        this.url = `${SERVER_URL}/${root}`;
+    }
+
+    public getQueryString(queryParams: Array<{ key: string; value: string }>) {
+        return queryParams.reduce((prev, curr, i, arr) => {
+            return (
+                prev +
+                `${curr.key}=${encodeURIComponent(curr.value)}${
+                    i === arr.length - 1 ? '' : '&'
+                }`
+            );
+        }, '');
     }
 }
-
-export const api = new Api();

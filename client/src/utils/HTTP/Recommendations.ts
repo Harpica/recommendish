@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { RecommendationCreateOrEditData } from '../types';
+import ServerInterface from './Api';
 
-export class Recommendations {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/recommendations`;
+export class Recommendations extends ServerInterface {
+    constructor() {
+        super('recommendations');
     }
 
     getPopularRecommendations() {
@@ -16,14 +16,7 @@ export class Recommendations {
     }
 
     getSearchResults(queryParams: Array<{ key: string; value: string }>) {
-        const query = queryParams.reduce((prev, curr, i, arr) => {
-            return (
-                prev +
-                `${curr.key}=${encodeURIComponent(curr.value)}${
-                    i === arr.length - 1 ? '' : '&'
-                }`
-            );
-        }, '');
+        const query = this.getQueryString(queryParams);
         return axios.get(`${this.url}/search?${query}`);
     }
 

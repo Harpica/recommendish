@@ -1,11 +1,11 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api, api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import { Recommendation, UserRole } from '../../utils/types';
 
 export class RecommendationsTableVM {
     private userId: string;
     private userRole: UserRole;
-    private api: Api = api;
+    private api = api;
     public recommendations: Array<Recommendation> = [];
     public currentRecommendationId: string = '';
     public isSurePopupOpen: boolean = false;

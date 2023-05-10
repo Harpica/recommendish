@@ -1,17 +1,16 @@
 import { NavigateFunction } from 'react-router';
-import { Api } from '../../utils/HTTP/Api';
 import { Tag, TagInTagCloud } from '../../utils/types';
 import { action, makeAutoObservable } from 'mobx';
 import { randomNumber } from '../../utils/utils';
+import { api } from '../../utils/utils';
 
 export class TagCloudVM {
     private navigate: NavigateFunction;
-    private api: Api;
+    private api = api;
     public tags: Array<TagInTagCloud> = [];
     private colors = ['rgb(245 158 11)', 'rgb(244 63 94)', 'rgb(192 38 211)'];
-    constructor(navigate: NavigateFunction, api: Api) {
+    constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
-        this.api = api;
         this.getPopularTags();
         makeAutoObservable(this);
     }

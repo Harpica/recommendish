@@ -1,9 +1,9 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api, api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import { Product, Tag } from '../../utils/types';
 
 export class RecommendationFieldsetVM {
-    private api: Api = api;
+    private api = api;
     public tags: Array<Tag> = [];
     public products: Array<Product> = [];
     public fileLoaderMessage = '';

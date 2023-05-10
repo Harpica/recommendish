@@ -14,6 +14,7 @@ import { ROUTES } from './utils/constants';
 import SearchResults from './views/pages/SearchResults';
 
 const App: React.FC = observer(() => {
+    console.log('app rendr');
     const vm = useMemo(() => {
         return new AppVM();
     }, []);

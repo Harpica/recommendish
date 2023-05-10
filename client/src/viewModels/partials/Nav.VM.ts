@@ -1,11 +1,11 @@
 import { action, makeAutoObservable } from 'mobx';
 import { CurrentUser, Language, Theme } from '../../utils/types';
 import { DEFAULT_USER, root } from '../../utils/constants';
-import { Api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import i18n from '../../localization/i18n';
 
 export class NavVM {
-    private api: Api;
+    private api = api;
     private isAuth: boolean;
     private setIsAuth: (value: boolean) => void;
     public loginIsOpen: boolean = false;
@@ -14,11 +14,10 @@ export class NavVM {
     private setCurrentUser: (value: CurrentUser) => void;
     private setAdminUser: () => void;
     public theme: Theme;
-    public language: Language = 'en';
+    public language: Language;
     public menuIsOpen: boolean = window.innerWidth >= 768 ? true : false;
     public isAdminActsAsOtherUser: boolean;
     constructor(
-        api: Api,
         isAuth: boolean,
         setIsAuth: (value: boolean) => void,
         currentUser: CurrentUser,
@@ -26,7 +25,6 @@ export class NavVM {
         adminUser: CurrentUser,
         setAdminUser: () => void
     ) {
-        this.api = api;
         this.isAuth = isAuth;
         this.setIsAuth = setIsAuth;
         this.currentUser = currentUser;
@@ -35,7 +33,10 @@ export class NavVM {
         this.setAdminUser = setAdminUser;
         this.openLoginPopup = this.openLoginPopup.bind(this);
         this.closeLoginPopup = this.closeLoginPopup.bind(this);
-        this.theme = this.currentUser.theme;
+        this.language = currentUser.language;
+        this.theme = currentUser.theme;
+        console.log(this.theme);
+        console.log(this.currentUser);
         this.isAdminActsAsOtherUser = this.checkIfAdminActsAsOtherUser();
         this.setRootTheme();
         makeAutoObservable(this);
@@ -58,7 +59,7 @@ export class NavVM {
     public changeLanguage(language: Language) {
         this.setLanguage(language);
         if (this.isAuth) {
-            this.setUserLanguage();
+            this.setUserLanguage(language);
         }
     }
 
@@ -68,9 +69,9 @@ export class NavVM {
         );
     }
 
-    private setUserLanguage() {
+    private setUserLanguage(language: Language) {
         this.api.users
-            .changeUserLanguage(this.currentUser._id, this.language)
+            .changeUserLanguage(this.currentUser._id, language)
             .then(() =>
                 this.setCurrentUser({
                     ...this.currentUser,

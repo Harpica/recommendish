@@ -1,9 +1,9 @@
 import axios from 'axios';
+import ServerInterface from './Api';
 
-export class Images {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/images`;
+export class Images extends ServerInterface {
+    constructor() {
+        super('images');
     }
 
     uploadImage(image: any) {

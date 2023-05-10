@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { Theme, UserRole, UserStatus } from '../types';
+import ServerInterface from './Api';
 
-export class Users {
-    url: string;
-    constructor(url: string) {
-        this.url = `${url}/users`;
+export class Users extends ServerInterface {
+    constructor() {
+        super('users');
     }
 
     getUsers() {

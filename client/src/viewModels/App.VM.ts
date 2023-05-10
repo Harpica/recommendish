@@ -1,14 +1,14 @@
 import { action, makeAutoObservable } from 'mobx';
 import { CurrentUser } from '../utils/types';
 import { DEFAULT_USER } from '../utils/constants';
-import { Api, api } from '../utils/HTTP/Api';
+import { api } from '../utils/utils';
 
 export class AppVM {
     public isAuth: boolean;
     public currentUser: CurrentUser;
     public adminUser: CurrentUser = DEFAULT_USER;
     public isLoading: boolean = false;
-    private api: Api = api;
+    private api = api;
     constructor() {
         this.currentUser = DEFAULT_USER;
         this.isAuth = false;

@@ -8,7 +8,6 @@ import Avatar from './Avatar';
 import { NavVM } from '../../viewModels/partials/Nav.VM';
 import { ROUTES } from '../../utils/constants';
 import { CurrentUser, Language, Theme } from '../../utils/types';
-import { api } from '../../utils/HTTP/Api';
 import IconDark from '../svgWrappers/IconDark';
 import IconLight from '../svgWrappers/IconLight';
 import IconLogOut from '../svgWrappers/IconLogOut';
@@ -38,10 +37,11 @@ const Nav: React.FC<NavProps> = observer(
         setAdminUser,
     }) => {
         const { t } = useTranslation();
+        console.log('rendr');
 
         const vm = useMemo(() => {
+            console.log('memo');
             return new NavVM(
-                api,
                 isAuth,
                 setIsAuth,
                 currentUser,
@@ -60,7 +60,8 @@ const Nav: React.FC<NavProps> = observer(
 
         useEffect(() => {
             vm.setLanguage(currentUser.language);
-        }, [currentUser.language, vm]);
+            console.log('lng');
+        }, []);
 
         return (
             <>
@@ -199,6 +200,8 @@ const Nav: React.FC<NavProps> = observer(
                 <Login
                     closePopup={vm.closeLoginPopup}
                     loginIsOpen={vm.loginIsOpen}
+                    setCurrentUser={setCurrentUser}
+                    setIsAuth={setIsAuth}
                 />
             </>
         );

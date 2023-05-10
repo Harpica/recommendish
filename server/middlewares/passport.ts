@@ -3,7 +3,7 @@ import GitHubStrategy from 'passport-github';
 import TwitterStrategy from 'passport-twitter';
 import VkontakteStrategy from 'passport-vkontakte';
 import LocalStrategy from 'passport-local';
-import { IUser, User } from '../models/user';
+import { User } from '../models/user';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import {
     SERVER_URL,
@@ -14,7 +14,6 @@ import {
     SOCIALS_VK_ID,
     SOCIALS_VK_SECRET,
 } from '../utils/constants';
-import { Error } from 'mongoose';
 import UnauthorizedError from '../utils/errors/UnautorizedError';
 
 passport.use(
@@ -96,11 +95,19 @@ passport.use(
 );
 
 passport.serializeUser((user: any, done) => {
-    done(null, user);
+    done(null, user._id);
 });
 
-passport.deserializeUser(function (user: any, done: any) {
-    done(null, user);
+passport.deserializeUser(function (id: string, done: any) {
+    User.findById(id)
+        .then((user) => {
+            if (!user) {
+                done(new DocumentNotFoundError(), null);
+            } else {
+                done(null, user);
+            }
+        })
+        .catch((err) => done(err, null));
 });
 
 function handleUserData(

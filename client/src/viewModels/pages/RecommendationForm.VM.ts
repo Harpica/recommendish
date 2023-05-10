@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import { Api, api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import {
     Recommendation,
     RecommendationCreateOrEditData,
@@ -12,7 +12,7 @@ import i18n from '../../localization/i18n';
 export class RecommendationFormVM {
     private userId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
-    private api: Api = api;
+    private api = api;
     private navigate: NavigateFunction;
     public recommendationSchema: Joi.ObjectSchema<any> = Joi.object();
     public hookFormDefaultValues;

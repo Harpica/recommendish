@@ -36,6 +36,12 @@ export const localRegisterUser = (
     }
 };
 
+export const getUser = (req: Request, res: Response, next: NextFunction) => {
+    User.findById(req.user)
+        .then((user) => sendDocumentIfFound(user, res, 'user'))
+        .catch((err) => incorrectDataHandler(err, next, 'Incorrect _id'));
+};
+
 export const getUsers = (_req: Request, res: Response, next: NextFunction) => {
     User.find({})
         .populate(['recommendations'])

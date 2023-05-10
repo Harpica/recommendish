@@ -1,16 +1,15 @@
 import { NavigateFunction } from 'react-router';
-import { Api } from '../../utils/HTTP/Api';
+import { api } from '../../utils/utils';
 import { action, makeAutoObservable } from 'mobx';
 import { Recommendation } from '../../utils/types';
 
 export class MainVM {
     private navigate: NavigateFunction;
-    private api: Api;
+    private api = api;
     public popularRecommendations: Array<Recommendation> = [];
     public recentRecommendations: Array<Recommendation> = [];
-    constructor(navigate: NavigateFunction, api: Api) {
+    constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
-        this.api = api;
         this.getRecentRecommendations();
         this.getPopularRecommendations();
         makeAutoObservable(this);
