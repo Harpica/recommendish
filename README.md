@@ -16,7 +16,7 @@ https://recommendish.harpica.dev/
 - React (CRA, Router, React Hook Form)
 - MobX
 - Tailwind
-- MuiBase
+- Mui
 #### Backend
 - Typescript
 - Express
