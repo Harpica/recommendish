@@ -10,7 +10,7 @@ https://recommendish.harpica.dev/
 - Supports native MongoDB full-text search
 - All downloaded images are stored in the cloud
 - Has administration panel (maintain user statuses, recommendations)
-## Instruments & Tecnologies
+## Instruments & Technologies
 #### Frontend
 - Typescript
 - React (CRA, Router, React Hook Form)
