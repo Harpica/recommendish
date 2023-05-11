@@ -3,7 +3,6 @@ import passport from '../middlewares/passport';
 import { BASE_URL } from '../utils/constants';
 import UnauthorizedError from '../utils/errors/UnautorizedError';
 import { localRegisterUser } from '../controllers/users';
-import { User } from '../models/user';
 
 const auth = Router();
 

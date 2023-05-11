@@ -15,7 +15,7 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
     const vm = useMemo(() => new SearchResultsVM(params.param ?? ''), [params]);
 
     useEffect(() => {
-        if (vm.recommendations.length === 0) {
+        if (vm.recommendations.length === 0 && !vm.isLoading) {
             vm.getInitialData();
         }
     }, []);
@@ -28,33 +28,30 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
                 </h2>
                 {vm.isLoading ? (
                     <CircularProgress />
-                ) : vm.recommendations.length === 0 ? (
-                    <p>{t('pages.searchResults.notFound')}</p>
                 ) : (
-                    <InfiniteScroll
-                        dataLength={vm.recommendations.length}
-                        next={() => {
-                            console.log('scroller next');
-                            vm.getNextData();
-                        }}
-                        hasMore={vm.hasMore}
-                        loader={<CircularProgress />}
-                        style={{ overflow: 'hidden' }}
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                                <b>No more search results</b>
-                            </p>
-                        }
-                    >
-                        <ul className='flex flex-col gap-4'>
-                            {vm.recommendations.map((recommendation, i) => (
-                                <li key={'searchResult' + i}>
-                                    <Card recommendation={recommendation} />
-                                </li>
-                            ))}
-                        </ul>
-                    </InfiniteScroll>
+                    vm.recommendations.length === 0 && (
+                        <p>{t('pages.searchResults.notFound')}</p>
+                    )
                 )}
+                <InfiniteScroll
+                    dataLength={vm.recommendations.length}
+                    next={() => {
+                        console.log('scroller next');
+                        vm.getNextData();
+                    }}
+                    hasMore={vm.hasMore}
+                    loader={<CircularProgress />}
+                    style={{ overflow: 'hidden' }}
+                    endMessage={''}
+                >
+                    <ul className='flex flex-col gap-4'>
+                        {vm.recommendations.map((recommendation, i) => (
+                            <li key={'searchResult' + i}>
+                                <Card recommendation={recommendation} />
+                            </li>
+                        ))}
+                    </ul>
+                </InfiniteScroll>
             </section>
         </main>
     );

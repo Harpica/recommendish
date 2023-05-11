@@ -35,9 +35,18 @@ export class SearchResultsVM {
             ])
             .then(
                 action((response) => {
-                    this.recommendations = this.recommendations.concat(
-                        response.data.paginatedRecommendations.recommendations
-                    );
+                    if (this.recommendations.length === 0) {
+                        this.recommendations = this.recommendations.concat(
+                            response.data.paginatedRecommendations
+                                .recommendations
+                        );
+                    } else {
+                        this.recommendations.push(
+                            ...response.data.paginatedRecommendations
+                                .recommendations
+                        );
+                        console.log(this.recommendations.length);
+                    }
                     this.totalPages =
                         response.data.paginatedRecommendations.totalPages;
                 })

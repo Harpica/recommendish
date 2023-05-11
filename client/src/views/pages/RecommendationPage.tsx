@@ -106,9 +106,10 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     >
                                         <button
                                             className={'hover:opacity-50 pt-1'}
-                                            onClick={() =>
-                                                vm.handleLoadPdf(pdfRef)
-                                            }
+                                            onClick={() => {
+                                                console.log(pdfRef.current);
+                                                vm.handleLoadPdf(pdfRef);
+                                            }}
                                         >
                                             <IconDownload />
                                         </button>

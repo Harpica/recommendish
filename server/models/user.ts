@@ -14,8 +14,8 @@ export interface IUser {
     recommendations: Types.ObjectId[] | Array<IRecommendation>;
     theme: string;
     language: string;
-    avatar?: string | undefined;
-    login?: string | undefined;
+    avatar?: string;
+    login?: string;
     password?: string;
     generateHash: (password: string) => string;
     validPassword: (id: Types.ObjectId, password: string) => boolean;
@@ -57,6 +57,7 @@ const UserSchema = new Schema<IUser>({
     },
     avatar: {
         type: String,
+        default: '',
     },
     likes: {
         type: Number,

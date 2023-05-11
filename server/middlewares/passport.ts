@@ -32,7 +32,12 @@ passport.use(
                         password
                     );
                     if (!user || !passwordIsValid) {
-                        return done(new UnauthorizedError(), false);
+                        return done(
+                            new UnauthorizedError(
+                                'Login or passport is incorrect'
+                            ),
+                            false
+                        );
                     }
                     return done(null, user);
                 })

@@ -66,7 +66,9 @@ export class RecommendationVM {
             .getLatest(this.recommendationId, this.latestUpdate)
             .then(
                 action((response) => {
-                    this.comments.concat(response.data.comments);
+                    if (response.data.comments.length !== 0) {
+                        this.comments.push(...response.data.comments);
+                    }
                     this.latestUpdate = Date.now().toString();
                 })
             )
@@ -200,17 +202,19 @@ export class RecommendationVM {
     }
 
     public async handleLoadPdf(ref: MutableRefObject<null>) {
-        if (ref) {
+        if (ref.current) {
+            console.log('proccessing handler', ref.current);
             const isDark = document
                 .getElementById('root')
                 ?.classList.contains('dark')
                 ? true
                 : false;
-            toPng(ref.current!, {
+            toPng(ref.current, {
                 cacheBust: true,
                 backgroundColor: isDark ? 'rgb(39 39 42)' : 'rgb(248 250 252)',
             })
                 .then((dataUrl) => {
+                    console.log('promise resolved', dataUrl);
                     const pdfDoc = new jsPDF({
                         format: 'a4',
                         unit: 'px',

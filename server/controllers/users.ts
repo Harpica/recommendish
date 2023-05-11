@@ -12,22 +12,21 @@ import { Comment } from '../models/comment';
 import { Product } from '../models/product';
 import { Tag } from '../models/tag';
 
-export const localRegisterUser = (
+export const localRegisterUser = async (
     req: Request,
     _res: Response,
     next: NextFunction
 ) => {
     try {
         const { login, name, password } = req.query;
-        console.log(req.query);
+
         const newUser = new User({
             login: login,
             name: name,
         });
 
-        console.log(newUser, password);
         newUser.password = newUser.generateHash(password as string);
-        newUser.save();
+        await newUser.save();
         next();
     } catch (err: unknown) {
         if (err instanceof Error) {
