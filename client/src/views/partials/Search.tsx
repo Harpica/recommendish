@@ -16,10 +16,10 @@ const Search = observer(() => {
             onSubmit={(e) => {
                 vm.handleSearchButton(e);
             }}
-            className=' bg-white font-normal rounded-full p-1 pr-5 pl-5 flex flex-row shadow-md border-zinc-950 border-[1px] text-zinc-900'
+            className=' flex flex-row rounded-full border-[1px] border-zinc-950 bg-white p-1 pl-5 pr-5 font-normal text-zinc-900 shadow-md'
         >
             <input
-                className='outline-none w-[130px] md:min-w-[230px]'
+                className='w-[130px] outline-none md:min-w-[230px]'
                 type='text'
                 name='search-input'
                 placeholder={t('partials.search.placeholder') ?? 'Search...'}

@@ -96,62 +96,72 @@ const UserTable: React.FC<UserTableProps> = observer(
             return (
                 <div className='flex flex-row gap-2'>
                     <Tooltip title={t('tooltip.toAdmin')} describeChild>
-                        <GridActionsCellItem
-                            icon={<FontDownloadIcon />}
-                            onClick={() => {
-                                vm.changeUsersRole('admin');
-                            }}
-                            label='Promote to admin'
-                            disabled={vm.selectedRows.length === 0}
-                        />
+                        <div>
+                            <GridActionsCellItem
+                                icon={<FontDownloadIcon />}
+                                onClick={() => {
+                                    vm.changeUsersRole('admin');
+                                }}
+                                label='Promote to admin'
+                                disabled={vm.selectedRows.length === 0}
+                            />
+                        </div>
                     </Tooltip>
 
                     <Tooltip title={t('tooltip.toUser')} describeChild>
-                        <GridActionsCellItem
-                            icon={<FontDownloadOffIcon />}
-                            onClick={() => {
-                                vm.changeUsersRole('user');
-                            }}
-                            label='Downgrade to user'
-                            disabled={vm.selectedRows.length === 0}
-                        />
+                        <div>
+                            <GridActionsCellItem
+                                icon={<FontDownloadOffIcon />}
+                                onClick={() => {
+                                    vm.changeUsersRole('user');
+                                }}
+                                label='Downgrade to user'
+                                disabled={vm.selectedRows.length === 0}
+                            />
+                        </div>
                     </Tooltip>
 
                     <Tooltip title={t('tooltip.block')} describeChild>
-                        <GridActionsCellItem
-                            icon={<BlockIcon />}
-                            onClick={() => {
-                                vm.changeUsersStatus('blocked');
-                            }}
-                            label='Block'
-                            disabled={vm.selectedRows.length === 0}
-                        />
+                        <div>
+                            <GridActionsCellItem
+                                icon={<BlockIcon />}
+                                onClick={() => {
+                                    vm.changeUsersStatus('blocked');
+                                }}
+                                label='Block'
+                                disabled={vm.selectedRows.length === 0}
+                            />
+                        </div>
                     </Tooltip>
 
                     <Tooltip title={t('tooltip.unblock')} describeChild>
-                        <GridActionsCellItem
-                            icon={<LockOpenIcon />}
-                            onClick={() => {
-                                vm.changeUsersStatus('active');
-                            }}
-                            label='Unblock'
-                            disabled={vm.selectedRows.length === 0}
-                        />
+                        <div>
+                            <GridActionsCellItem
+                                icon={<LockOpenIcon />}
+                                onClick={() => {
+                                    vm.changeUsersStatus('active');
+                                }}
+                                label='Unblock'
+                                disabled={vm.selectedRows.length === 0}
+                            />
+                        </div>
                     </Tooltip>
 
                     <Tooltip title={t('tooltip.delete')} describeChild>
-                        <GridActionsCellItem
-                            icon={<DeleteIcon />}
-                            onClick={() => {
-                                vm.handleDeleteButtonClick();
-                            }}
-                            label='Delete'
-                            disabled={vm.selectedRows.length === 0}
-                        />
+                        <div>
+                            <GridActionsCellItem
+                                icon={<DeleteIcon />}
+                                onClick={() => {
+                                    vm.handleDeleteButtonClick();
+                                }}
+                                label='Delete'
+                                disabled={vm.selectedRows.length === 0}
+                            />
+                        </div>
                     </Tooltip>
                 </div>
             );
-        }, []);
+        }, [t, vm]);
 
         return (
             <>
@@ -177,9 +187,9 @@ const UserTable: React.FC<UserTableProps> = observer(
                         getRowId={(row) => row._id}
                         hideFooter
                         disableRowSelectionOnClick
-                        className='scrollbar text-inherit p-4 stroke-inherit'
+                        className='scrollbar stroke-inherit p-4 text-inherit'
                         sx={DataGridClasses}
-                        autoHeight
+                        autoHeight={false}
                     />
                 </div>
                 <SurePopup

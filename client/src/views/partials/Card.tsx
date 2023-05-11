@@ -7,8 +7,6 @@ import { DEFAULT_RECOMMENDATION } from '../../utils/constants';
 import { getGroupColor } from '../../utils/utils';
 import IconHeart from '../svgWrappers/IconHeart';
 import IconComments from '../svgWrappers/IconComments';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import remarkGfm from 'remark-gfm';
 import MDEditor from '@uiw/react-md-editor';
 
 interface CardProps {
@@ -23,13 +21,13 @@ const Card: React.FC<CardProps> = ({
 
     return (
         <div
-            className={`grid grid-cols-[min-content,_minmax(230px,_1fr)] gap-3 transition-all  cursor-pointer rounded colored-corner-on-hover hover:shadow-md pb-2 md:pb-0`}
+            className={`colored-corner-on-hover grid cursor-pointer grid-cols-[min-content,_minmax(230px,_1fr)]  gap-3 rounded pb-2 transition-all hover:shadow-md md:pb-0`}
             onClick={() => {
                 vm.navigateToRecommendationPage(recommendation._id);
             }}
         >
             <div
-                className={` w-12 h-12 md:w-48 md:h-48 rounded bg-rose bg-${getGroupColor(
+                className={` bg-rose h-12 w-12 rounded md:h-48 md:w-48 bg-${getGroupColor(
                     recommendation.group
                 )} `}
             >
@@ -37,7 +35,7 @@ const Card: React.FC<CardProps> = ({
                     <img
                         alt='illustration'
                         src={recommendation.images[0].url}
-                        className='w-full h-full rounded object-cover'
+                        className='h-full w-full rounded object-cover'
                     />
                 )}
             </div>
@@ -50,11 +48,11 @@ const Card: React.FC<CardProps> = ({
                     </p>
                 </div>
                 <h3 className='text-lg font-bold '>{recommendation.name}</h3>
-                <div className='flex flex-row gap-1 flex-wrap'>
+                <div className='flex flex-row flex-wrap gap-1'>
                     <h4
                         className={`text-md font-bold text-${getGroupColor(
                             recommendation.group
-                        )} text-ellipsis overflow-hidden whitespace-nowrap`}
+                        )} overflow-hidden text-ellipsis whitespace-nowrap`}
                     >
                         {recommendation.product.name}
                     </h4>
@@ -67,14 +65,14 @@ const Card: React.FC<CardProps> = ({
                 <MDEditor.Markdown
                     source={recommendation.body}
                     style={{ whiteSpace: 'pre-wrap' }}
-                    className='bg-inherit text-inherit h-6 w-full overflow-hidden add-ellipsis-to-p'
+                    className='add-ellipsis-to-p h-6 w-full overflow-hidden bg-inherit text-inherit'
                     disallowedElements={['img']}
                 />
-                <ul className='flex flex-row gap-2 flex-wrap h-7 overflow-hidden'>
+                <ul className='flex h-7 flex-row flex-wrap gap-2 overflow-hidden'>
                     {recommendation.tags.map((tag, i) => (
                         <li
                             key={'tag' + i}
-                            className='pr-2 pl-2 border-[1px] rounded-full border-current'
+                            className='rounded-full border-[1px] border-current pl-2 pr-2'
                         >
                             {tag.name}
                         </li>

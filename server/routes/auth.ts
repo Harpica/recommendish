@@ -76,7 +76,6 @@ auth.get('/', (req, res, next) => {
 auth.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) {
-            console.log(err);
             next(err);
             return;
         }

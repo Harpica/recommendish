@@ -45,7 +45,6 @@ export class SearchResultsVM {
                             ...response.data.paginatedRecommendations
                                 .recommendations
                         );
-                        console.log(this.recommendations.length);
                     }
                     this.totalPages =
                         response.data.paginatedRecommendations.totalPages;
@@ -54,7 +53,6 @@ export class SearchResultsVM {
             .catch(action((err) => console.log(err)))
             .finally(
                 action(() => {
-                    console.log(this.recommendations);
                     this.isLoading = false;
                     this.hasMore = this.page < this.totalPages ? true : false;
                 })

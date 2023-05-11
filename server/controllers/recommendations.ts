@@ -201,7 +201,6 @@ export const createRecommendation = async (
     next: NextFunction
 ) => {
     const recommendData = req.body.data.recommendation;
-    console.log(recommendData.product);
     try {
         if (recommendData.product._id === '') {
             const productId = await createProduct(
@@ -209,7 +208,6 @@ export const createRecommendation = async (
                 recommendData.group
             );
             recommendData.product._id = productId;
-            console.log(productId);
         } else {
             updateProduct(recommendData.product.name, recommendData.group);
         }

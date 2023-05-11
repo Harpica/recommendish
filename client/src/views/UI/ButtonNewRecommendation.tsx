@@ -10,7 +10,7 @@ const ButtonNewRecommendation = () => {
         <Tooltip title={t('tooltip.new')} describeChild>
             <NavLink
                 to={ROUTES().new}
-                className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                className='flex items-center justify-center hover:cursor-pointer hover:opacity-40'
             >
                 <IconNew />
             </NavLink>

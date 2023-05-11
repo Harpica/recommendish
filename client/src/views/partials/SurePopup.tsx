@@ -11,14 +11,14 @@ const SurePopup: React.FC<SurePopupProps> = observer(
         const { t } = useTranslation();
         return (
             <Popup closePopup={closePopup} isOpen={isOpen}>
-                <h2 className='font-bold text-2xl self-center mb-5'>
+                <h2 className='mb-5 self-center text-2xl font-bold'>
                     {t('partials.surePopup.header')}
                 </h2>
-                <div className='flex flex-row gap-3 justify-center items-center'>
+                <div className='flex flex-row items-center justify-center gap-3'>
                     <button
                         type='button'
                         aria-label='confirm action'
-                        className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                        className='rounded-full border-[1px] border-current p-2 pl-5 pr-5 shadow-md hover:bg-amber-400'
                         onClick={handleAction}
                     >
                         {t('partials.surePopup.yes')}
@@ -26,7 +26,7 @@ const SurePopup: React.FC<SurePopupProps> = observer(
                     <button
                         type='button'
                         aria-label='disagree'
-                        className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                        className='rounded-full border-[1px] border-current p-2 pl-5 pr-5 shadow-md hover:bg-amber-400'
                         onClick={closePopup}
                     >
                         {t('partials.surePopup.no')}

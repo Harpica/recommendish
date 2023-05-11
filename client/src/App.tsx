@@ -14,17 +14,16 @@ import { ROUTES } from './utils/constants';
 import SearchResults from './views/pages/SearchResults';
 
 const App: React.FC = observer(() => {
-    console.log('app rendr');
     const vm = useMemo(() => {
         return new AppVM();
     }, []);
 
     return (
-        <div className='h-full min-h-screen flex flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
-            <div className='bg-gradient-to-r w-full self-center rounded-b-full from-amber-300 via-rose-400 to-fuchsia-700 sticky top-0 left-0 h-5 z-10'></div>
-            <div className='justify-center w-full grid grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] gap-3 pl-3 pr-3 bg-inherit'>
+        <div className='flex h-full min-h-screen flex-col bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100 '>
+            <div className='sticky left-0 top-0 z-10 h-5 w-full self-center rounded-b-full bg-gradient-to-r from-amber-300 via-rose-400 to-fuchsia-700'></div>
+            <div className='grid w-full grid-cols-[minmax(230px,_1280px)] grid-rows-[repeat(3,min-content)] justify-center gap-3 bg-inherit pl-3 pr-3'>
                 {vm.isLoading ? (
-                    <div className='flex justify-center items-center'>
+                    <div className='flex items-center justify-center'>
                         <CircularProgress />
                     </div>
                 ) : (
@@ -90,7 +89,7 @@ const App: React.FC = observer(() => {
                     />
                 </Routes>
             </div>
-            <footer className='bg-gradient-to-r rounded-t-full from-amber-300 via-rose-400 to-fuchsia-700 min-h-fit p-3 mt-auto'></footer>
+            <footer className='mt-auto min-h-fit rounded-t-full bg-gradient-to-r from-amber-300 via-rose-400 to-fuchsia-700 p-3'></footer>
         </div>
     );
 });

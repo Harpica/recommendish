@@ -23,7 +23,6 @@ export class RecommendationFormVM {
         type: 'new' | 'edit',
         recommendationId?: string
     ) {
-        console.log('I created');
         this.navigate = navigate;
         this.userId = userId;
         this.setRecommendationSchema();
@@ -126,7 +125,6 @@ export class RecommendationFormVM {
     public handleFileUpload(files: FileList) {
         Array.from(files).forEach((file: Blob) => {
             const reader = new FileReader();
-            console.log('file');
             reader.onload = (e) => {
                 this.api.images
                     .uploadImage(e.target?.result)
@@ -142,11 +140,10 @@ export class RecommendationFormVM {
     }
 
     public deleteImage(id: string) {
-        console.log(id);
         this.api.images
             .deleteImage(id)
             .then(
-                action((response) => {
+                action((_response) => {
                     this.images = this.images.filter(
                         (image) => image.publicId !== id
                     );

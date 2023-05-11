@@ -69,9 +69,15 @@
     },
     "login": {
       "header": "Выберите как войти на сайт:",
+      "register": "Зарегистрироваться",
+      "name": "Имя",
+      "login": "Логин",
+      "password": "Пароль",
       "logInWithGithub": "Войти с аккаунтом Github",
       "logInWithVK": "Войти с аккаунтом VK",
-      "logInWithTwitter": "Войти с аккаунтом Twitter"
+      "logInWithTwitter": "Войти с аккаунтом Twitter",
+      "error": "Что-то пошло не так :(",
+      "incorrectCredentials": "Неверный логин или пароль"
     },
     "surePopup": {
       "header": "Вы уверены?",

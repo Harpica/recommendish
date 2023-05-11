@@ -70,6 +70,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react-tagcloud": "^1.1.7"
+    "@types/react-tagcloud": "^1.1.7",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.2.8"
   }
 }

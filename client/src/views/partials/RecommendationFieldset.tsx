@@ -17,7 +17,7 @@ import { Controller } from 'react-hook-form';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useTranslation } from 'react-i18next';
 import { RecommendationFieldsetVM } from '../../viewModels/partials/RecommendationFieldset.VM';
-import { Product, ProductFormOption, ProductGroup } from '../../utils/types';
+import { ProductFormOption, ProductGroup } from '../../utils/types';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
 
@@ -300,18 +300,18 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                         />
                         <p className='text-amber-600'>{vm.fileLoaderMessage}</p>
                     </div>
-                    <div className='flex flex-row gap-3 flex-wrap'>
+                    <div className='flex flex-row flex-wrap gap-3'>
                         {images.map((image, i) => (
                             <div key={'image' + i} className='relative'>
                                 <img
                                     src={image.url}
                                     alt='illustration not uploaded'
-                                    className='h-28 w-28 object-cover rounded'
+                                    className='h-28 w-28 rounded object-cover'
                                 />
                                 <button
                                     type='button'
                                     aria-label='delete image'
-                                    className='absolute top-2 right-2 rounded-full bg-inherit hover:opacity-50 w-4 h-4 box-border flex justify-center items-center'
+                                    className='absolute right-2 top-2 box-border flex h-4 w-4 items-center justify-center rounded-full bg-inherit hover:opacity-50'
                                     onClick={() =>
                                         handleImageDelete(image.publicId)
                                     }
@@ -326,7 +326,7 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                         name='body'
                         render={(field) => (
                             <>
-                                <div className='container rounded p-2 border-amber-600 border-[1px] hover:border-amber-500'>
+                                <div className='container rounded border-[1px] border-amber-600 p-2 hover:border-amber-500'>
                                     <MDEditor
                                         value={field.field.value}
                                         onChange={(value, e) => {
@@ -339,10 +339,6 @@ const NewRecommendationFielset: React.FC<RecommendationFieldsetProps> =
                                             rehypePlugins: [[rehypeSanitize]],
                                         }}
                                         className=''
-                                    />
-                                    <MDEditor.Markdown
-                                        source={field.field.value}
-                                        style={{ whiteSpace: 'pre-wrap' }}
                                     />
                                     <p className='text-amber-600'>
                                         {field.fieldState.error?.message}

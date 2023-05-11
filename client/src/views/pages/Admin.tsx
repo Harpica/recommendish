@@ -22,7 +22,7 @@ const Admin: React.FC<AdminProps> = ({
     return (
         <main className='flex flex-col gap-8'>
             <section className='flex flex-col gap-3'>
-                <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
+                <h1 className='mb-5 w-fit text-2xl font-bold uppercase '>
                     {t('pages.admin.title')}
                 </h1>
                 <UserInfo user={user} />

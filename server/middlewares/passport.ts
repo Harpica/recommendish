@@ -24,7 +24,6 @@ passport.use(
             passwordField: 'password',
         },
         function (login, password, done) {
-            console.log(login, password);
             User.findOne({ login: login })
                 .then(async (user) => {
                     const passwordIsValid = await user?.validPassword(

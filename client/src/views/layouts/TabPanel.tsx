@@ -18,7 +18,7 @@ const TabPanel: React.FC<TabPanelProps> = memo((props) => {
             className={`${value !== index ? 'invisible' : 'visible'} relative`}
             {...other}
         >
-            <div className='absolute top-0 left-0 w-full'>{children}</div>
+            <div className='absolute left-0 top-0 w-full'>{children}</div>
         </div>
     );
 });

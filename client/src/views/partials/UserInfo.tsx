@@ -9,7 +9,7 @@ interface UserInfoProps {
 
 const UserInfo: React.FC<UserInfoProps> = observer(({ user }) => {
     return (
-        <div className='flex flex-row gap-2 items-center'>
+        <div className='flex flex-row items-center gap-2'>
             <Avatar avatar={user.avatar || ''} />
             <h2>{user.name}</h2>
             <div className='flex flex-row gap-1'>

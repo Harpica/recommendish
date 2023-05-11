@@ -103,11 +103,6 @@ export const theme = createTheme({
 });
 
 export const DataGridClasses = {
-    // minWidth: '700px',
-    minHeight: '500px',
-    // '& .MuiDataGrid-virtualScroller': {
-    //     overflow: 'hidden',
-    // },
     '.MuiDataGrid-row:hover': {
         backgroundColor: 'rgb(245 158 11)',
     },

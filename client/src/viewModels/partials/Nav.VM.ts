@@ -35,8 +35,6 @@ export class NavVM {
         this.closeLoginPopup = this.closeLoginPopup.bind(this);
         this.language = currentUser.language;
         this.theme = currentUser.theme;
-        console.log(this.theme);
-        console.log(this.currentUser);
         this.isAdminActsAsOtherUser = this.checkIfAdminActsAsOtherUser();
         this.setRootTheme();
         makeAutoObservable(this);

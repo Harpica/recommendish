@@ -23,7 +23,7 @@ const TextInput: React.FC<TextInputProps> = observer(
                             {...field.field}
                             type={type || 'text'}
                             placeholder={placeholder || name}
-                            className=' bg-white font-normal rounded-full p-1 pr-5 pl-5 flex flex-row shadow-md border-zinc-950 border-[1px] text-zinc-900 outline-none min-h-[45px] w-full'
+                            className=' flex min-h-[45px] w-full flex-row rounded-full border-[1px] border-zinc-950 bg-white p-1 pl-5 pr-5 font-normal text-zinc-900 shadow-md outline-none'
                         />
                         <p className='text-amber-600'>
                             {field.fieldState.error?.message}

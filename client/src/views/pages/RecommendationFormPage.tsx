@@ -52,15 +52,15 @@ const RecommendationFormPage: React.FC<RecommendationFormPageProps> = observer(
                             () => vm.onValidationFailure(errors)
                         )}
                     >
-                        <div className='flex flex-row gap-3 items-center justify-between'>
-                            <h1 className='text-2xl font-bold w-fit mb-5 uppercase '>
+                        <div className='flex flex-row items-center justify-between gap-3'>
+                            <h1 className='mb-5 w-fit text-2xl font-bold uppercase '>
                                 {type === 'new'
                                     ? t('pages.recommendationForm.titleNew')
                                     : t('pages.recommendationForm.titleEdit')}
                             </h1>
                             <button
                                 type='submit'
-                                className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
+                                className='rounded-full border-[1px] border-current p-2 pl-5 pr-5 shadow-md hover:bg-amber-500'
                                 aria-label='send comment'
                             >
                                 {t('pages.recommendationForm.send')}

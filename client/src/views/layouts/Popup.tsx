@@ -17,12 +17,12 @@ const Popup: React.FC<PopupProps> = observer(
             <section
                 className={`${
                     isOpen ? 'flex' : 'hidden'
-                } fixed top-0 left-0 w-full h-full justify-center items-center bg-black bg-opacity-50 z-20`}
+                } fixed left-0 top-0 z-20 h-full w-full items-center justify-center bg-black bg-opacity-50`}
                 tabIndex={10}
                 autoFocus={true}
             >
                 <div
-                    className='bg-slate-50 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100  border-[2px] border-amber-300 flex flex-col justify-center items-center rounded shadow-md p-5'
+                    className='flex flex-col items-center justify-center  rounded border-[2px] border-amber-300 bg-slate-50 p-5 text-zinc-950 shadow-md dark:bg-zinc-800 dark:text-zinc-100'
                     ref={ref}
                 >
                     {children}

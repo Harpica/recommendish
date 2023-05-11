@@ -11,38 +11,38 @@ interface LoginFormProps {
     errorMessage: string;
 }
 
-const LoginSchema = Joi.object({
-    login: Joi.string()
-        .required()
-        .min(3)
-        .max(40)
-        .messages({
-            'string.empty': i18n.t('form.errors.required'),
-            'string.min': i18n.t('form.errors.minLength', {
-                length: 3,
-            }),
-            'string.max': i18n.t('form.errors.maxLength', {
-                length: 40,
-            }),
-        }),
-    password: Joi.string()
-        .required()
-        .min(4)
-        .max(40)
-        .messages({
-            'string.empty': i18n.t('form.errors.required'),
-            'string.min': i18n.t('form.errors.minLength', {
-                length: 8,
-            }),
-            'string.max': i18n.t('form.errors.maxLength', {
-                length: 40,
-            }),
-        }),
-});
-
 const LoginForm: React.FC<LoginFormProps> = observer(
     ({ handleSuccessValidation, errorMessage }) => {
         const { t } = useTranslation();
+
+        const LoginSchema = Joi.object({
+            login: Joi.string()
+                .required()
+                .min(3)
+                .max(40)
+                .messages({
+                    'string.empty': i18n.t('form.errors.required'),
+                    'string.min': i18n.t('form.errors.minLength', {
+                        length: 3,
+                    }),
+                    'string.max': i18n.t('form.errors.maxLength', {
+                        length: 40,
+                    }),
+                }),
+            password: Joi.string()
+                .required()
+                .min(4)
+                .max(40)
+                .messages({
+                    'string.empty': i18n.t('form.errors.required'),
+                    'string.min': i18n.t('form.errors.minLength', {
+                        length: 8,
+                    }),
+                    'string.max': i18n.t('form.errors.maxLength', {
+                        length: 40,
+                    }),
+                }),
+        });
 
         const { control, handleSubmit } = useForm<{ [x: string]: any }>({
             mode: 'onBlur',
@@ -55,19 +55,25 @@ const LoginForm: React.FC<LoginFormProps> = observer(
 
         return (
             <form
-                className='flex flex-col gap-4 justify-center items-stretch font-bold'
+                className='flex flex-col items-stretch justify-center gap-4 font-bold'
                 onSubmit={handleSubmit((data) => handleSuccessValidation(data))}
             >
-                <p className='text-amber-600 text-center'>{errorMessage}</p>
-                <TextInput control={control} name='login' placeholder='Login' />
+                <p className='text-center text-amber-600'>
+                    {errorMessage && t('partials.login.incorrectCredentials')}
+                </p>
+                <TextInput
+                    control={control}
+                    name='login'
+                    placeholder={t('partials.login.login') ?? 'Login'}
+                />
                 <TextInput
                     control={control}
                     name='password'
-                    placeholder='Password'
+                    placeholder={t('partials.login.password') ?? 'Password'}
                     type='password'
                 />
                 <button
-                    className='self-center rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md text-lg '
+                    className='self-center rounded-full border-[1px] border-current p-2 pl-5 pr-5 text-lg shadow-md hover:bg-amber-400 '
                     type='submit'
                     aria-label='log in'
                 >

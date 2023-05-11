@@ -14,17 +14,17 @@ const Main: React.FC<MainProps> = observer(() => {
     const vm = useMemo(() => new MainVM(navigate), [navigate]);
     return (
         <>
-            <header className='flex flex-col gap-3 w-full font-bold'>
-                <div className='pt-5 pb-3 flex flex-col md:flex-row max-w-5xl w-full self-center'>
+            <header className='flex w-full flex-col gap-3 font-bold'>
+                <div className='flex w-full max-w-5xl flex-col self-center pb-3 pt-5 md:flex-row'>
                     <div>
                         <h1 className='text-4xl md:text-6xl '>Recommendish:</h1>
                         <p className='text-xl md:text-right'>
                             {t('pages.main.subtitle')}
                         </p>
                     </div>
-                    <div className='hidden md:block text-4xl ml-auto'>
+                    <div className='ml-auto hidden text-4xl md:block'>
                         <p
-                            className='text-amber-500 cursor-pointer hover:scale-105 transition-all'
+                            className='cursor-pointer text-amber-500 transition-all hover:scale-105'
                             onClick={() => {
                                 vm.handleGroupOnClick('Movie');
                             }}
@@ -32,7 +32,7 @@ const Main: React.FC<MainProps> = observer(() => {
                             {t('pages.main.group.movies')}
                         </p>
                         <p
-                            className='text-rose-500 cursor-pointer hover:scale-105 transition-all'
+                            className='cursor-pointer text-rose-500 transition-all hover:scale-105'
                             onClick={() => {
                                 vm.handleGroupOnClick('Game');
                             }}
@@ -40,7 +40,7 @@ const Main: React.FC<MainProps> = observer(() => {
                             {t('pages.main.group.games')}
                         </p>
                         <p
-                            className='text-fuchsia-600 cursor-pointer hover:scale-105 transition-all'
+                            className='cursor-pointer text-fuchsia-600 transition-all hover:scale-105'
                             onClick={() => {
                                 vm.handleGroupOnClick('Book');
                             }}
@@ -51,11 +51,11 @@ const Main: React.FC<MainProps> = observer(() => {
                 </div>
             </header>
             <main className='flex flex-col gap-8'>
-                <section className='self-center p-3 max-w-xl'>
+                <section className='max-w-xl self-center p-3'>
                     <TagCloud />
                 </section>
                 <section>
-                    <h2 className='font-bold text-xl mb-5 uppercase'>
+                    <h2 className='mb-5 text-xl font-bold uppercase'>
                         {t('pages.main.popular')}
                     </h2>
                     <ul className='flex flex-col gap-4'>
@@ -67,7 +67,7 @@ const Main: React.FC<MainProps> = observer(() => {
                     </ul>
                 </section>
                 <section className='mb-5'>
-                    <h2 className='font-bold text-xl mb-5 uppercase'>
+                    <h2 className='mb-5 text-xl font-bold uppercase'>
                         {t('pages.main.recent')}
                     </h2>
                     <ul className='flex flex-col gap-4'>

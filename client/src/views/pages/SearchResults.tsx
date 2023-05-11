@@ -18,12 +18,12 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
         if (vm.recommendations.length === 0 && !vm.isLoading) {
             vm.getInitialData();
         }
-    }, []);
+    }, [vm]);
 
     return (
         <main className='flex flex-col gap-8'>
             <section>
-                <h2 className='font-bold text-xl mb-5 uppercase'>
+                <h2 className='mb-5 text-xl font-bold uppercase'>
                     {`${t('pages.searchResults.title')} "${vm.searchValue}"`}
                 </h2>
                 {vm.isLoading ? (
@@ -36,7 +36,6 @@ const SearchResults: React.FC<SearchResultsProps> = observer(() => {
                 <InfiniteScroll
                     dataLength={vm.recommendations.length}
                     next={() => {
-                        console.log('scroller next');
                         vm.getNextData();
                     }}
                     hasMore={vm.hasMore}

@@ -53,8 +53,8 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                     <>
                         <section className='flex flex-col gap-3' ref={pdfRef}>
                             <div className='flex flex-col-reverse gap-3 md:flex-row md:justify-between'>
-                                <div className='flex flex-row gap-3 items-center'>
-                                    <h1 className='text-2xl font-bold w-fit'>
+                                <div className='flex flex-row items-center gap-3'>
+                                    <h1 className='w-fit text-2xl font-bold'>
                                         {vm.recommendation.name}
                                     </h1>
                                     <div className='flex flex-row gap-1 pt-1  '>
@@ -93,7 +93,7 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                                     ).edit
                                                 }
                                                 className={
-                                                    'hover:opacity-50 pt-1'
+                                                    'pt-1 hover:opacity-50'
                                                 }
                                             >
                                                 <IconEdit />
@@ -105,9 +105,8 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                         title={t('tooltip.download')}
                                     >
                                         <button
-                                            className={'hover:opacity-50 pt-1'}
+                                            className={'pt-1 hover:opacity-50'}
                                             onClick={() => {
-                                                console.log(pdfRef.current);
                                                 vm.handleLoadPdf(pdfRef);
                                             }}
                                         >
@@ -121,11 +120,11 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                 {vm.recommendation.createdAt &&
                                     getLocalDate(vm.recommendation.createdAt)}
                             </p>
-                            <div className='flex flex-row gap-1 flex-wrap'>
+                            <div className='flex flex-row flex-wrap gap-1'>
                                 <h4
                                     className={`text-md font-bold text-${getGroupColor(
                                         vm.recommendation.group
-                                    )} text-ellipsis overflow-hidden whitespace-nowrap`}
+                                    )} overflow-hidden text-ellipsis whitespace-nowrap`}
                                 >
                                     {vm.recommendation.product.name}
                                 </h4>
@@ -141,38 +140,44 @@ const RecommendationPage: React.FC<RecommendationProps> = observer(
                                     }}
                                 />
                             </div>
-                            <dl className='flex flex-row gap-2 items-center'>
+                            <dl className='flex flex-row items-center gap-2'>
                                 <dt>Author's rating: </dt>
                                 <dd className='text-xl'>{`${vm.recommendation.productRating}/10`}</dd>
                             </dl>
-                            <ul className='flex flex-row gap-2 flex-wrap h-7 overflow-hidden'>
+                            <ul className='flex h-7 flex-row flex-wrap gap-2 overflow-hidden'>
                                 {vm.recommendation.tags.map((tag, i) => (
                                     <li
                                         key={tag.name + i}
-                                        className='pr-2 pl-2 border-[1px] rounded-full border-current'
+                                        className='rounded-full border-[1px] border-current pl-2 pr-2'
                                     >
                                         {tag.name}
                                     </li>
                                 ))}
                             </ul>
-                            <div className='flex flex-col justify-center items-center gap-7 mt-5'>
+                            <div className='mt-5 flex flex-col items-center justify-center gap-7'>
                                 <MDEditor.Markdown
                                     source={vm.recommendation.body}
                                     style={{ whiteSpace: 'pre-wrap' }}
-                                    className='bg-inherit text-inherit  max-w-3xl w-full'
+                                    className='w-full max-w-3xl  bg-inherit text-inherit'
                                 />
                                 {vm.recommendation.images.length > 0 ? (
-                                    vm.recommendation.images.map((image, i) => (
-                                        <img
-                                            key={'image' + i}
-                                            src={image.url}
-                                            alt='recommendation illustration'
-                                            className='w-52 h-52 rounded object-cover cursor-pointer'
-                                            onClick={() =>
-                                                vm.openImagePopup(image.url)
-                                            }
-                                        />
-                                    ))
+                                    <div className='flex flex-row flex-wrap gap-7'>
+                                        {vm.recommendation.images.map(
+                                            (image, i) => (
+                                                <img
+                                                    key={'image' + i}
+                                                    src={image.url}
+                                                    alt='recommendation illustration'
+                                                    className='h-52 w-52 cursor-pointer rounded object-cover'
+                                                    onClick={() =>
+                                                        vm.openImagePopup(
+                                                            image.url
+                                                        )
+                                                    }
+                                                />
+                                            )
+                                        )}
+                                    </div>
                                 ) : (
                                     <></>
                                 )}

@@ -37,10 +37,7 @@ const Nav: React.FC<NavProps> = observer(
         setAdminUser,
     }) => {
         const { t } = useTranslation();
-        console.log('rendr');
-
         const vm = useMemo(() => {
-            console.log('memo');
             return new NavVM(
                 isAuth,
                 setIsAuth,
@@ -60,25 +57,24 @@ const Nav: React.FC<NavProps> = observer(
 
         useEffect(() => {
             vm.setLanguage(currentUser.language);
-            console.log('lng');
         }, []);
 
         return (
             <>
-                <nav className='sticky top-[20px] left-0  bg-inherit pt-3 pb-3 min-h-fit flex flex-row justify-between items-center font-bold z-10'>
+                <nav className='sticky left-0 top-[20px]  z-10 flex min-h-fit flex-row items-center justify-between bg-inherit pb-3 pt-3 font-bold'>
                     <NavLink
                         to={ROUTES().main}
                         aria-label='go to the home page'
-                        className='flex flex-row gap-1 items-center hover:cursor-pointer hover:opacity-40'
+                        className='flex flex-row items-center gap-1 hover:cursor-pointer hover:opacity-40'
                     >
                         <IconLogo />
-                        <p className='hidden md:block text-xs'>Recommendish</p>
+                        <p className='hidden text-xs md:block'>Recommendish</p>
                     </NavLink>
                     <Search />
                     <button
                         type='button'
                         aria-label='open menu'
-                        className='md:invisible md:hidden hover:cursor-pointer hover:opacity-40 transition-all'
+                        className='transition-all hover:cursor-pointer hover:opacity-40 md:invisible md:hidden'
                         onClick={() => {
                             vm.toggleMenu();
                         }}
@@ -88,7 +84,7 @@ const Nav: React.FC<NavProps> = observer(
                     <ul
                         className={`${
                             vm.menuIsOpen ? 'visible flex' : 'invisible hidden'
-                        } absolute top-[73px] right-0 bg-inherit w-full md:w-fit md:static md:flex md:visible flex-row gap-4 justify-end md:justify-between items-center p-3`}
+                        } absolute right-0 top-[73px] w-full flex-row items-center justify-end gap-4 bg-inherit p-3 md:visible md:static md:flex md:w-fit md:justify-between`}
                     >
                         {isAuth && (
                             <li>
@@ -99,7 +95,7 @@ const Nav: React.FC<NavProps> = observer(
                             <button
                                 type='button'
                                 aria-label='change theme'
-                                className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                className='flex items-center justify-center hover:cursor-pointer hover:opacity-40'
                                 value={vm.theme === 'dark' ? 'light' : 'dark'}
                                 onClick={(e) => {
                                     vm.changeTheme(
@@ -118,7 +114,7 @@ const Nav: React.FC<NavProps> = observer(
                             <button
                                 type='button'
                                 aria-label='change language'
-                                className='hover:cursor-pointer hover:opacity-40 uppercase'
+                                className='uppercase hover:cursor-pointer hover:opacity-40'
                                 value={vm.language === 'en' ? 'ru' : 'en'}
                                 onClick={(e) => {
                                     vm.changeLanguage(
@@ -140,7 +136,7 @@ const Nav: React.FC<NavProps> = observer(
                                                 : ROUTES().profile
                                         }`}
                                         aria-label='profile'
-                                        className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                        className='flex items-center justify-center hover:cursor-pointer hover:opacity-40'
                                     >
                                         <Avatar
                                             avatar={currentUser.avatar || ''}
@@ -154,7 +150,7 @@ const Nav: React.FC<NavProps> = observer(
                                             describeChild
                                         >
                                             <button
-                                                className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                                className='flex items-center justify-center hover:cursor-pointer hover:opacity-40'
                                                 type='button'
                                                 onClick={() =>
                                                     vm.returnToAdminUser()
@@ -171,7 +167,7 @@ const Nav: React.FC<NavProps> = observer(
                                         describeChild
                                     >
                                         <button
-                                            className='flex justify-center items-center hover:cursor-pointer hover:opacity-40'
+                                            className='flex items-center justify-center hover:cursor-pointer hover:opacity-40'
                                             type='button'
                                             onClick={() => vm.logOut()}
                                         >
@@ -183,7 +179,7 @@ const Nav: React.FC<NavProps> = observer(
                         ) : (
                             <li>
                                 <button
-                                    className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                                    className='rounded-full border-[1px] border-current p-2 pl-5 pr-5 shadow-md hover:bg-amber-400'
                                     type='button'
                                     aria-label='log in'
                                     onClick={(e) => {

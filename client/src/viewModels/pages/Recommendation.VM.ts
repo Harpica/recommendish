@@ -74,7 +74,6 @@ export class RecommendationVM {
             )
             .catch(
                 action((err) => {
-                    console.log(err);
                     this.openNotification('Something went wrong with network');
                 })
             );
@@ -203,7 +202,6 @@ export class RecommendationVM {
 
     public async handleLoadPdf(ref: MutableRefObject<null>) {
         if (ref.current) {
-            console.log('proccessing handler', ref.current);
             const isDark = document
                 .getElementById('root')
                 ?.classList.contains('dark')
@@ -214,7 +212,6 @@ export class RecommendationVM {
                 backgroundColor: isDark ? 'rgb(39 39 42)' : 'rgb(248 250 252)',
             })
                 .then((dataUrl) => {
-                    console.log('promise resolved', dataUrl);
                     const pdfDoc = new jsPDF({
                         format: 'a4',
                         unit: 'px',

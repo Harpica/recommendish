@@ -11,21 +11,21 @@ const AddCommentForm: React.FC<AddCommentFormProps> = observer(
         const { t } = useTranslation();
         return (
             <form
-                className='flex flex-row gap-3 justify-center items-start'
+                className='flex flex-row items-start justify-center gap-3'
                 onSubmit={(e) => {
                     sendComment(e);
                 }}
             >
-                <div className='w-full max-w-3xl rounded border-amber-600 border-[1px] '>
+                <div className='w-full max-w-3xl rounded border-[1px] border-amber-600 '>
                     <textarea
                         name='comment-body'
-                        className='w-full outline-none rounded text-current p-5  h-[180px]  bg-inherit resize-none hover:bg-opacity-80 scrollbar'
+                        className='scrollbar h-[180px] w-full resize-none rounded  bg-inherit  p-5 text-current outline-none hover:bg-opacity-80'
                         placeholder='Enter new comment...'
                     />
                 </div>
                 <button
                     type='submit'
-                    className='rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-500 shadow-md'
+                    className='rounded-full border-[1px] border-current p-2 pl-5 pr-5 shadow-md hover:bg-amber-500'
                     aria-label='send comment'
                 >
                     {t('pages.recommendation.send')}

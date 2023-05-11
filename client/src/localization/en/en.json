@@ -69,9 +69,15 @@
         },
         "login": {
           "header": "Choose how to log in:",
+          "register": "Register",
+          "name": "Your Name",
+          "login": "Login",
+          "password": "Password",
           "logInWithGithub": "Log in with Github",
           "logInWithVK": "Log in with VK",
-          "logInWithTwitter": "Log in with Twitter"
+          "logInWithTwitter": "Log in with Twitter",
+          "error": "Something went wrong :(",
+          "incorrectCredentials": "Login or password is incorrect"
         },
         "surePopup": {
           "header": "Are you sure?",

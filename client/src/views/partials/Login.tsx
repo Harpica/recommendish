@@ -27,10 +27,10 @@ const Login: React.FC<LoginProps> = observer(
 
         return (
             <Popup isOpen={loginIsOpen} closePopup={closePopup}>
-                <h2 className='font-bold text-2xl self-center mb-5'>
+                <h2 className='mb-5 self-center text-2xl font-bold'>
                     {t('partials.login.header')}
                 </h2>
-                <div className='flex flex-col gap-4 justify-center items-stretch'>
+                <div className='flex flex-col items-stretch justify-center gap-4'>
                     {vm.state === 'login' && (
                         <>
                             <LoginForm
@@ -40,10 +40,10 @@ const Login: React.FC<LoginProps> = observer(
                             <button
                                 type='button'
                                 aria-label='open register form'
-                                className='cursor-pointer hover:opacity-50 underline'
+                                className='cursor-pointer underline hover:opacity-50'
                                 onClick={() => vm.setState('register')}
                             >
-                                Register
+                                {t('partials.login.register')}
                             </button>
                         </>
                     )}
@@ -56,23 +56,23 @@ const Login: React.FC<LoginProps> = observer(
                             <button
                                 type='button'
                                 aria-label='open login form'
-                                className='cursor-pointer hover:opacity-50 underline'
+                                className='cursor-pointer underline hover:opacity-50'
                                 onClick={() => vm.setState('login')}
                             >
-                                Log in
+                                {t('partials.nav.logIn')}
                             </button>
                         </>
                     )}
                     <a
                         href={`${vm.linkBase}/auth/github/`}
-                        className='flex flex-row gap-3 items-center text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md'
+                        className='flex flex-row items-center gap-3 rounded-full border-[1px] border-current p-2 pl-5 pr-5 text-lg font-bold shadow-md hover:bg-amber-400'
                     >
                         <GitHubIcon />
                         <p>{t('partials.login.logInWithGithub')}</p>
                     </a>
                     <a
                         href={`${vm.linkBase}/auth/vkontakte/`}
-                        className='flex flex-row gap-3 items-center text-lg font-bold rounded-full p-2 pr-5 pl-5 border-current border-[1px] hover:bg-amber-400 shadow-md min-w-[235px]'
+                        className='flex min-w-[235px] flex-row items-center gap-3 rounded-full border-[1px] border-current p-2 pl-5 pr-5 text-lg font-bold shadow-md hover:bg-amber-400'
                     >
                         <IconVK />
                         <p>{t('partials.login.logInWithVK')}</p>

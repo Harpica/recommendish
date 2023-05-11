@@ -28,8 +28,8 @@ const SectionWithTabs: React.FC<SectionWithTabsProps> = memo(
         };
 
         return (
-            <section className='flex flex-col w-full'>
-                <div className='flex flex-row gap-3 items-center mb-5  pb-3'>
+            <section className='flex w-full flex-col'>
+                <div className='mb-5 flex flex-row items-center gap-3  pb-3'>
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -39,7 +39,7 @@ const SectionWithTabs: React.FC<SectionWithTabsProps> = memo(
                             <Tab
                                 label={name}
                                 {...a11yProps(i)}
-                                className='text-lg font-bold w-fit capitalize text-inherit rounded'
+                                className='w-fit rounded text-lg font-bold capitalize text-inherit'
                             />
                         ))}
                     </Tabs>

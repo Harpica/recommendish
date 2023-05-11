@@ -1,15 +1,7 @@
-// import { Response } from 'express';
-
 import { NextFunction, Response } from 'express';
 import DocumentNotFoundError from './errors/DocumentNotFoundError';
 import mongoose from 'mongoose';
 import BadRequestError from './errors/BadRequestError';
-
-// export const withResponse = <T>(res: Response) => {
-//     return (result: T) => {
-//         return [result, res];
-//     };
-// };
 
 export const sendDocumentIfFound = (
     document: unknown | null,
@@ -45,12 +37,3 @@ export const incorrectDataHandler = (
     console.log(err);
     next(err);
 };
-
-// export function onlyUniqueObjects(
-//     object: unknown,
-//     index: number,
-//     array: Array<unknown>,
-//     value: unknown
-// ) {
-//     return array.indexOf(object.value) === index;
-// }

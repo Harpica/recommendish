@@ -73,11 +73,11 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                 valueGetter: (params: GridRenderCellParams<Array<Tag>>) =>
                     params.value.map((tag: Tag) => tag.name),
                 renderCell: (params: GridRenderCellParams<Array<string>>) => (
-                    <ul className='flex flex-row gap-2 flex-wrap h-7 overflow-y-auto items-center'>
+                    <ul className='flex h-7 flex-row flex-wrap items-center gap-2 overflow-y-auto'>
                         {params.value.map((tagName: string, i: number) => (
                             <li
                                 key={tagName + i}
-                                className='pr-2 pl-2 border-[1px] rounded-full border-current'
+                                className='rounded-full border-[1px] border-current pl-2 pr-2'
                             >
                                 {tagName}
                             </li>
@@ -162,7 +162,7 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                         slots={{
                             noRowsOverlay: () => {
                                 return (
-                                    <div className='w-full h-full flex justify-center items-center'>
+                                    <div className='flex h-full w-full items-center justify-center'>
                                         <p>
                                             {t(
                                                 'partials.recommendationTable.noRecommendations'
@@ -175,9 +175,9 @@ const RecommendationTable: React.FC<RecommendationTableProps> = observer(
                         getRowId={(row) => row._id}
                         hideFooter
                         disableRowSelectionOnClick
-                        className='scrollbar text-inherit p-4 stroke-inherit'
+                        className='scrollbar stroke-inherit p-4 text-inherit'
                         sx={DataGridClasses}
-                        autoHeight
+                        autoHeight={false}
                     />
                 </div>
                 <SurePopup

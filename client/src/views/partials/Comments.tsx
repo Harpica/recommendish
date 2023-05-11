@@ -17,13 +17,13 @@ const Comments: React.FC<CommentsProps> = observer(
         const { t } = useTranslation();
         return (
             <section>
-                <h2 className='font-bold text-xl mb-5 uppercase'>
+                <h2 className='mb-5 text-xl font-bold uppercase'>
                     {t('pages.recommendation.comments')}
                 </h2>
-                <ul className='flex flex-col gap-5 mb-10'>
+                <ul className='mb-10 flex flex-col gap-5'>
                     {comments.map((comment, i) => (
                         <li key={'comment' + i} className='flex flex-col gap-3'>
-                            <div className='flex flex-row gap-3 items-center'>
+                            <div className='flex flex-row items-center gap-3'>
                                 <UserInfo user={comment.owner} />
                                 <p>{getLocalDate(comment.createdAt)}</p>
                             </div>
