@@ -6,16 +6,18 @@ import { ROUTES } from '../../utils/constants';
 import { GridRowId } from '@mui/x-data-grid';
 
 export class UserTableVM {
-    private userRole: UserRole;
-    private setCurrentUser: (value: CurrentUser) => void;
-    private setAdminUser: () => void;
-    private api = api;
     public users: Array<CurrentUser> = [];
     public currentUserId: string = '';
     public isSurePopupOpen: boolean = false;
-    public closePopup: () => void;
-    private navigate: NavigateFunction;
     public selectedRows: Array<GridRowId> = [];
+    public closePopup: () => void;
+
+    private userRole: UserRole;
+    private api = api;
+    private navigate: NavigateFunction;
+    private setCurrentUser: (value: CurrentUser) => void;
+    private setAdminUser: () => void;
+
     constructor(
         userRole: UserRole,
         setCurrentUser: (value: CurrentUser) => void,
@@ -27,10 +29,8 @@ export class UserTableVM {
         this.setAdminUser = setAdminUser;
         this.navigate = navigate;
         this.handleDeleteUsers = this.handleDeleteUsers.bind(this);
-        this.closePopup = () => {
-            this.isSurePopupOpen = false;
-        };
-        this.getUserRecommendation();
+        this.closePopup = () => (this.isSurePopupOpen = false);
+        this.getUsers();
         makeAutoObservable(this);
     }
 
@@ -38,7 +38,7 @@ export class UserTableVM {
         this.selectedRows = rows;
     }
 
-    private getUserRecommendation() {
+    private getUsers() {
         if (this.userRole === 'admin') {
             this.api.users
                 .getUsers()
@@ -52,43 +52,50 @@ export class UserTableVM {
     }
 
     public changeUsersStatus(status: UserStatus) {
-        if (this.selectedRows.length !== 0) {
-            this.api.users
-                .changeUsersStatus(this.selectedRows, status)
-                .then(
-                    action(() => {
-                        this.users = this.users.map((user) => {
-                            if (this.selectedRows.indexOf(user._id) !== -1) {
-                                user.status = status;
-                            }
-                            return user;
-                        });
-                    })
-                )
-                .catch((err) => console.log(err));
+        if (this.selectedRows.length === 0) {
+            return;
         }
+
+        this.api.users
+            .changeUsersStatus(this.selectedRows, status)
+            .then(
+                action(() => {
+                    this.users = this.users.map((user) => {
+                        if (this.selectedRows.indexOf(user._id) !== -1) {
+                            user.status = status;
+                        }
+
+                        return user;
+                    });
+                })
+            )
+            .catch((err) => console.log(err));
     }
+
     public changeUsersRole(role: UserRole) {
-        if (this.selectedRows.length !== 0) {
-            this.api.users
-                .changeUsersRole(this.selectedRows, role)
-                .then(
-                    action(() => {
-                        this.users = this.users.map((user) => {
-                            if (this.selectedRows.indexOf(user._id) !== -1) {
-                                user.role = role;
-                            }
-                            return user;
-                        });
-                    })
-                )
-                .catch((err) => console.log(err));
+        if (this.selectedRows.length === 0) {
+            return;
         }
+
+        this.api.users
+            .changeUsersRole(this.selectedRows, role)
+            .then(
+                action(() => {
+                    this.users = this.users.map((user) => {
+                        if (this.selectedRows.indexOf(user._id) !== -1) {
+                            user.role = role;
+                        }
+                        return user;
+                    });
+                })
+            )
+            .catch((err) => console.log(err));
     }
 
     public actAsAnotherUser(id: string) {
         this.setAdminUser();
         const user = this.users.find((user) => user._id === id);
+
         if (user) {
             this.setCurrentUser(user);
             this.navigate(ROUTES(id).profile);

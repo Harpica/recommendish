@@ -70,6 +70,9 @@ export interface TagInTagCloud {
     value: string;
     count: number;
     color?: string;
+    props: {
+        className: string;
+    };
 }
 
 export interface Comment {

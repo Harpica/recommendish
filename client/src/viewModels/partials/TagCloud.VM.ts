@@ -9,6 +9,7 @@ export class TagCloudVM {
     private api = api;
     public tags: Array<TagInTagCloud> = [];
     private colors = ['rgb(245 158 11)', 'rgb(244 63 94)', 'rgb(192 38 211)'];
+
     constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
         this.getPopularTags();
@@ -21,19 +22,21 @@ export class TagCloudVM {
             .then(
                 action((response) => {
                     const tags: Array<Tag> = response.data.tags;
-                    this.tags = tags.map((tag) => {
-                        return {
-                            value: tag.name,
-                            count: tag.count!,
-                            color: this.getColor(),
-                            props: {
-                                className: this.getTagStyles(),
-                            },
-                        };
-                    });
+                    this.tags = tags.map((tag) => this.tagToCloud(tag));
                 })
             )
             .catch(action((err) => console.log(err)));
+    }
+
+    private tagToCloud(tag: Tag): TagInTagCloud {
+        return {
+            value: tag.name,
+            count: tag.count!,
+            color: this.getColor(),
+            props: {
+                className: this.getTagStyles(),
+            },
+        };
     }
 
     public handleTagOnclick(value: string) {

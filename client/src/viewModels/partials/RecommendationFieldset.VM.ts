@@ -19,11 +19,7 @@ export class RecommendationFieldsetVM {
         this.isLoading = true;
         this.api.tags
             .getAllTags()
-            .then(
-                action((response) => {
-                    this.tags = response.data.tags;
-                })
-            )
+            .then(action((response) => (this.tags = response.data.tags)))
             .catch((err) => console.log(err))
             .finally(action(() => (this.isLoading = false)));
     }
@@ -36,6 +32,7 @@ export class RecommendationFieldsetVM {
         if (typeof option === 'string') {
             return option;
         }
+
         return option.name;
     }
 
@@ -48,18 +45,16 @@ export class RecommendationFieldsetVM {
         this.api.products
             .getAllProducts()
             .then(
-                action((response) => {
-                    this.products = response.data.products;
-                })
+                action((response) => (this.products = response.data.products))
             )
             .catch((err) => console.log(err))
             .finally(action(() => (this.isLoading = false)));
     }
 
     public getProductOptions(groupInputValue: string) {
-        return this.products.filter((product) => {
-            return product.group === groupInputValue;
-        });
+        return this.products.filter(
+            (product) => product.group === groupInputValue
+        );
     }
     public onImageUploadSizeError() {
         this.fileLoaderMessage = 'File size is too big. Max size is 10MB';

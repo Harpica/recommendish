@@ -10,14 +10,13 @@ export class RecommendationsTableVM {
     public currentRecommendationId: string = '';
     public isSurePopupOpen: boolean = false;
     public closePopup: () => void;
+
     constructor(userId: string, userRole: UserRole) {
         this.userId = userId;
         this.userRole = userRole;
         this.handleDeleteRecommendation =
             this.handleDeleteRecommendation.bind(this);
-        this.closePopup = () => {
-            this.isSurePopupOpen = false;
-        };
+        this.closePopup = () => (this.isSurePopupOpen = false);
         this.getUserRecommendation();
         makeAutoObservable(this);
     }

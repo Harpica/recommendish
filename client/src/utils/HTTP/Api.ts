@@ -11,12 +11,9 @@ export default class ServerInterface {
 
     public getQueryString(queryParams: Array<{ key: string; value: string }>) {
         return queryParams.reduce((prev, curr, i, arr) => {
-            return (
-                prev +
-                `${curr.key}=${encodeURIComponent(curr.value)}${
-                    i === arr.length - 1 ? '' : '&'
-                }`
-            );
+            const delim = i === arr.length - 1 ? '' : '&';
+            const encodedValue = encodeURIComponent(curr.value);
+            return prev + `${curr.key}=${encodedValue}${delim}`;
         }, '');
     }
 }

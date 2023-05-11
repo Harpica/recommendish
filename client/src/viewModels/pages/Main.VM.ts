@@ -4,10 +4,12 @@ import { action, makeAutoObservable } from 'mobx';
 import { Recommendation } from '../../utils/types';
 
 export class MainVM {
-    private navigate: NavigateFunction;
-    private api = api;
     public popularRecommendations: Array<Recommendation> = [];
     public recentRecommendations: Array<Recommendation> = [];
+
+    private navigate: NavigateFunction;
+    private api = api;
+
     constructor(navigate: NavigateFunction) {
         this.navigate = navigate;
         this.getRecentRecommendations();

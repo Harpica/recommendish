@@ -15,6 +15,7 @@ export default function useEscapeKey(handleClose: () => void, isOpen: boolean) {
                 );
             }
         };
+
         if (isOpen) {
             document.addEventListener(KEY_EVENT_TYPE, handleEscKey, false);
             return;

@@ -13,18 +13,20 @@ import { MutableRefObject } from 'react';
 import { toPng } from 'html-to-image';
 
 export class RecommendationVM {
-    private api = api;
-    private recommendationId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
     public comments: Array<Comment> = [];
-    private latestUpdate: string = Date.now().toString();
     public isLoading: boolean = false;
-    private userId: string;
-    private userRole: UserRole;
     public notificationIsOpen: boolean = false;
     public notificationMessage: string = '';
     public isImageOpen: boolean = false;
     public currentImage: string = '';
+
+    private api = api;
+    private recommendationId: string;
+    private latestUpdate: string = Date.now().toString();
+    private userId: string;
+    private userRole: UserRole;
+
     constructor(id: string, userId: string, userRole: UserRole) {
         this.recommendationId = id;
         this.userId = userId;
@@ -37,16 +39,14 @@ export class RecommendationVM {
         this.getinitialData();
         makeAutoObservable(this);
     }
+
     private getinitialData() {
         this.isLoading = true;
         Promise.all([this.getRecommendation(), this.getComments()])
             .catch(action((err) => console.log(err)))
-            .finally(
-                action(() => {
-                    this.isLoading = false;
-                })
-            );
+            .finally(action(() => (this.isLoading = false)));
     }
+
     private getRecommendation() {
         return this.api.recommendations
             .getRecommendationById(this.recommendationId)
@@ -66,9 +66,7 @@ export class RecommendationVM {
             .getLatest(this.recommendationId, this.latestUpdate)
             .then(
                 action((response) => {
-                    if (response.data.comments.length !== 0) {
-                        this.comments.push(...response.data.comments);
-                    }
+                    this.comments.push(...response.data.comments);
                     this.latestUpdate = Date.now().toString();
                 })
             )
@@ -80,9 +78,7 @@ export class RecommendationVM {
     }
 
     public setCommentUpdateInterval() {
-        return setInterval(() => {
-            this.getLatestComments();
-        }, 5000);
+        return setInterval(() => this.getLatestComments(), 5000);
     }
 
     private setRecommendation(response: AxiosResponse) {
@@ -94,9 +90,13 @@ export class RecommendationVM {
             this.openNotification('Please authorize first');
             return;
         }
-        if (
-            this.recommendation.likes.find((element) => this.userId === element)
-        ) {
+
+        const liked =
+            this.recommendation.likes.find(
+                (element) => this.userId === element
+            ) !== undefined;
+
+        if (liked) {
             this.dislike();
         } else {
             this.like();
@@ -107,6 +107,7 @@ export class RecommendationVM {
         if (this.userRole === 'unauthorized') {
             return false;
         }
+
         return true;
     }
 
@@ -121,6 +122,7 @@ export class RecommendationVM {
         if (this.recommendation.likes.find((id) => this.userId === id)) {
             return true;
         }
+
         return false;
     }
 
@@ -136,6 +138,7 @@ export class RecommendationVM {
             this.openNotification('Please authorize first');
             return;
         }
+
         this.api.products
             .updateRating(this.recommendation.product._id, this.userId, value)
             .then(
@@ -167,6 +170,7 @@ export class RecommendationVM {
 
     public createCommentFormHandler(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
         const commentData: CreateCommentData = {
             owner: this.userId,
             recommendation: this.recommendationId,
@@ -176,12 +180,11 @@ export class RecommendationVM {
                 ) as HTMLInputElement
             ).value,
         };
+
         this.api.comments
             .createComment(commentData)
             .then(
-                action((response) => {
-                    this.comments.push(response.data.comment);
-                })
+                action((response) => this.comments.push(response.data.comment))
             )
             .catch(
                 action((err) => {
@@ -207,32 +210,31 @@ export class RecommendationVM {
                 ?.classList.contains('dark')
                 ? true
                 : false;
+
             toPng(ref.current, {
                 cacheBust: true,
                 backgroundColor: isDark ? 'rgb(39 39 42)' : 'rgb(248 250 252)',
             })
-                .then((dataUrl) => {
-                    const pdfDoc = new jsPDF({
-                        format: 'a4',
-                        unit: 'px',
-                    });
-                    const imgProperties = pdfDoc.getImageProperties(dataUrl);
-                    const pdfWidth = pdfDoc.internal.pageSize.getWidth();
-                    const pdfHeight =
-                        (imgProperties.height * pdfWidth) / imgProperties.width;
-                    pdfDoc.addImage(
-                        dataUrl,
-                        'PNG',
-                        15,
-                        15,
-                        pdfWidth - 30,
-                        pdfHeight
-                    );
-                    pdfDoc.save('recommendation.pdf');
-                })
+                .then(this.saveImageAsPdf)
                 .catch((err) => {
                     console.log(err);
                 });
         }
+    }
+
+    private saveImageAsPdf(imageUrl: string) {
+        const pdfDoc = new jsPDF({
+            format: 'a4',
+            unit: 'px',
+        });
+
+        const imgProperties = pdfDoc.getImageProperties(imageUrl);
+        const pdfWidth = pdfDoc.internal.pageSize.getWidth();
+        const pdfHeight =
+            (imgProperties.height * pdfWidth) / imgProperties.width;
+
+        pdfDoc.addImage(imageUrl, 'PNG', 15, 15, pdfWidth - 30, pdfHeight);
+
+        pdfDoc.save('recommendation.pdf');
     }
 }

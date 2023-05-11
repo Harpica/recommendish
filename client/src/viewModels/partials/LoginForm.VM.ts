@@ -12,6 +12,7 @@ export class LoginVM {
     private setIsAuth: (value: boolean) => void;
     public linkBase = SERVER_URL.replace('http:', '').replace('https:', '');
     public errorMessage: string = '';
+
     constructor(
         closePopup: () => void,
         setCurrentUser: (value: CurrentUser) => void,

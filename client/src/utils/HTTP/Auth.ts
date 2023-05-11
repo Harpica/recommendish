@@ -15,6 +15,7 @@ export class Auth extends ServerInterface {
             { key: 'login', value: login },
             { key: 'password', value: password },
         ]);
+
         return axios.post(`${this.url}/local?${query}`);
     }
 
@@ -24,6 +25,7 @@ export class Auth extends ServerInterface {
             { key: 'login', value: login },
             { key: 'password', value: password },
         ]);
+
         return axios.post(`${this.url}/register?${query}`);
     }
 

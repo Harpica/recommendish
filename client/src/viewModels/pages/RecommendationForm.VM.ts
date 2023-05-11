@@ -10,13 +10,15 @@ import { NavigateFunction } from 'react-router';
 import i18n from '../../localization/i18n';
 
 export class RecommendationFormVM {
-    private userId: string;
     public recommendation: Recommendation = DEFAULT_RECOMMENDATION;
-    private api = api;
-    private navigate: NavigateFunction;
     public recommendationSchema: Joi.ObjectSchema<any> = Joi.object();
     public hookFormDefaultValues;
     public images: Array<{ url: string; publicId: string }> = [];
+
+    private userId: string;
+    private api = api;
+    private navigate: NavigateFunction;
+
     constructor(
         navigate: NavigateFunction,
         userId: string,
@@ -34,9 +36,11 @@ export class RecommendationFormVM {
             rating: this.recommendation.productRating,
             body: i18n.t('defaultRecommendationBody'),
         };
+
         if (type === 'edit' && recommendationId) {
             this.getRecommendation(recommendationId);
         }
+
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.deleteImage = this.deleteImage.bind(this);
         makeAutoObservable(this);
@@ -57,11 +61,13 @@ export class RecommendationFormVM {
                         length: 40,
                     }),
                 }),
+
             group: Joi.string()
                 .required()
                 .messages({
                     'string.empty': i18n.t('form.errors.required'),
                 }),
+
             product: Joi.object({
                 name: Joi.string().required().min(3),
             })
@@ -74,6 +80,7 @@ export class RecommendationFormVM {
                         length: 3,
                     }),
                 }),
+
             tags: Joi.array()
                 .items(
                     Joi.object({
@@ -86,11 +93,13 @@ export class RecommendationFormVM {
                 .messages({
                     'array.includesRequiredUnknowns': i18n.t('form.errors.tag'),
                 }),
+
             rating: Joi.number()
                 .required()
                 .messages({
                     'number.base': i18n.t('form.errors.required'),
                 }),
+
             body: Joi.string()
                 .required()
                 .min(10)
@@ -129,9 +138,9 @@ export class RecommendationFormVM {
                 this.api.images
                     .uploadImage(e.target?.result)
                     .then(
-                        action((response) => {
-                            this.images.push(response.data.image);
-                        })
+                        action((response) =>
+                            this.images.push(response.data.image)
+                        )
                     )
                     .catch((err) => console.log(err));
             };
@@ -156,8 +165,8 @@ export class RecommendationFormVM {
         data: { [x: string]: any },
         type: 'new' | 'edit'
     ) {
-        const recommendationData: RecommendationCreateOrEditData =
-            this.getRecommendationData(data);
+        const recommendationData = this.getRecommendationData(data);
+
         if (type === 'new') {
             this.createRecommendation(recommendationData);
         } else {

@@ -4,12 +4,14 @@ import { api } from '../../utils/utils';
 
 export class SearchResultsVM {
     public searchValue: string;
-    private page: number = 1;
-    private totalPages: number = 1;
-    private api = api;
     public recommendations: Array<Recommendation> = [];
     public isLoading: boolean = false;
     public hasMore = false;
+
+    private page: number = 1;
+    private totalPages: number = 1;
+    private api = api;
+
     constructor(searchValue: string) {
         this.searchValue = searchValue;
         this.getSearchResults = this.getSearchResults.bind(this);
@@ -35,17 +37,11 @@ export class SearchResultsVM {
             ])
             .then(
                 action((response) => {
-                    if (this.recommendations.length === 0) {
-                        this.recommendations = this.recommendations.concat(
-                            response.data.paginatedRecommendations
-                                .recommendations
-                        );
-                    } else {
-                        this.recommendations.push(
-                            ...response.data.paginatedRecommendations
-                                .recommendations
-                        );
-                    }
+                    this.recommendations.push(
+                        ...response.data.paginatedRecommendations
+                            .recommendations
+                    );
+
                     this.totalPages =
                         response.data.paginatedRecommendations.totalPages;
                 })
