@@ -31,3 +31,6 @@ https://recommendish.harpica.dev/
 ## Futher development
 - Optimize rerenders of Nav component
 - Add posibility to paste downloaded images to the body of the recommendation itself
+- Refresh dockerfile for local
+- Add minification for uploaded images
+- Add functionality to change name and/or avatar
