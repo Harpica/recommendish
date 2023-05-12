@@ -12,7 +12,7 @@ const ImagePopup: React.FC<ImagePopupProps> = observer(
                 <img
                     src={imageUrl}
                     alt='opened illustration'
-                    className='aspect-auto max-w-[80vw]'
+                    className='aspect-auto max-h-[80vh] max-w-[80vw]'
                 />
             </Popup>
         );
