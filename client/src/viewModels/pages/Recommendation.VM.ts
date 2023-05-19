@@ -170,6 +170,7 @@ export class RecommendationVM {
 
     public createCommentFormHandler(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        const form = e.currentTarget;
 
         const commentData: CreateCommentData = {
             owner: this.userId,
@@ -193,7 +194,8 @@ export class RecommendationVM {
                         'Something went wrong. Please try again.'
                     );
                 })
-            );
+            )
+            .finally(() => form.reset());
     }
 
     public isUserOwner() {
